@@ -5,10 +5,15 @@ const cors = require("cors");
 const csurf = require("csurf");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
+const { ValidationError } = require("sequelize");
 const routes = require("./routes");
 
-const { environment } = require("./config");
-const isProduction = environment === "production";
+const {
+  resourceNotFoundHandler,
+  sequelizeErrorsHandler,
+  errorFormatter,
+  isProduction,
+} = require("./middlewares/error-handlers.js");
 
 const app = express();
 
@@ -21,7 +26,7 @@ app.use(express.json());
 // Security Middlewares
 if (!isProduction) app.use(cors());
 
-// deny no-cors requests from cross origins
+// Deny no-cors requests from cross origins
 app.use(
   helmet.crossOriginResourcePolicy({
     policy: "cross-origin",
@@ -47,5 +52,8 @@ app.use(
 );
 
 app.use(routes);
+
+//Error handlers
+app.use(resourceNotFoundHandler, sequelizeErrorsHandler, errorFormatter);
 
 module.exports = app;
