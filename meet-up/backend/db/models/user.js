@@ -1,12 +1,41 @@
 "use strict";
 const { Model, Validator } = require("sequelize");
+const { bcrypt } = require("bcryptjs");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    // returns object for JWT
+    toSafeObject() {
+      const { id, firstName, lastName, email } = this;
+      return { id, firstName, lastName, email };
+    }
+
+    validatePassword(password) {
+      return bcrypt.compareSync(password, this.hashedPassword.toString());
+    }
+    // static getCurrentUserById(id) {
+    //   return User.findByPk(id);
+    // }
+    static async login({ email, password }) {
+      const user = await User.findOne({ where: { email } });
+
+      if (user && user.validatePassword(password)) return user;
+    }
+
+    static async signup({ firstName, lastName, email, password }) {
+      // middleware to validate password before this method
+      const hashedPassword = bcrypt.hashSync(password);
+
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        hashedPassword,
+      });
+
+      return user;
+    }
+
     static associate(models) {
       // define association here
     }
@@ -57,6 +86,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "User",
+      defaultScope: {
+        attributes: {
+          exclude: ["createdAt", "updatedAt", "hashPassword"],
+        },
+      },
     }
   );
   return User;
