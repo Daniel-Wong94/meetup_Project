@@ -22,7 +22,7 @@ const setTokenCookie = (res, user) => {
   return token;
 };
 
-// Middleware: checks if there is a user logged in
+// Middleware: checks if there is a user logged in, if so, set user instance to req.user
 const restoreUser = (req, res, next) => {
   const { token } = req.cookies;
   req.user = null;

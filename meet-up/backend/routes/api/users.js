@@ -1,6 +1,10 @@
 const express = require("express");
 
-const { setTokenCookie, requireAuth } = require("../../utils/auth");
+const {
+  setTokenCookie,
+  requireAuth,
+  restoreUser,
+} = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const router = express.Router();
@@ -44,6 +48,16 @@ router.delete("/logout", async (req, res, next) => {
     err.title = "No user currently logged in";
     err.status = 401;
     next(err);
+  }
+});
+
+// Get current session: GET /api/users/profile
+router.get("/profile", restoreUser, async (req, res, next) => {
+  const { user } = req;
+  if (user) {
+    return res.json(user);
+  } else {
+    res.json({});
   }
 });
 
