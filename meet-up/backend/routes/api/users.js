@@ -24,4 +24,17 @@ router.post("/login", async (req, res, next) => {
   return res.json(user);
 });
 
+// Log Out: DELETE /api/users/logout
+router.delete("/logout", async (req, res, next) => {
+  if (req.cookies.token) {
+    res.clearCookie("token");
+    return res.json({ message: "Successfully logged out" });
+  } else {
+    const err = new Error("No user currently logged in");
+    err.title = "No user currently logged in";
+    err.status = 401;
+    next(err);
+  }
+});
+
 module.exports = router;
