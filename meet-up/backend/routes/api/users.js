@@ -38,8 +38,8 @@ router.post("/login", async (req, res, next) => {
   return res.json(user);
 });
 
-// Log Out: DELETE /api/users/logout
-router.delete("/logout", async (req, res, next) => {
+// Log Out: POST /api/users/logout
+router.post("/logout", async (req, res, next) => {
   if (req.cookies.token) {
     res.clearCookie("token");
     return res.json({ message: "Successfully logged out" });
@@ -52,13 +52,30 @@ router.delete("/logout", async (req, res, next) => {
 });
 
 // Get current session: GET /api/users/profile
-router.get("/profile", restoreUser, async (req, res, next) => {
+router.get("/profile", restoreUser, requireAuth, async (req, res, next) => {
   const { user } = req;
   if (user) {
     return res.json(user);
   } else {
     res.json({});
   }
+});
+
+// Change Password or Email: PATCH /api/users/profile
+router.patch("/profile", restoreUser, requireAuth, async (req, res, next) => {
+  const { email: currentEmail } = req.user;
+  const { newEmail, currentPassword, newPassword } = req.body;
+
+  const user = await User.findOne({ where: { email: currentEmail } });
+
+  await user.updateCredentials({
+    currentEmail,
+    newEmail,
+    currentPassword,
+    newPassword,
+  });
+
+  res.json({ message: "Successfully updated credentials" });
 });
 
 module.exports = router;

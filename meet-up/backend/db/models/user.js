@@ -13,9 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     validatePassword(password) {
       return bcrypt.compareSync(password, this.hashedPassword.toString());
     }
-    // static getCurrentUserById(id) {
-    //   return User.findByPk(id);
-    // }
+
     static async login({ email, password }) {
       const user = await User.scope("loginUser").findOne({ where: { email } });
 
@@ -36,6 +34,30 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       return await User.findByPk(user.id);
+    }
+
+    async updateCredentials({
+      currentEmail,
+      newEmail,
+      currentPassword,
+      newPassword,
+    }) {
+      const user = await User.scope("loginUser").findOne({
+        where: { email: currentEmail },
+      });
+
+      if (user.validatePassword(currentPassword)) {
+        user.update({
+          email: newEmail || user.email,
+          hashedPassword: newPassword
+            ? bcrypt.hashSync(newPassword)
+            : user.hashedPassword.toString(),
+        });
+      } else {
+        throw new Error("Current Password is invalid");
+      }
+
+      return user;
     }
 
     static associate(models) {
