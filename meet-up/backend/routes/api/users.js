@@ -1,9 +1,19 @@
 const express = require("express");
 
-const { setTokenCookie, restoreUser } = require("../../utils/auth");
+const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 
 const router = express.Router();
+
+// Sign Up: POST /api/users/signup
+router.post("/signup", async (req, res, next) => {
+  const { firstName, lastName, email, password } = req.body;
+  const user = await User.signup({ firstName, lastName, email, password });
+
+  user.dataValues.token = await setTokenCookie(res, user);
+
+  return res.json(user);
+});
 
 // Log In: POST /api/users/login
 router.post("/login", async (req, res, next) => {

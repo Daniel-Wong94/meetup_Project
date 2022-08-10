@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
         hashedPassword,
       });
 
-      return user;
+      return await User.findByPk(user.id);
     }
 
     static associate(models) {
