@@ -54,7 +54,9 @@ module.exports = (sequelize, DataTypes) => {
             : user.hashedPassword.toString(),
         });
       } else {
-        throw new Error("Current Password is invalid");
+        const err = new Error("Invalid credentials");
+        err.status = 401;
+        throw err;
       }
 
       return user;
