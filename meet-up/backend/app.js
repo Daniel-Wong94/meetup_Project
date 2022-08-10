@@ -51,6 +51,7 @@ app.use(
   })
 );
 
+// Connect all routes
 app.use(routes);
 
 //Error handlers
