@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { restoreUser } = require("../../utils/auth.js");
 const usersRouter = require("./users.js");
-// const { User } = require("../../db/models");
+const groupsRouter = require("./groups.js");
 
 // Test setTokenCookie()
 // router.get("/set-token-cookie", async (_req, res) => {
@@ -29,6 +29,7 @@ const usersRouter = require("./users.js");
 router.use(restoreUser);
 
 router.use("/users", usersRouter);
+router.use("/groups", groupsRouter);
 
 router.post("/test", (req, res) => {
   res.json({ requestBody: req.body });

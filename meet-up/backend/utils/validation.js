@@ -34,8 +34,8 @@ const validateSignup = [
   check("email")
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage("Email is required"),
-  // check("email").isEmail().withMessage("Invalid email"),
+    .isEmail()
+    .withMessage("Invalid Email"),
   check("firstName")
     .exists({ checkFalsy: true })
     .withMessage("First Name is required"),
@@ -45,8 +45,25 @@ const validateSignup = [
   handleValidationErrors,
 ];
 
+const validateGroup = [
+  check("name")
+    .isLength({ min: 0, max: 60 })
+    .withMessage("Name must be 60 characters or less"),
+  check("about")
+    .isLength({ min: 50, max: undefined })
+    .withMessage("About must be 50 characters or more"),
+  check("type")
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be 'Online' or 'In person'"),
+  check("private").isBoolean().withMessage("Private must be a boolean"),
+  check("city").notEmpty().withMessage("City is required"),
+  check("state").notEmpty().withMessage("State is required"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
   validateSignup,
+  validateGroup,
 };

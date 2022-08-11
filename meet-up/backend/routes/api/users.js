@@ -78,4 +78,15 @@ router.patch("/profile", restoreUser, requireAuth, async (req, res, next) => {
   res.json({ message: "Successfully updated credentials" });
 });
 
+// Delete profile: DELETE /api/users/profile
+router.delete("/profile", restoreUser, requireAuth, async (req, res, next) => {
+  const { id } = req.user;
+  const user = await User.findByPk(id);
+
+  await user.destroy();
+  res.clearCookie("token");
+
+  res.json({ message: "Successfully deleted user" });
+});
+
 module.exports = router;

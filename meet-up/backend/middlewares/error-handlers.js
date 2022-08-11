@@ -12,7 +12,6 @@ const resourceNotFoundHandler = (_req, _res, next) => {
 
 // Catch sequelize errors
 const sequelizeErrorsHandler = (err, _req, _res, next) => {
-  // check if error is a Sequelize error:
   if (err instanceof ValidationError) {
     err.errors = err.errors.map((e) => e.message);
     err.title = "Validation error";

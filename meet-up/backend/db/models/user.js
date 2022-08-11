@@ -4,6 +4,14 @@ const bcrypt = require("bcryptjs");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
+    static associate(models) {
+      User.hasMany(models.Group, {
+        foreignKey: "organizerId",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
+    }
+
     // returns object for JWT
     toSafeObject() {
       const { id, firstName, lastName, email } = this;
@@ -60,10 +68,6 @@ module.exports = (sequelize, DataTypes) => {
       }
 
       return user;
-    }
-
-    static associate(models) {
-      // define association here
     }
   }
   User.init(
