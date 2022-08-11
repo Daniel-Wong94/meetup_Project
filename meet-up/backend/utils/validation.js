@@ -61,6 +61,20 @@ const validateGroup = [
   handleValidationErrors,
 ];
 
+const validateUpdateGroup = [
+  check("name")
+    .isLength({ min: 0, max: 60 })
+    .withMessage("Name must be 60 characters or less"),
+  check("about")
+    .isLength({ min: 50, max: undefined })
+    .withMessage("About must be 50 characters or more"),
+  check("type")
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be 'Online' or 'In person'"),
+  check("private").isBoolean().withMessage("Private must be a boolean"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,

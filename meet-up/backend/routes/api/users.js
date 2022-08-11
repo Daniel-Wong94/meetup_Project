@@ -5,7 +5,7 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { User, Group } = require("../../db/models");
 
 const router = express.Router();
 
@@ -50,6 +50,19 @@ router.post("/logout", async (req, res, next) => {
     next(err);
   }
 });
+
+// Get all groups that current user is in: GET /api/users/profile/groups
+router.get(
+  "/profile/groups",
+  restoreUser,
+  requireAuth,
+  async (req, res, next) => {
+    const { id: organizerId } = req.user;
+    const groups = await Group.findAll({ where: { organizerId } });
+
+    res.json({ Groups: groups });
+  }
+);
 
 // Get current session: GET /api/users/profile
 router.get("/profile", restoreUser, requireAuth, async (req, res, next) => {
