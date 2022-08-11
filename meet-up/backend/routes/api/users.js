@@ -1,6 +1,5 @@
 const express = require("express");
-const { check } = require("express-validator");
-const { handleValidationErrors } = require("../../utils/validation");
+const { validateLogin, validateSignup } = require("../../utils/validation");
 const {
   setTokenCookie,
   requireAuth,
@@ -10,19 +9,8 @@ const { User } = require("../../db/models");
 
 const router = express.Router();
 
-const validateLogin = [
-  check("email")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Email is required"),
-  check("password")
-    .exists({ checkFalsy: true })
-    .withMessage("Password is required"),
-  handleValidationErrors,
-];
-
 // Sign Up: POST /api/users/signup
-router.post("/signup", async (req, res, next) => {
+router.post("/signup", validateSignup, async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
   const user = await User.signup({ firstName, lastName, email, password });
 
