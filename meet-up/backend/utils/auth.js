@@ -61,8 +61,11 @@ in order: [restoreUser, requireAuth]
 - requireAuth: if req.user exists, go to next middleware, else throw error
 */
 
+const authorization = [restoreUser, requireAuth];
+
 module.exports = {
   setTokenCookie,
   restoreUser,
   requireAuth,
+  authorization,
 };

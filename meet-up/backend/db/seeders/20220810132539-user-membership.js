@@ -1,6 +1,6 @@
 "use strict";
 const bcrypt = require("bcryptjs");
-const { User, Group } = require("../models");
+const { User, Group, Membership } = require("../models");
 
 const users = [
   {
@@ -90,7 +90,12 @@ module.exports = {
 
       if (groups) {
         for (const group of groups) {
-          await newUser.createGroup(group);
+          const newGroup = await newUser.createGroup(group);
+
+          await newUser.createMembership({
+            groupId: newGroup.id,
+            status: "Host",
+          });
         }
       }
     }
