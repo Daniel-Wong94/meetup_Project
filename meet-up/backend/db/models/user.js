@@ -10,13 +10,21 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
+
       User.hasMany(models.Membership, {
         foreignKey: "memberId",
         onDelete: "CASCADE",
         hooks: true,
       });
+
       User.belongsToMany(models.Event, {
         through: "Attendees",
+      });
+
+      User.hasMany(models.Image, {
+        foreignKey: "userId",
+        onDelete: "CASCADE",
+        hooks: true,
       });
     }
 
