@@ -1,24 +1,32 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Memberships", {
+    await queryInterface.createTable("Venues", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      status: {
-        type: Sequelize.ENUM,
-        values: ["Host", "Co-host", "Member"],
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
-      memberId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onDelete: "cascade",
+      city: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      state: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      lat: {
+        type: Sequelize.DECIMAL(9, 7),
+        allowNull: false,
+      },
+      lng: {
+        type: Sequelize.DECIMAL(10, 7),
+        allowNull: false,
       },
       groupId: {
         type: Sequelize.INTEGER,
@@ -41,6 +49,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Memberships");
+    await queryInterface.dropTable("Venues");
   },
 };

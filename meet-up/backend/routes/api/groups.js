@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Group, User } = require("../../db/models");
+const { Group, User, Membership } = require("../../db/models");
 const { validateGroup } = require("../../utils/validation.js");
 const {
   setTokenCookie,
@@ -16,9 +16,15 @@ router.get("/:groupId", async (req, res, next) => {
     const user = await group.getUser({
       attributes: ["id", "firstName", "lastName"],
     });
+    const numMembers = await Membership.count({
+      where: {
+        groupId,
+      },
+    });
 
     const payload = {
       ...group.dataValues,
+      numMembers,
       Organizer: user,
     };
 

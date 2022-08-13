@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasMany(models.Membership, {
         foreignKey: "memberId",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
+      User.belongsToMany(models.Event, {
+        through: "Attendees",
       });
     }
 
