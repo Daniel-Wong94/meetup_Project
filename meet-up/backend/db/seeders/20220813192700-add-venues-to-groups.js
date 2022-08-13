@@ -1,5 +1,5 @@
 "use strict";
-const { Venue, Group } = require("../models");
+const { Venue } = require("../models");
 
 const venues = [
   {
@@ -55,12 +55,7 @@ const venues = [
 module.exports = {
   async up(queryInterface, Sequelize) {
     for (const venue of venues) {
-      const { groupId } = venue;
-      const group = await Group.findByPk(groupId);
-
-      delete venue.groupId;
-
-      await group.createVenue(venue);
+      await Venue.create(venue);
     }
   },
 
