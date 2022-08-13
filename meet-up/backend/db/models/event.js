@@ -11,6 +11,14 @@ module.exports = (sequelize, DataTypes) => {
       Event.belongsToMany(models.User, {
         through: "Attendees",
       });
+
+      Event.hasMany(models.Image, {
+        foreignKey: "imageableId",
+        constraints: false,
+        scope: {
+          imageableType: "event",
+        },
+      });
     }
   }
   Event.init(
