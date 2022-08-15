@@ -36,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Image",
+      scopes: {
+        postImage: {
+          attributes: ["id", "imageableId", "url"],
+        },
+      },
       hooks: {
         afterFind: (findResult) => {
           if (!Array.isArray(findResult)) findResult = [findResult];

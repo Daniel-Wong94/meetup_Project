@@ -5,7 +5,7 @@ const {
   requireAuth,
   restoreUser,
 } = require("../../utils/auth");
-const { User, Group } = require("../../db/models");
+const { User, Group, Membership, Image } = require("../../db/models");
 
 const router = express.Router();
 
@@ -58,7 +58,19 @@ router.get(
   requireAuth,
   async (req, res, next) => {
     const { id: organizerId } = req.user;
-    const groups = await Group.findAll({ where: { organizerId } });
+    const groups = await Group.findAll({
+      where: { organizerId },
+      include: [{ model: Membership }, { model: Image }],
+    });
+
+    groups.forEach((group) => {
+      group.dataValues.numMembers = group.Memberships.length;
+      delete group.dataValues.Memberships;
+      if (group.Images.length) {
+        group.dataValues.previewImage = group.Images[0].url;
+      }
+      delete group.dataValues.Images;
+    });
 
     res.json({ Groups: groups });
   }
