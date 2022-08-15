@@ -145,15 +145,13 @@ module.exports = {
         hashedPassword,
       });
 
-      if (groups) {
-        for (const group of groups) {
-          const newGroup = await newUser.createGroup(group);
+      for (const group of groups) {
+        const newGroup = await newUser.createGroup(group);
 
-          await newUser.createMembership({
-            groupId: newGroup.id,
-            status: "host",
-          });
-        }
+        await newUser.createMembership({
+          groupId: newGroup.id,
+          status: "host",
+        });
       }
     }
   },
