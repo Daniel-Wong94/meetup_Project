@@ -1,13 +1,11 @@
 const express = require("express");
 const { validateLogin, validateSignup } = require("../../utils/validation");
-const {
-  setTokenCookie,
-  requireAuth,
-  restoreUser,
-} = require("../../utils/auth");
-const { User, Group, Membership, Image } = require("../../db/models");
+const { setTokenCookie } = require("../../utils/auth");
+const { User } = require("../../db/models");
+const profileRouter = require("./profile/profile.js");
 
 const router = express.Router();
+router.use("/profile", profileRouter);
 
 // Sign Up: POST /api/users/signup
 router.post("/signup", validateSignup, async (req, res, next) => {
@@ -49,69 +47,6 @@ router.post("/logout", async (req, res, next) => {
     err.status = 401;
     next(err);
   }
-});
-
-// Get all groups that current user is in: GET /api/users/profile/groups
-router.get(
-  "/profile/groups",
-  restoreUser,
-  requireAuth,
-  async (req, res, next) => {
-    const { id: organizerId } = req.user;
-    const groups = await Group.findAll({
-      where: { organizerId },
-      include: [{ model: Membership }, { model: Image }],
-    });
-
-    groups.forEach((group) => {
-      group.dataValues.numMembers = group.Memberships.length;
-      delete group.dataValues.Memberships;
-      if (group.Images.length) {
-        group.dataValues.previewImage = group.Images[0].url;
-      }
-      delete group.dataValues.Images;
-    });
-
-    res.json({ Groups: groups });
-  }
-);
-
-// Get current session: GET /api/users/profile
-router.get("/profile", restoreUser, requireAuth, async (req, res, next) => {
-  const { user } = req;
-  if (user) {
-    return res.json(user);
-  } else {
-    res.json({});
-  }
-});
-
-// Change Password or Email: PATCH /api/users/profile
-router.patch("/profile", restoreUser, requireAuth, async (req, res, next) => {
-  const { email: currentEmail } = req.user;
-  const { newEmail, currentPassword, newPassword } = req.body;
-
-  const user = await User.findOne({ where: { email: currentEmail } });
-
-  await user.updateCredentials({
-    currentEmail,
-    newEmail,
-    currentPassword,
-    newPassword,
-  });
-
-  res.json({ message: "Successfully updated credentials" });
-});
-
-// Delete profile: DELETE /api/users/profile
-router.delete("/profile", restoreUser, requireAuth, async (req, res, next) => {
-  const { id } = req.user;
-  const user = await User.findByPk(id);
-
-  await user.destroy();
-  res.clearCookie("token");
-
-  res.json({ message: "Successfully deleted user" });
 });
 
 module.exports = router;

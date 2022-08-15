@@ -1,46 +1,29 @@
 const express = require("express");
 const router = express.Router();
-const {
-  Venue,
-  Group,
-  User,
-  Membership,
-  Image,
-  Sequelize,
-  sequelize,
-} = require("../../db/models");
+const { Venue, Group, Membership, Image } = require("../../db/models");
 const { validateGroup } = require("../../utils/validation.js");
-const {
-  setTokenCookie,
-  requireAuth,
-  restoreUser,
-} = require("../../utils/auth");
+const { requireAuth } = require("../../utils/auth");
 
 // Add an image to group by groupId: POST /api/groups/:groupId/images
-router.post(
-  "/:groupId/images",
-  restoreUser,
-  requireAuth,
-  async (req, res, next) => {
-    try {
-      const { groupId } = req.params;
-      const { url } = req.body;
-      const { id: userId } = req.user;
+router.post("/:groupId/images", requireAuth, async (req, res, next) => {
+  try {
+    const { groupId } = req.params;
+    const { url } = req.body;
+    const { id: userId } = req.user;
 
-      const group = await Group.findByPk(groupId);
-      await group.createImage({ url, userId });
-      const image = await Image.scope("postImage").findOne({
-        where: { url, userId },
-      });
+    const group = await Group.findByPk(groupId);
+    await group.createImage({ url, userId });
+    const image = await Image.scope("postImage").findOne({
+      where: { url, userId },
+    });
 
-      res.json(image);
-    } catch (e) {
-      const err = new Error("Group couldn't be found");
-      err.status = 400;
-      next(err);
-    }
+    res.json(image);
+  } catch (e) {
+    const err = new Error("Group couldn't be found");
+    err.status = 404;
+    next(err);
   }
-);
+});
 
 // Get a group by groupId: GET /api/groups/:groupId
 router.get("/:groupId", async (req, res, next) => {
@@ -80,7 +63,6 @@ router.get("/:groupId", async (req, res, next) => {
 // Update an existing group by id: PATCH /api/groups/:groupId
 router.patch(
   "/:groupId",
-  restoreUser,
   requireAuth,
   validateGroup,
   async (req, res, next) => {
@@ -88,6 +70,8 @@ router.patch(
       const { name, about, type, private, city, state } = req.body;
       const { groupId } = req.params;
       const group = await Group.findByPk(groupId);
+
+      if (!group) throw new Error();
 
       await group.update({
         name: name || group.name,
@@ -108,7 +92,7 @@ router.patch(
 );
 
 // Delete an existing group by id: DELETE /api/groups/:groupId
-router.delete("/:groupId", restoreUser, requireAuth, async (req, res, next) => {
+router.delete("/:groupId", requireAuth, async (req, res, next) => {
   try {
     const { groupId } = req.params;
     const { user } = req;
@@ -147,26 +131,20 @@ router.get("/", async (req, res, next) => {
 });
 
 // Create a group: POST /api/groups
-router.post(
-  "/",
-  restoreUser,
-  requireAuth,
-  validateGroup,
-  async (req, res, next) => {
-    const { name, about, type, private, city, state } = req.body;
-    const { user } = req;
+router.post("/", requireAuth, validateGroup, async (req, res, next) => {
+  const { name, about, type, private, city, state } = req.body;
+  const { user } = req;
 
-    const group = await user.createGroup({
-      name,
-      about,
-      type,
-      private,
-      city,
-      state,
-    });
+  const group = await user.createGroup({
+    name,
+    about,
+    type,
+    private,
+    city,
+    state,
+  });
 
-    res.json(group);
-  }
-);
+  res.status(201).json(group);
+});
 
 module.exports = router;
