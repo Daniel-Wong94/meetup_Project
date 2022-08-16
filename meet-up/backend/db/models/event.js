@@ -60,10 +60,16 @@ module.exports = (sequelize, DataTypes) => {
       startDate: {
         type: DataTypes.DATE,
         allowNull: false,
+        // validate: {
+        //   isAfter: new Date().toDateString(),
+        // },
       },
       endDate: {
         type: DataTypes.DATE,
         allowNull: false,
+        // validate: {
+        //   isAfter: this.startDate,
+        // },
       },
       venueId: {
         type: DataTypes.INTEGER,

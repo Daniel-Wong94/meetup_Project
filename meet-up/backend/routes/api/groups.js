@@ -1,8 +1,59 @@
 const express = require("express");
 const router = express.Router();
 const { Venue, Group, Membership, Image } = require("../../db/models");
-const { validateGroup } = require("../../utils/validation.js");
+const { validateGroup, validateVenue } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
+
+// Get all venues of a specific group: GET /api/groups/:groupId/venues
+// organizer of group or cohost member
+router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
+  const { groupId } = req.params;
+  const { user } = req;
+  const membership = await Membership.findOne({
+    where: { memberId: user.id, groupId },
+  });
+
+  const group = await Group.findByPk(groupId);
+  if (!group) {
+    const err = new Error("Group couldn't be found");
+    err.status = 404;
+    next(err);
+  }
+
+  if (group.organizerId === user.id || membership.status === "co-host") {
+    const venues = await group.getVenues();
+    res.json({ Venues: venues });
+  }
+});
+
+// Create new venue for a group: POST /api/groups/:groupId/venues
+// NEEDS body validation
+router.post("/:groupId/venues", validateVenue, async (req, res, next) => {
+  const { groupId } = req.params;
+  const { user } = req;
+  const { address, city, state, lat, lng } = req.body;
+
+  const group = await Group.findByPk(groupId);
+  const membership = await Membership.findOne({
+    where: {
+      memberId: user.id,
+      groupId,
+    },
+  });
+
+  if (!group) {
+    const err = new Error("Group couldn't be found");
+    err.status = 404;
+    next(err);
+  }
+
+  if (group.organizerId === user.id || membership.status === "co-host") {
+    const venue = await Venue.create({ ...req.body, groupId });
+    const { id, address, city, state, lat, lng } = venue;
+
+    res.json({ id, groupId, address, city, state, lat, lng });
+  }
+});
 
 // Add an image to group by groupId: POST /api/groups/:groupId/images
 router.post("/:groupId/images", requireAuth, async (req, res, next) => {
@@ -12,12 +63,10 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     const { id: userId } = req.user;
 
     const group = await Group.findByPk(groupId);
-    await group.createImage({ url, userId });
-    const image = await Image.scope("postImage").findOne({
-      where: { url, userId },
-    });
+    const image = await group.createImage({ url, userId });
+    const { id, imageableId } = image;
 
-    res.json(image);
+    res.json({ id, url, imageableId });
   } catch (e) {
     const err = new Error("Group couldn't be found");
     err.status = 404;
@@ -30,10 +79,7 @@ router.get("/:groupId", async (req, res, next) => {
   try {
     const { groupId } = req.params;
     const group = await Group.findByPk(groupId, {
-      include: [
-        { model: Image, attributes: ["id", "imageableId", "url"] },
-        { model: Venue },
-      ],
+      include: [{ model: Image }, { model: Venue }],
     });
 
     const user = await group.getUser({
@@ -61,6 +107,7 @@ router.get("/:groupId", async (req, res, next) => {
 });
 
 // Update an existing group by id: PATCH /api/groups/:groupId
+// NEEDS AUTHORIZATION
 router.patch(
   "/:groupId",
   requireAuth,
@@ -70,8 +117,6 @@ router.patch(
       const { name, about, type, private, city, state } = req.body;
       const { groupId } = req.params;
       const group = await Group.findByPk(groupId);
-
-      if (!group) throw new Error();
 
       await group.update({
         name: name || group.name,

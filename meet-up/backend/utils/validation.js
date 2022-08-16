@@ -78,9 +78,24 @@ const validateUpdateGroup = [
   handleValidationErrors,
 ];
 
+const validateVenue = [
+  check("address").notEmpty().withMessage("Street address is required"),
+  check("city").notEmpty().withMessage("City is required"),
+  check("state").notEmpty().withMessage("State is required"),
+  check("lat")
+    .isFloat({ min: -90, max: 90 })
+    .withMessage("Latitude is not valid"),
+  check("lng")
+    .isFloat({ min: -180, max: 180 })
+    .withMessage("Longitude is not valid"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
   validateSignup,
   validateGroup,
+  validateUpdateGroup,
+  validateVenue,
 };

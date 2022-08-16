@@ -36,9 +36,9 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Image",
-      scopes: {
-        postImage: {
-          attributes: ["id", "imageableId", "url"],
+      defaultScope: {
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
         },
       },
       hooks: {
