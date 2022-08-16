@@ -86,6 +86,7 @@ router.patch(
 );
 
 // Delete an event by id: DELETE /api/events/:eventId
+// STILL NEED ERROR HANDLING
 router.delete("/:eventId", requireAuth, async (req, res, next) => {
   try {
     const { eventId } = req.params;

@@ -7,6 +7,7 @@ const {
   Membership,
   Image,
   Attendee,
+  User,
 } = require("../../db/models");
 const {
   validateGroup,
@@ -14,6 +15,57 @@ const {
   validateEvent,
 } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
+
+// Get all members by groupId: GET /api/groups/:groupId/members
+router.get("/:groupId/members", async (req, res, next) => {
+  const { groupId } = req.params;
+  const { user } = req;
+
+  const group = await Group.findByPk(groupId);
+
+  const member = await Membership.findOne({
+    where: {
+      memberId: user.id,
+      groupId,
+    },
+  });
+
+  let memberships;
+  // check if host/organizer or not
+  if (
+    member &&
+    (member.status === "host" ||
+      member.status === "co-host" ||
+      group.organizerId === user.id)
+  ) {
+    memberships = await Membership.scope({
+      method: ["showPending", groupId],
+    }).findAll();
+  } else {
+    memberships = await Membership.scope({
+      method: ["hidePending", groupId],
+    }).findAll();
+  }
+
+  const payload = [];
+
+  for (const {
+    status,
+    User: { id, firstName, lastName },
+  } of memberships) {
+    const obj = {
+      id,
+      firstName,
+      lastName,
+      Membership: {
+        status,
+      },
+    };
+    payload.push(obj);
+  }
+
+  res.json({ Members: payload });
+});
 
 // Get all events of a group: GET /api/groups/:groupId/events
 router.get("/:groupId/events", async (req, res, next) => {

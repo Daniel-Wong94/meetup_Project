@@ -102,7 +102,11 @@ const validateEvent = [
   check("type")
     .isIn(["Online", "In person"])
     .withMessage("Type must be Online or In person"),
-  check("capacity").isInt().withMessage("Capacity must be an integer"),
+  check("capacity")
+    .isInt()
+    .not()
+    .isString()
+    .withMessage("Capacity must be an integer"),
   check("price")
     .isCurrency({
       digits_after_decimal: [1, 2],

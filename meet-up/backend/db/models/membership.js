@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Membership extends Model {
     static associate(models) {
@@ -14,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   Membership.init(
     {
       status: {
-        type: DataTypes.ENUM("host", "co-host", "member"),
+        type: DataTypes.ENUM("host", "co-host", "member", "pending"),
         allowNull: false,
       },
       memberId: {
@@ -29,6 +30,38 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Membership",
+      scopes: {
+        showPending(groupId) {
+          const { User } = require("../models");
+          return {
+            attributes: ["status"],
+            where: {
+              groupId,
+            },
+            include: [
+              {
+                model: User,
+                attributes: ["id", "firstName", "lastName"],
+              },
+            ],
+          };
+        },
+        hidePending(groupId) {
+          const { User } = require("../models");
+          return {
+            attributes: ["status"],
+            where: {
+              groupId,
+              status: {
+                [Op.not]: "pending",
+              },
+            },
+            include: [
+              { model: User, attributes: ["id", "firstName", "lastName"] },
+            ],
+          };
+        },
+      },
     }
   );
   return Membership;
