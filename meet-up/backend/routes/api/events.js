@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Event, Group, Venue, Image } = require("../../db/models");
+const { Event, Group, Venue, Image, Membership } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth");
 const { validateEvent } = require("../../utils/validation");
 
@@ -84,6 +84,42 @@ router.patch(
     res.json(response);
   }
 );
+
+// Delete an event by id: DELETE /api/events/:eventId
+router.delete("/:eventId", requireAuth, async (req, res, next) => {
+  try {
+    const { eventId } = req.params;
+    const { user } = req;
+
+    const event = await Event.findByPk(eventId);
+    // middleware to make sure user is owner
+    const group = await event.getGroup();
+    const membership = await Membership.findOne({
+      where: {
+        memberId: user.id,
+        groupId: group.id,
+      },
+    });
+
+    if (
+      group.organizerId === user.id ||
+      membership.dataValues.status === "co-host" ||
+      membership.dataValues.status === "host"
+    ) {
+      // manual delete cascading a polymorphic association
+      await Image.destroy({
+        where: {
+          imageableId: eventId,
+          imageableType: "event",
+        },
+      });
+      await event.destroy();
+      return res.json({ message: "success" });
+    }
+  } catch (e) {
+    next(e);
+  }
+});
 
 // Get all events: GET /api/events
 router.get("/", async (req, res, next) => {

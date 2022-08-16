@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
 
       User.belongsToMany(models.Event, {
         through: "Attendees",
+        onDelete: "CASCADE",
+        hooks: true,
       });
 
       User.hasMany(models.Image, {
