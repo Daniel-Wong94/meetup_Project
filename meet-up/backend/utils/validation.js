@@ -105,7 +105,7 @@ const validateEvent = [
   check("capacity").isInt().withMessage("Capacity must be an integer"),
   check("price")
     .isCurrency({
-      require_decimal: true,
+      digits_after_decimal: [1, 2],
       allow_negatives: false,
     })
     .withMessage("Price is invalid"),
