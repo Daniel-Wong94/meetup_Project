@@ -8,7 +8,11 @@ const {
   Image,
   Attendee,
 } = require("../../db/models");
-const { validateGroup, validateVenue } = require("../../utils/validation.js");
+const {
+  validateGroup,
+  validateVenue,
+  validateEvent,
+} = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
 
 // Get all events of a group: GET /api/groups/:groupId/events
@@ -46,6 +50,43 @@ router.get("/:groupId/events", async (req, res, next) => {
 
   await res.json({ Events: events });
 });
+
+// Create an event for a group by groupId: POST /api/groups/:groupId/events
+router.post(
+  "/:groupId/events",
+  requireAuth,
+  validateEvent,
+  async (req, res, next) => {
+    const { groupId } = req.params;
+    const group = await Group.findByPk(groupId);
+    // middleware to make sure group exists
+    // middleware auth user is organizer or cohost
+    const event = await group.createEvent(req.body);
+    const {
+      id,
+      venueId,
+      name,
+      type,
+      capacity,
+      price,
+      description,
+      startDate,
+      endDate,
+    } = event;
+    res.json({
+      id,
+      groupId,
+      venueId,
+      name,
+      type,
+      capacity,
+      price,
+      description,
+      startDate,
+      endDate,
+    });
+  }
+);
 
 // Get all venues of a specific group: GET /api/groups/:groupId/venues
 // organizer of group or cohost member

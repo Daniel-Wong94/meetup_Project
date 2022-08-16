@@ -1,4 +1,5 @@
 const { validationResult, check } = require("express-validator");
+const { Venue } = require("../db/models");
 
 // middleware for formatting errors from express-validator middleware
 const handleValidationErrors = (req, _res, next) => {
@@ -91,6 +92,36 @@ const validateVenue = [
   handleValidationErrors,
 ];
 
+const validateEvent = [
+  check("venueId")
+    .custom((id) => Venue.isValidVenue(id))
+    .withMessage("Venue does not exist"),
+  check("name")
+    .isLength({ min: 4 })
+    .withMessage("Name must be at least 5 characters"),
+  check("type")
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be Online or In person"),
+  check("capacity").isInt().withMessage("Capacity must be an integer"),
+  check("price")
+    .isCurrency({
+      require_decimal: true,
+      allow_negatives: false,
+    })
+    .withMessage("Price is invalid"),
+  check("description").notEmpty().withMessage("Description is required"),
+  check("startDate").isAfter().withMessage("Start date must be in the future"),
+  check("endDate")
+    .custom((endDate, { req }) => {
+      if (new Date(endDate) < new Date(req.body.startDate)) {
+        throw new Error();
+      }
+      return true;
+    })
+    .withMessage("End date is less than start date"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
@@ -98,4 +129,5 @@ module.exports = {
   validateGroup,
   validateUpdateGroup,
   validateVenue,
+  validateEvent,
 };
