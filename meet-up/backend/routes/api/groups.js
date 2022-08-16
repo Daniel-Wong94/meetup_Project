@@ -1,8 +1,51 @@
 const express = require("express");
 const router = express.Router();
-const { Venue, Group, Membership, Image } = require("../../db/models");
+const {
+  Event,
+  Venue,
+  Group,
+  Membership,
+  Image,
+  Attendee,
+} = require("../../db/models");
 const { validateGroup, validateVenue } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
+
+// Get all events of a group: GET /api/groups/:groupId/events
+router.get("/:groupId/events", async (req, res, next) => {
+  const { groupId } = req.params;
+  // const group = await Group.findByPk(groupId);
+  const events = await Event.findAll({
+    where: { groupId },
+    include: [
+      { model: Venue, attributes: ["id", "city", "state"] },
+      { model: Group, attributes: ["id", "name", "city", "state"] },
+    ],
+  });
+
+  // middleware for finding group
+
+  for (const event of events) {
+    event.dataValues.numAttending = await Attendee.count({
+      where: {
+        eventId: event.dataValues.id,
+      },
+    });
+
+    const previewImage = await Image.findOne({
+      where: {
+        imageableId: event.id,
+        imageableType: "event",
+      },
+    });
+
+    const { url } = previewImage;
+
+    event.dataValues.previewImage = url;
+  }
+
+  await res.json({ Events: events });
+});
 
 // Get all venues of a specific group: GET /api/groups/:groupId/venues
 // organizer of group or cohost member
