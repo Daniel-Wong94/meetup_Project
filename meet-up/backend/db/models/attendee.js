@@ -1,14 +1,15 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Attendee extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Attendee.belongsTo(models.Event, {
+        foreignKey: "eventId",
+      });
+      Attendee.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
   }
   Attendee.init(
@@ -29,6 +30,38 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Attendee",
+      scopes: {
+        showPending(eventId) {
+          const { User } = require("../models");
+          return {
+            where: {
+              eventId,
+            },
+            attributes: ["status"],
+            include: [
+              {
+                model: User,
+                attributes: ["id", "firstName", "lastName"],
+              },
+            ],
+          };
+        },
+        hidePending(eventId) {
+          const { User } = require("../models");
+          return {
+            where: {
+              eventId,
+              status: {
+                [Op.not]: "pending",
+              },
+            },
+            attributes: ["status"],
+            include: [
+              { model: User, attributes: ["id", "firstName", "lastName"] },
+            ],
+          };
+        },
+      },
     }
   );
   return Attendee;

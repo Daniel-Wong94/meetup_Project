@@ -1,6 +1,6 @@
 "use strict";
-const { Model } = require("sequelize");
-const { Op } = require("sequelize");
+const { Model, Op } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class Membership extends Model {
     static associate(models) {
@@ -20,6 +20,20 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
       if (!membership) throw new Error("Invalid Membership");
+    }
+
+    static async isCohost(memberId, groupId) {
+      const membership = await Membership.findOne({
+        where: {
+          memberId,
+          groupId,
+        },
+      });
+
+      return (
+        membership &&
+        (membership.status === "host" || membership.status === "co-host")
+      );
     }
   }
   Membership.init(
@@ -44,10 +58,10 @@ module.exports = (sequelize, DataTypes) => {
         showPending(groupId) {
           const { User } = require("../models");
           return {
-            attributes: ["status"],
             where: {
               groupId,
             },
+            attributes: ["status"],
             include: [
               {
                 model: User,
@@ -59,13 +73,13 @@ module.exports = (sequelize, DataTypes) => {
         hidePending(groupId) {
           const { User } = require("../models");
           return {
-            attributes: ["status"],
             where: {
               groupId,
               status: {
                 [Op.not]: "pending",
               },
             },
+            attributes: ["status"],
             include: [
               { model: User, attributes: ["id", "firstName", "lastName"] },
             ],

@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+
+    static async isOrganizer(userId, groupId) {
+      const group = await Group.findByPk(groupId);
+      return group.organizerId === userId;
+    }
   }
   Group.init(
     {

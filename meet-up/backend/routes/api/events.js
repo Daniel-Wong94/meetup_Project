@@ -1,8 +1,62 @@
 const express = require("express");
 const router = express.Router();
-const { Event, Group, Venue, Image, Membership } = require("../../db/models");
+const {
+  Event,
+  Group,
+  Venue,
+  Image,
+  Membership,
+  Attendee,
+  User,
+} = require("../../db/models");
+const {
+  groupAuth,
+  isValidGroup,
+} = require("../../middlewares/group-authorization");
 const { requireAuth } = require("../../utils/auth");
 const { validateEvent } = require("../../utils/validation");
+
+// Get all attendees of an event by eventId: GET /api/events/:eventId/attendees
+router.get("/:eventId/attendees", async (req, res, next) => {
+  const { eventId } = req.params;
+  const { user } = req;
+  const event = await Event.findByPk(eventId);
+  const group = await event.getGroup();
+
+  let attendees;
+
+  if (
+    (await Group.isOrganizer(user.id, group.id)) ||
+    (await Membership.isCohost(user.id, group.id))
+  ) {
+    attendees = await Attendee.scope({
+      method: ["showPending", eventId],
+    }).findAll();
+  } else {
+    attendees = await Attendee.scope({
+      method: ["hidePending", eventId],
+    }).findAll();
+  }
+
+  const payload = [];
+
+  for (const {
+    status,
+    User: { id, firstName, lastName },
+  } of attendees) {
+    const obj = {
+      id,
+      firstName,
+      lastName,
+      Attendance: {
+        status,
+      },
+    };
+
+    payload.push(obj);
+  }
+  res.json({ Attendees: payload });
+});
 
 // Add an image to an event: POST /api/events/:eventId/images
 router.post("/:eventId/images", requireAuth, async (req, res, next) => {
