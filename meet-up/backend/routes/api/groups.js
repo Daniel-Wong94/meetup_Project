@@ -12,12 +12,60 @@ const {
   validateGroup,
   validateVenue,
   validateEvent,
+  validateUpdateMembership,
 } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
 const {
   isValidGroup,
   groupAuth,
 } = require("../../middlewares/group-authorization");
+
+const {
+  isValidMembership,
+} = require("../../middlewares/membership-authorization");
+
+// Change status of a membership by groupId: PATCH /api/groups/:groupId/members/:memberId
+// NEEDS REFACTORING
+router.patch(
+  "/:groupId/members/:memberId",
+  requireAuth,
+  validateUpdateMembership,
+  isValidGroup,
+  isValidMembership,
+  groupAuth,
+  async (req, res, next) => {
+    const { memberId, status } = req.body;
+    const { group, membership, user } = req;
+
+    // error in api docs, add this error
+    if (memberId != req.params.memberId) {
+      const err = new Error("Req params doesn't match with request body");
+      err.status = 400;
+      next(err);
+    }
+
+    if (
+      (status === "co-host" || status === "member") &&
+      group.organizerId === user.id
+    ) {
+      const updated = await membership.update({
+        status,
+      });
+
+      const { id, groupId, memberId } = updated;
+
+      res.json({ id, groupId, memberId, status });
+    } else if (status === "member" && req.locals.isGroupAuth) {
+      const updated = await membership.update({
+        status,
+      });
+      const { id, groupId, memberId } = updated;
+      res.json({ id, groupId, memberId, status });
+    } else {
+      res.json({ message: "must be organizer to update to co-host" });
+    }
+  }
+);
 
 // Get all members by groupId: GET /api/groups/:groupId/members
 router.get(

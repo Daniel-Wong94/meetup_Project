@@ -11,6 +11,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "groupId",
       });
     }
+
+    static async isValidMembership(memberId, groupId) {
+      const membership = await Membership.findOne({
+        where: {
+          memberId,
+          groupId,
+        },
+      });
+      if (!membership) throw new Error("Invalid Membership");
+    }
   }
   Membership.init(
     {

@@ -1,5 +1,5 @@
 const { validationResult, check } = require("express-validator");
-const { Venue } = require("../db/models");
+const { Venue, Membership } = require("../db/models");
 
 // middleware for formatting errors from express-validator middleware
 const handleValidationErrors = (req, _res, next) => {
@@ -126,6 +126,20 @@ const validateEvent = [
   handleValidationErrors,
 ];
 
+const validateUpdateMembership = [
+  check("memberId")
+    .isInt()
+    .notEmpty()
+    .custom((id, { req }) =>
+      Membership.isValidMembership(id, req.params.groupId)
+    )
+    .withMessage("User couldn't be found"),
+  check("status")
+    .isIn(["member", "co-host"])
+    .withMessage("Cannot change a membership status to 'pending'"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
@@ -134,4 +148,5 @@ module.exports = {
   validateUpdateGroup,
   validateVenue,
   validateEvent,
+  validateUpdateMembership,
 };
