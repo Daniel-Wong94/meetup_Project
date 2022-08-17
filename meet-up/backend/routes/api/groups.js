@@ -29,8 +29,8 @@ const {
 router.patch(
   "/:groupId/members/:memberId",
   requireAuth,
-  validateUpdateMembership,
   isValidGroup,
+  validateUpdateMembership,
   isValidMembership,
   groupAuth,
   async (req, res, next) => {
@@ -63,6 +63,30 @@ router.patch(
       res.json({ id, groupId, memberId, status });
     } else {
       res.json({ message: "must be organizer to update to co-host" });
+    }
+  }
+);
+
+// Deletes a membership by groupId: DELETE /api/groups/:groupId/members/:memberId
+router.delete(
+  "/:groupId/members/:memberId",
+  requireAuth,
+  isValidGroup,
+  groupAuth,
+  isValidMembership,
+  async (req, res, next) => {
+    const { group, membership, user } = req;
+    const { memberId } = req.params;
+
+    if (group.organizerId === user.id || user.id === memberId) {
+      await membership.destroy();
+
+      res.json({ message: "Successfully deleted membership from group" });
+    } else {
+      res.json({
+        message:
+          "Must be host of the group or user whos membership is being deleted",
+      });
     }
   }
 );
