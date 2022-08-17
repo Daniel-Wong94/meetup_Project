@@ -7,7 +7,6 @@ const {
   Membership,
   Image,
   Attendee,
-  User,
 } = require("../../db/models");
 const {
   validateGroup,
@@ -58,6 +57,42 @@ router.get(
     }
 
     res.json({ Members: payload });
+  }
+);
+
+// Request a membership for a group by id: POST /api/groups/:groupId/members
+router.post(
+  "/:groupId/members",
+  requireAuth,
+  isValidGroup,
+  async (req, res, next) => {
+    const { group, user } = req;
+
+    // check if membership exists already
+    const hasMembership = await Membership.findOne({
+      where: {
+        memberId: user.id,
+        groupId: group.id,
+      },
+    });
+
+    if (!hasMembership) {
+      const membership = await Membership.create({
+        memberId: user.id,
+        groupId: group.id,
+        status: "pending",
+      });
+      const { groupId, memberId, status } = membership;
+      return res.json({ groupId, memberId, status });
+    } else if (hasMembership.status === "pending") {
+      const err = new Error("Membership has alrady been requested");
+      err.status = 400;
+      next(err);
+    } else {
+      const err = new Error("User is already a member of the group");
+      err.status = 400;
+      next(err);
+    }
   }
 );
 
