@@ -15,76 +15,70 @@ const {
   validateEvent,
 } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
+const {
+  isValidGroup,
+  groupAuth,
+} = require("../../middlewares/group-authorization");
 
 // Get all members by groupId: GET /api/groups/:groupId/members
-router.get("/:groupId/members", async (req, res, next) => {
-  const { groupId } = req.params;
-  const { user } = req;
+router.get(
+  "/:groupId/members",
+  isValidGroup,
+  groupAuth,
+  async (req, res, next) => {
+    const { groupId } = req.params;
 
-  const group = await Group.findByPk(groupId);
+    let memberships;
 
-  const member = await Membership.findOne({
-    where: {
-      memberId: user.id,
-      groupId,
-    },
-  });
+    if (req.locals.isGroupAuth) {
+      memberships = await Membership.scope({
+        method: ["showPending", groupId],
+      }).findAll();
+    } else {
+      memberships = await Membership.scope({
+        method: ["hidePending", groupId],
+      }).findAll();
+    }
 
-  let memberships;
-  // check if host/organizer or not
-  if (
-    member &&
-    (member.status === "host" ||
-      member.status === "co-host" ||
-      group.organizerId === user.id)
-  ) {
-    memberships = await Membership.scope({
-      method: ["showPending", groupId],
-    }).findAll();
-  } else {
-    memberships = await Membership.scope({
-      method: ["hidePending", groupId],
-    }).findAll();
+    const payload = [];
+
+    for (const {
+      status,
+      User: { id, firstName, lastName },
+    } of memberships) {
+      const obj = {
+        id,
+        firstName,
+        lastName,
+        Membership: {
+          status,
+        },
+      };
+      payload.push(obj);
+    }
+
+    res.json({ Members: payload });
   }
-
-  const payload = [];
-
-  for (const {
-    status,
-    User: { id, firstName, lastName },
-  } of memberships) {
-    const obj = {
-      id,
-      firstName,
-      lastName,
-      Membership: {
-        status,
-      },
-    };
-    payload.push(obj);
-  }
-
-  res.json({ Members: payload });
-});
+);
 
 // Get all events of a group: GET /api/groups/:groupId/events
-router.get("/:groupId/events", async (req, res, next) => {
+router.get("/:groupId/events", isValidGroup, async (req, res, next) => {
   const { groupId } = req.params;
-  // const group = await Group.findByPk(groupId);
   const events = await Event.findAll({
     where: { groupId },
+    attributes: {
+      exclude: ["createdAt", "updatedAt"],
+    },
     include: [
       { model: Venue, attributes: ["id", "city", "state"] },
       { model: Group, attributes: ["id", "name", "city", "state"] },
     ],
   });
 
-  // middleware for finding group
-
   for (const event of events) {
-    event.dataValues.numAttending = await Attendee.count({
+    event.numAttending = await Attendee.count({
       where: {
-        eventId: event.dataValues.id,
+        eventId: event.id,
       },
     });
 
@@ -107,12 +101,12 @@ router.get("/:groupId/events", async (req, res, next) => {
 router.post(
   "/:groupId/events",
   requireAuth,
+  isValidGroup,
   validateEvent,
   async (req, res, next) => {
     const { groupId } = req.params;
-    const group = await Group.findByPk(groupId);
-    // middleware to make sure group exists
-    // middleware auth user is organizer or cohost
+    const group = req.group;
+
     const event = await group.createEvent(req.body);
     const {
       id,
@@ -142,58 +136,60 @@ router.post(
 
 // Get all venues of a specific group: GET /api/groups/:groupId/venues
 // organizer of group or cohost member
-router.get("/:groupId/venues", requireAuth, async (req, res, next) => {
-  const { groupId } = req.params;
-  const { user } = req;
-  const membership = await Membership.findOne({
-    where: { memberId: user.id, groupId },
-  });
+router.get(
+  "/:groupId/venues",
+  isValidGroup,
+  requireAuth,
+  async (req, res, next) => {
+    const { groupId } = req.params;
+    const { user } = req;
+    const membership = await Membership.findOne({
+      where: { memberId: user.id, groupId },
+    });
 
-  const group = await Group.findByPk(groupId);
-  if (!group) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
-    next(err);
-  }
+    const group = req.group;
 
-  if (group.organizerId === user.id || membership.status === "co-host") {
-    const venues = await group.getVenues();
-    res.json({ Venues: venues });
+    if (group.organizerId === user.id || membership.status === "co-host") {
+      const venues = await group.getVenues();
+      res.json({ Venues: venues });
+    }
   }
-});
+);
 
 // Create new venue for a group: POST /api/groups/:groupId/venues
 // NEEDS body validation
-router.post("/:groupId/venues", validateVenue, async (req, res, next) => {
-  const { groupId } = req.params;
-  const { user } = req;
-  const { address, city, state, lat, lng } = req.body;
+router.post(
+  "/:groupId/venues",
+  isValidGroup,
+  validateVenue,
+  async (req, res, next) => {
+    const { groupId } = req.params;
+    const { user } = req;
+    const { address, city, state, lat, lng } = req.body;
 
-  const group = await Group.findByPk(groupId);
-  const membership = await Membership.findOne({
-    where: {
-      memberId: user.id,
-      groupId,
-    },
-  });
+    const group = req.group;
+    const membership = await Membership.findOne({
+      where: {
+        memberId: user.id,
+        groupId,
+      },
+    });
 
-  if (!group) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
-    next(err);
+    if (group.organizerId === user.id || membership.status === "co-host") {
+      const venue = await Venue.create({ ...req.body, groupId });
+      const { id, address, city, state, lat, lng } = venue;
+
+      res.json({ id, groupId, address, city, state, lat, lng });
+    }
   }
-
-  if (group.organizerId === user.id || membership.status === "co-host") {
-    const venue = await Venue.create({ ...req.body, groupId });
-    const { id, address, city, state, lat, lng } = venue;
-
-    res.json({ id, groupId, address, city, state, lat, lng });
-  }
-});
+);
 
 // Add an image to group by groupId: POST /api/groups/:groupId/images
-router.post("/:groupId/images", requireAuth, async (req, res, next) => {
-  try {
+router.post(
+  "/:groupId/images",
+  isValidGroup,
+  requireAuth,
+  async (req, res, next) => {
     const { groupId } = req.params;
     const { url } = req.body;
     const { id: userId } = req.user;
@@ -203,43 +199,33 @@ router.post("/:groupId/images", requireAuth, async (req, res, next) => {
     const { id, imageableId } = image;
 
     res.json({ id, url, imageableId });
-  } catch (e) {
-    const err = new Error("Group couldn't be found");
-    err.status = 404;
-    next(err);
   }
-});
+);
 
 // Get a group by groupId: GET /api/groups/:groupId
-router.get("/:groupId", async (req, res, next) => {
-  try {
-    const { groupId } = req.params;
-    const group = await Group.findByPk(groupId, {
-      include: [{ model: Image }, { model: Venue }],
-    });
+router.get("/:groupId", isValidGroup, async (req, res, next) => {
+  const { groupId } = req.params;
+  const group = await Group.findByPk(groupId, {
+    include: [{ model: Image }, { model: Venue }],
+  });
 
-    const user = await group.getUser({
-      attributes: ["id", "firstName", "lastName"],
-    });
+  const user = await group.getUser({
+    attributes: ["id", "firstName", "lastName"],
+  });
 
-    const numMembers = await Membership.count({
-      where: {
-        groupId,
-      },
-    });
+  const numMembers = await Membership.count({
+    where: {
+      groupId,
+    },
+  });
 
-    const payload = {
-      ...group.dataValues,
-      numMembers,
-      Organizer: user,
-    };
+  const payload = {
+    ...group.dataValues,
+    numMembers,
+    Organizer: user,
+  };
 
-    res.json(payload);
-  } catch (e) {
-    const err = new Error("Group couldn't be found.");
-    err.status = 404;
-    next(err);
-  }
+  res.json(payload);
 });
 
 // Update an existing group by id: PATCH /api/groups/:groupId
