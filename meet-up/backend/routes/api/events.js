@@ -59,6 +59,37 @@ router.patch(
   }
 );
 
+// Delete attendance to an event by eventId: DELETE /api/events/:eventId/attendees/:attendeeId
+router.delete(
+  "/:eventId/attendees/:attendeeId",
+  requireAuth,
+  isValidEvent,
+  isValidAttendance,
+  async (req, res, next) => {
+    const { user, event, attendance } = req;
+    const { userId } = req.body;
+    const { attendeeId } = req.params;
+    const group = await event.getGroup();
+
+    // api docs missing this error:
+    if (userId != attendeeId) {
+      const err = new Error("Req params does not match req body");
+      err.status = 400;
+      next(err);
+    }
+
+    if ((await Group.isOrganizer(user.id, group.id)) || user.id === userId) {
+      await attendance.destroy();
+
+      res.json({ message: "Successfully deleted attendance from event" });
+    } else {
+      res.status(403).json({
+        message: "Only the User or organizer can delete an Attendance",
+      });
+    }
+  }
+);
+
 // Get all attendees of an event by eventId: GET /api/events/:eventId/attendees
 router.get("/:eventId/attendees", isValidEvent, async (req, res, next) => {
   const { eventId } = req.params;
