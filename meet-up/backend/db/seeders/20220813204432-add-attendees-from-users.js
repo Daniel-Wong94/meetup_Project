@@ -2,11 +2,11 @@
 const { Attendee } = require("../models");
 
 const attendees = [
-  {
-    status: "co-host",
-    eventId: [1, 2, 3, 4, 5, 6],
-    userId: [10, 1, 9, 4, 11, 16],
-  },
+  // {
+  //   status: "co-host",
+  //   eventId: [1, 2, 3, 4, 5, 6],
+  //   userId: [10, 1, 9, 4, 11, 16],
+  // },
   {
     status: "member",
     eventId: [2, 3, 4, 5, 6, 1],

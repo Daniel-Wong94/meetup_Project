@@ -62,7 +62,9 @@ router.patch(
       const { id, groupId, memberId } = updated;
       res.json({ id, groupId, memberId, status });
     } else {
-      res.json({ message: "must be organizer to update to co-host" });
+      const err = new Error("Must be organizer to update to co-host");
+      err.status = 400;
+      next(err);
     }
   }
 );

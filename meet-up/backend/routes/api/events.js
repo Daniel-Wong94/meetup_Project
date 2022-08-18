@@ -16,6 +16,48 @@ const {
 const { requireAuth } = require("../../utils/auth");
 const { validateEvent } = require("../../utils/validation");
 const { isValidEvent } = require("../../middlewares/event-authorization");
+const {
+  isValidAttendance,
+} = require("../../middlewares/attendee-authorization");
+// Change the status of an attendance by eventId: PATCH /api/events/:eventId/attendees/:attendeeId
+router.patch(
+  "/:eventId/attendees/:attendeeId",
+  isValidEvent,
+  isValidAttendance,
+  async (req, res, next) => {
+    const { user, event, attendance } = req;
+    const { userId, status } = req.body;
+    const group = await event.getGroup();
+
+    // error in api docs, add this error
+    if (req.params.attendeeId != userId) {
+      const err = new Error("Req params doesn't match with req body");
+      err.status = 404;
+      next(err);
+    }
+
+    if (
+      status === "member" &&
+      ((await Group.isOrganizer(user.id, group.id)) ||
+        (await Membership.isCohost(userId, group.id)))
+    ) {
+      const updated = await attendance.update({
+        status,
+      });
+
+      const { id, eventId, userId } = updated;
+      res.json({ id, eventId, userId, status });
+    } else if (status === "pending") {
+      const err = new Error("Cannot change an attendance status to pending");
+      err.status = 400;
+      next(err);
+    } else {
+      const err = new Error("Must be organizer or cohost to update attendance");
+      err.status = 400;
+      next(err);
+    }
+  }
+);
 
 // Get all attendees of an event by eventId: GET /api/events/:eventId/attendees
 router.get("/:eventId/attendees", isValidEvent, async (req, res, next) => {
