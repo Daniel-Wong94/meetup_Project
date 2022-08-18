@@ -149,15 +149,15 @@ router.post(
     });
 
     if (!hasMembership) {
-      const membership = await Membership.create({
+      const { groupId, memberId, status } = await Membership.create({
         memberId: user.id,
         groupId: group.id,
         status: "pending",
       });
-      const { groupId, memberId, status } = membership;
+
       return res.json({ groupId, memberId, status });
     } else if (hasMembership.status === "pending") {
-      const err = new Error("Membership has alrady been requested");
+      const err = new Error("Membership has already been requested");
       err.status = 400;
       next(err);
     } else {

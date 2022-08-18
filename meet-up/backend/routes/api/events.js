@@ -15,12 +15,12 @@ const {
 } = require("../../middlewares/group-authorization");
 const { requireAuth } = require("../../utils/auth");
 const { validateEvent } = require("../../utils/validation");
+const { isValidEvent } = require("../../middlewares/event-authorization");
 
 // Get all attendees of an event by eventId: GET /api/events/:eventId/attendees
-router.get("/:eventId/attendees", async (req, res, next) => {
+router.get("/:eventId/attendees", isValidEvent, async (req, res, next) => {
   const { eventId } = req.params;
-  const { user } = req;
-  const event = await Event.findByPk(eventId);
+  const { user, event } = req;
   const group = await event.getGroup();
 
   let attendees;
@@ -56,6 +56,37 @@ router.get("/:eventId/attendees", async (req, res, next) => {
     payload.push(obj);
   }
   res.json({ Attendees: payload });
+});
+
+// Request attendance for an event: POST /api/events/:eventId/attendance
+router.post("/:eventId/attendance", isValidEvent, async (req, res, next) => {
+  const { eventId } = req.params;
+  const { user, event } = req;
+
+  const isAttending = await Attendee.findOne({
+    where: {
+      eventId,
+      userId: user.id,
+    },
+  });
+
+  if (!isAttending) {
+    const { eventId, userId, status } = await Attendee.create({
+      eventId: event.id,
+      userId: user.id,
+      status: "pending",
+    });
+
+    return res.json({ eventId, userId, status });
+  } else if (isAttending.status === "pending") {
+    const err = new Error("Attendance has already been requested");
+    err.status = 400;
+    next(err);
+  } else {
+    const err = new Error("User is already an attendee of the event");
+    err.status = 400;
+    next(err);
+  }
 });
 
 // Add an image to an event: POST /api/events/:eventId/images
