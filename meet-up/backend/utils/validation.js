@@ -1,4 +1,4 @@
-const { validationResult, check } = require("express-validator");
+const { validationResult, check, query } = require("express-validator");
 const { Venue, Membership } = require("../db/models");
 
 // middleware for formatting errors from express-validator middleware
@@ -140,6 +140,40 @@ const validateUpdateMembership = [
   handleValidationErrors,
 ];
 
+const validateEventQuery = [
+  query("page")
+    .optional()
+    .isInt({ min: 0, max: 10 })
+    .withMessage("Page must be greater than or equal to 0"),
+  query("size")
+    .optional()
+    .isInt({ min: 0, max: 20 })
+    .withMessage("Size must be greater than or equal to 0"),
+  query("name")
+    .optional()
+    .isString()
+    .not()
+    .isInt()
+    .withMessage("Name must be a string"),
+  query("type")
+    .optional()
+    .isIn(["Online", "In person"])
+    .withMessage("Type must be 'Online' or 'In person'"),
+  query("startDate")
+    .optional()
+    .custom((value) => {
+      const date = new Date(value);
+
+      if (!(date instanceof Date) || isNaN(date)) {
+        throw new Error("invalid date");
+      } else {
+        return true;
+      }
+    })
+    .withMessage("Start date must be a valid datetime"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
@@ -149,4 +183,5 @@ module.exports = {
   validateVenue,
   validateEvent,
   validateUpdateMembership,
+  validateEventQuery,
 };

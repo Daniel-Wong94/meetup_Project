@@ -8,17 +8,19 @@ const {
   Membership,
   Attendee,
   User,
+  sequelize,
 } = require("../../db/models");
 const {
   groupAuth,
   isValidGroup,
 } = require("../../middlewares/group-authorization");
 const { requireAuth } = require("../../utils/auth");
-const { validateEvent } = require("../../utils/validation");
+const { validateEvent, validateEventQuery } = require("../../utils/validation");
 const { isValidEvent } = require("../../middlewares/event-authorization");
 const {
   isValidAttendance,
 } = require("../../middlewares/attendee-authorization");
+
 // Change the status of an attendance by eventId: PATCH /api/events/:eventId/attendees/:attendeeId
 router.patch(
   "/:eventId/attendees/:attendeeId",
@@ -281,12 +283,46 @@ router.delete("/:eventId", requireAuth, async (req, res, next) => {
 });
 
 // Get all events: GET /api/events
-router.get("/", async (req, res, next) => {
+// make a middleware to parse query
+router.get("/", validateEventQuery, async (req, res, next) => {
+  let { page, size } = req.query;
+  size = size ? size : 20;
+  page = page ? page * size : 0;
+
+  // build where option
+  let search = {};
+  for (const param in req.query) {
+    if (param !== "page" && param !== "size") {
+      search[param] = req.query[param];
+    }
+    if (param === "startDate") {
+      const date = new Date(req.query[param]);
+      search[param] = date;
+      // Work in progress:
+      // search[param] = {
+      //   [Op.lt]: new Date(dateOnly),
+      //   [Op.gt]: new Date(dateTime[0]),
+      // };
+      // console.log("search: ", search);
+    }
+  }
+
+  console.log("search: ", search);
+
+  // NEED TO FORMAT DATE
   const events = await Event.findAll({
+    where: {
+      ...search,
+    },
+    attributes: {
+      exclude: ["capacity", "createdAt", "updatedAt"],
+    },
     include: [
       { model: Group, attributes: ["id", "name", "city", "state"] },
       { model: Venue, attributes: ["id", "city", "state"] },
     ],
+    limit: size,
+    offset: page,
   });
 
   res.json({ Events: events });

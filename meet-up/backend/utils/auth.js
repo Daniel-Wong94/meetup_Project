@@ -55,17 +55,8 @@ const requireAuth = (req, res, next) => {
   return next(err);
 };
 
-/*
-in order: [restoreUser, requireAuth]
-- restoreUser: if valid JWT exists, session user instance will be loaded into req.user
-- requireAuth: if req.user exists, go to next middleware, else throw error
-*/
-
-const authorization = [restoreUser, requireAuth];
-
 module.exports = {
   setTokenCookie,
   restoreUser,
   requireAuth,
-  authorization,
 };
