@@ -299,6 +299,7 @@ router.get("/", validateEventQuery, async (req, res, next) => {
       const date = new Date(req.query[param]);
       search[param] = date;
       // Work in progress:
+      // const dateTime = req.query[params].split("T")
       // search[param] = {
       //   [Op.lt]: new Date(dateOnly),
       //   [Op.gt]: new Date(dateTime[0]),

@@ -1,4 +1,5 @@
 "use strict";
+const { raw } = require("express");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
@@ -55,6 +56,10 @@ module.exports = (sequelize, DataTypes) => {
       startDate: {
         type: DataTypes.DATE,
         allowNull: false,
+        get() {
+          const dateString = this.getDataValue("startDate").toISOString();
+          return dateString.replace("T", " ").replace(".000Z", "");
+        },
         // validate: {
         //   isAfter: new Date().toDateString(),
         // },
@@ -65,6 +70,10 @@ module.exports = (sequelize, DataTypes) => {
         // validate: {
         //   isAfter: this.startDate,
         // },
+        get() {
+          const dateString = this.getDataValue("endDate").toISOString();
+          return dateString.replace("T", " ").replace(".000Z", "");
+        },
       },
       venueId: {
         type: DataTypes.INTEGER,
