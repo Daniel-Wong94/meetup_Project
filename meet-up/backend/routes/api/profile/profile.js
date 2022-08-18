@@ -5,6 +5,14 @@ const { requireAuth } = require("../../../utils/auth");
 
 router.use(requireAuth);
 
+// Get all images of current user: GET /api/users/profile/images
+router.get("/images", async (req, res, next) => {
+  const { id: userId } = req.user;
+  const images = await Image.findAll({ where: { userId } });
+
+  res.json(images);
+});
+
 // Get all groups that current user is in: GET /api/users/profile/groups
 router.get("/groups", async (req, res, next) => {
   const { id: organizerId } = req.user;
