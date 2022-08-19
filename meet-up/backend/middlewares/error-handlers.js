@@ -4,8 +4,6 @@ const isProduction = environment === "production";
 
 const resourceNotFoundHandler = (_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
-  // err.title = "Resource Not Found";
-  // err.errors = ["The requested resource couldn't be found."];
   err.status = 404;
   next(err);
 };
@@ -29,10 +27,8 @@ const errorFormatter = (err, _req, res, _next) => {
   res.status(err.status || 500);
   console.error(err);
   res.json({
-    // title: err.title || "Server Error",
     message: err.message,
     errors: err.errors,
-    // stack: isProduction ? null : err.stack,
     statusCode: err.status || 500,
   });
 };

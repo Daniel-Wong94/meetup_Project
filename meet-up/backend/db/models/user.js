@@ -48,18 +48,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ firstName, lastName, email, password }) {
-      // middleware to validate password before this method
+    static async signupUser({ firstName, lastName, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
+      const user = await User.findOne({ where: { email } });
 
-      const user = await User.create({
-        firstName,
-        lastName,
-        email,
-        hashedPassword,
-      });
+      if (user) {
+        const err = new Error("User already exists");
+        err.message = err.message;
+        err.status = 403;
+        err.errors = {
+          email: "User with that email already exists",
+        };
 
-      return await User.findByPk(user.id);
+        throw err;
+      } else {
+        const user = await User.create({
+          firstName,
+          lastName,
+          email,
+          hashedPassword,
+        });
+
+        return await User.findByPk(user.id);
+      }
     }
 
     async updateCredentials({
@@ -119,7 +130,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: {
           arg: [true],
-          msg: "User with that email already exists",
+          msg: "User already exists",
         },
         validate: {
           isEmail: true,

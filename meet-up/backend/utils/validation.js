@@ -1,5 +1,5 @@
 const { validationResult, check, query } = require("express-validator");
-const { Venue, Membership } = require("../db/models");
+const { Venue, Membership, User } = require("../db/models");
 
 // middleware for formatting errors from express-validator middleware
 const handleValidationErrors = (req, _res, next) => {
@@ -14,7 +14,6 @@ const handleValidationErrors = (req, _res, next) => {
     const err = Error("Validation error");
     err.errors = errors;
     err.status = 400;
-    // err.title = "Bad request.";
     next(err);
   }
   next();
@@ -34,8 +33,8 @@ const validateLogin = [
 const validateSignup = [
   check("email")
     .exists({ checkFalsy: true })
-    .notEmpty()
     .isEmail()
+    .notEmpty()
     .withMessage("Invalid Email"),
   check("firstName")
     .exists({ checkFalsy: true })

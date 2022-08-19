@@ -9,12 +9,9 @@ router.use("/profile", profileRouter);
 
 // Sign Up: POST /api/users/signup
 router.post("/signup", validateSignup, async (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body;
-  const user = await User.signup({ firstName, lastName, email, password });
-
+  const user = await User.signupUser(req.body);
   user.dataValues.token = await setTokenCookie(res, user);
-
-  return res.json(user);
+  res.json(user);
 });
 
 // Log In: POST /api/users/login
