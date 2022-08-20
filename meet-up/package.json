@@ -1,0 +1,16 @@
+{
+  "name": "meet-up",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "npm --prefix meet-up/backend install backend",
+    "dev:backend": "npm install --prefix meet-up/backend start",
+    "sequelize": "npm run --prefix meet-up/backend sequelize",
+    "sequelize-cli": "npm run --prefix meet-up/backend sequelize-cli",
+    "start": "npm start --prefix meet-up/backend"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
