@@ -1,7 +1,7 @@
 {
-  "name": "meet-up",
+  "name": "meetup_project",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Description",
   "main": "index.js",
   "scripts": {
     "install": "npm --prefix backend install backend",
@@ -10,7 +10,15 @@
     "sequelize-cli": "npm run --prefix backend sequelize-cli",
     "start": "npm start --prefix backend"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daniel-Wong94/meetup_Project.git"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Daniel-Wong94/meetup_Project/issues"
+  },
+  "homepage": "https://github.com/Daniel-Wong94/meetup_Project#readme"
 }
