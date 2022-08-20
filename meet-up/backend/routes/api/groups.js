@@ -301,12 +301,18 @@ router.post(
     const { groupId } = req.params;
     const { url } = req.body;
     const { id: userId } = req.user;
+    const { group } = req;
 
-    const group = await Group.findByPk(groupId);
-    const image = await group.createImage({ url, userId });
-    const { id, imageableId } = image;
+    if (await Group.isOrganizer(userId, groupId)) {
+      const image = await group.createImage({ url, userId });
+      const { id, imageableId } = image;
 
-    res.json({ id, url, imageableId });
+      res.json({ id, url, imageableId });
+    } else {
+      const err = new Error("Must be the organizer of the group");
+      err.status = 401;
+      next(err);
+    }
   }
 );
 
@@ -314,7 +320,10 @@ router.post(
 router.get("/:groupId", isValidGroup, async (req, res, next) => {
   const { groupId } = req.params;
   const group = await Group.findByPk(groupId, {
-    include: [{ model: Image }, { model: Venue }],
+    include: [
+      { model: Image, attributes: ["id", "imageableId", "url"] },
+      { model: Venue },
+    ],
   });
 
   const user = await group.getUser({
@@ -328,7 +337,7 @@ router.get("/:groupId", isValidGroup, async (req, res, next) => {
   });
 
   const payload = {
-    ...group.dataValues,
+    ...group.toJSON(),
     numMembers,
     Organizer: user,
   };
@@ -341,12 +350,12 @@ router.get("/:groupId", isValidGroup, async (req, res, next) => {
 router.patch(
   "/:groupId",
   requireAuth,
+  isValidGroup,
   validateGroup,
   async (req, res, next) => {
-    try {
+    const { user, group } = req;
+    if (await Group.isOrganizer(user.id, group.id)) {
       const { name, about, type, private, city, state } = req.body;
-      const { groupId } = req.params;
-      const group = await Group.findByPk(groupId);
 
       await group.update({
         name: name || group.name,
@@ -358,34 +367,35 @@ router.patch(
       });
 
       res.json(group);
-    } catch (e) {
-      const err = new Error("Group couldn't be found");
-      err.status = 404;
+    } else {
+      const err = new Error("Must be the organizer of the group");
+      err.status = 401;
       next(err);
     }
   }
 );
 
 // Delete an existing group by id: DELETE /api/groups/:groupId
-router.delete("/:groupId", requireAuth, async (req, res, next) => {
-  try {
-    const { groupId } = req.params;
-    const { user } = req;
+router.delete(
+  "/:groupId",
+  requireAuth,
+  isValidGroup,
+  async (req, res, next) => {
+    const { user, group } = req;
 
-    const group = await Group.findByPk(groupId);
-
-    if (group.organizerId === user.id) {
-      await group.destroy();
+    if (await Group.isOrganizer(user.id, group.id)) {
+      await Image.destroy({
+        where: { imageableId: group.id, imageableType: "group" },
+      });
+      await group.destroy({ where: { id: group.id } });
       res.json({ message: "Successfully deleted", statusCode: 200 });
+    } else {
+      const err = new Error("Must be the organizer of the group");
+      err.status = 401;
+      next(err);
     }
-
-    throw new Error("Authorization Error");
-  } catch (e) {
-    const err = new Error(e.message || "Group couldn't be found");
-    err.status = 404;
-    next(err);
   }
-});
+);
 
 // Get all groups: GET /api/groups
 router.get("/", async (req, res, next) => {
@@ -407,19 +417,13 @@ router.get("/", async (req, res, next) => {
 
 // Create a group: POST /api/groups
 router.post("/", requireAuth, validateGroup, async (req, res, next) => {
-  const { name, about, type, private, city, state } = req.body;
   const { user } = req;
 
-  const group = await user.createGroup({
-    name,
-    about,
-    type,
-    private,
-    city,
-    state,
-  });
+  const { name, about, type, private, city, state } = await user.createGroup(
+    req.body
+  );
 
-  res.status(201).json(group);
+  res.status(201).json({ name, about, type, private, city, state });
 });
 
 module.exports = router;

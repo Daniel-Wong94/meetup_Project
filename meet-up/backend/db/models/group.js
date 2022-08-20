@@ -95,6 +95,20 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        get() {
+          return this.getDataValue("createdAt").toLocaleString("sv");
+        },
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        get() {
+          return this.getDataValue("updatedAt").toLocaleString("sv");
+        },
+      },
     },
     {
       sequelize,
