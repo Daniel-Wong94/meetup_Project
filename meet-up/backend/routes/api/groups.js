@@ -247,20 +247,19 @@ router.post(
 // organizer of group or cohost member
 router.get(
   "/:groupId/venues",
-  isValidGroup,
   requireAuth,
+  isValidGroup,
+  groupAuth,
   async (req, res, next) => {
-    const { groupId } = req.params;
-    const { user } = req;
-    const membership = await Membership.findOne({
-      where: { memberId: user.id, groupId },
-    });
-
     const group = req.group;
 
-    if (group.organizerId === user.id || membership.status === "co-host") {
+    if (req.locals.isGroupAuth) {
       const venues = await group.getVenues();
       res.json({ Venues: venues });
+    } else {
+      const err = new Error("Forrbidden");
+      err.status = 403;
+      next(err);
     }
   }
 );
