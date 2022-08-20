@@ -61,14 +61,23 @@ router.patch("/", async (req, res, next) => {
 });
 
 // Delete profile: DELETE /api/users/profile
-router.delete("/", async (req, res, next) => {
-  const { id } = req.user;
-  const user = await User.findByPk(id);
+router.delete("/", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const { password } = req.body;
+  const currentUser = await User.scope("loginUser").findByPk(user.id);
 
-  await user.destroy();
-  res.clearCookie("token");
+  if (currentUser.validatePassword(password)) {
+    await Image.destroy({ where: { userId: currentUser.id } });
 
-  res.json({ message: "Successfully deleted user" });
+    await currentUser.destroy();
+    res.clearCookie("token");
+
+    res.json({ message: "Successfully deleted user" });
+  } else {
+    const err = new Error("Incorrect password");
+    err.status = 400;
+    next(err);
+  }
 });
 
 module.exports = router;

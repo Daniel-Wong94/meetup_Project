@@ -5,19 +5,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Group.belongsTo(models.User, {
         foreignKey: "organizerId",
-        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Event, {
         foreignKey: "groupId",
+        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Venue, {
         foreignKey: "groupId",
+        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Membership, {
         foreignKey: "groupId",
+        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Image, {
