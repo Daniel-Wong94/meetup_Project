@@ -19,6 +19,7 @@ const { validateEvent, validateEventQuery } = require("../../utils/validation");
 const { isValidEvent } = require("../../middlewares/event-authorization");
 const {
   isValidAttendance,
+  attendeeAuth,
 } = require("../../middlewares/attendee-authorization");
 
 // Change the status of an attendance by eventId: PATCH /api/events/:eventId/attendees/:attendeeId
@@ -165,23 +166,21 @@ router.post("/:eventId/attendance", isValidEvent, async (req, res, next) => {
 });
 
 // Add an image to an event: POST /api/events/:eventId/images
-router.post("/:eventId/images", requireAuth, async (req, res, next) => {
-  try {
-    const { eventId } = req.params;
+router.post(
+  "/:eventId/images",
+  isValidEvent,
+  requireAuth,
+  attendeeAuth,
+  async (req, res, next) => {
     const { url } = req.body;
-    const { id: userId } = req.user;
+    const { user, event } = req;
 
-    const event = await Event.findByPk(eventId);
-    const image = await event.createImage({ url, userId });
+    const image = await event.createImage({ url, userId: user.id });
     const { id, imageableId } = image;
 
     res.json({ id, url, imageableId });
-  } catch (e) {
-    const err = new Error("Event couldn't be found");
-    err.status = 404;
-    next(err);
   }
-});
+);
 
 // Get details of event by id: GET /api/events/:eventId
 router.get("/:eventId", isValidEvent, async (req, res, next) => {

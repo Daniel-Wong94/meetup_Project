@@ -34,6 +34,9 @@ const groupAuth = async (req, res, next) => {
     req.locals = { isGroupAuth: true };
   } else {
     req.locals = { isGroupAuth: false };
+    const err = new Error("Forbidden");
+    err.status = 403;
+    next(err);
   }
 
   next();

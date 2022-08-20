@@ -22,6 +22,28 @@ const isValidAttendance = async (req, res, next) => {
   next();
 };
 
+const attendeeAuth = async (req, res, next) => {
+  const { user } = req;
+  const { eventId } = req.params;
+
+  const attendee = await Attendee.findOne({
+    where: {
+      userId: user.id,
+      eventId,
+    },
+  });
+
+  if (!attendee) {
+    const err = new Error("Forbidden");
+    err.status = 403;
+    next(err);
+  }
+
+  req.attendee = attendee;
+  next();
+};
+
 module.exports = {
   isValidAttendance,
+  attendeeAuth,
 };

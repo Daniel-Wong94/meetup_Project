@@ -185,22 +185,16 @@ router.get("/:groupId/events", isValidGroup, async (req, res, next) => {
   });
 
   for (const event of events) {
-    event.numAttending = await Attendee.count({
+    event.dataValues.numAttending = await Attendee.count({
       where: {
         eventId: event.id,
       },
     });
 
-    const previewImage = await Image.findOne({
-      where: {
-        imageableId: event.id,
-        imageableType: "event",
-      },
-    });
+    const previewImage = await event.getImages();
 
-    const { url } = previewImage;
-
-    event.dataValues.previewImage = url;
+    if (previewImage.length)
+      event.dataValues.previewImage = previewImage[0]["url"];
   }
 
   await res.json({ Events: events });
@@ -211,6 +205,7 @@ router.post(
   "/:groupId/events",
   requireAuth,
   isValidGroup,
+  groupAuth,
   validateEvent,
   async (req, res, next) => {
     const { groupId } = req.params;
@@ -252,15 +247,8 @@ router.get(
   groupAuth,
   async (req, res, next) => {
     const group = req.group;
-
-    if (req.locals.isGroupAuth) {
-      const venues = await group.getVenues();
-      res.json({ Venues: venues });
-    } else {
-      const err = new Error("Forrbidden");
-      err.status = 403;
-      next(err);
-    }
+    const venues = await group.getVenues();
+    res.json({ Venues: venues });
   }
 );
 
@@ -274,16 +262,10 @@ router.post(
   async (req, res, next) => {
     const { groupId } = req.params;
 
-    if (req.locals.isGroupAuth) {
-      const venue = await Venue.create({ ...req.body, groupId });
-      const { id, address, city, state, lat, lng } = venue;
+    const venue = await Venue.create({ ...req.body, groupId });
+    const { id, address, city, state, lat, lng } = venue;
 
-      res.json({ id, groupId, address, city, state, lat, lng });
-    } else {
-      const err = new Error("Must be the organizer of the group");
-      err.status = 401;
-      next(err);
-    }
+    res.json({ id, groupId, address, city, state, lat, lng });
   }
 );
 
@@ -304,8 +286,8 @@ router.post(
 
       res.json({ id, url, imageableId });
     } else {
-      const err = new Error("Must be the organizer of the group");
-      err.status = 401;
+      const err = new Error("Forbidden");
+      err.status = 403;
       next(err);
     }
   }
@@ -363,8 +345,8 @@ router.patch(
 
       res.json(group);
     } else {
-      const err = new Error("Must be the organizer of the group");
-      err.status = 401;
+      const err = new Error("Forbidden");
+      err.status = 403;
       next(err);
     }
   }
