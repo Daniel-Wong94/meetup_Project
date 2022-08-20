@@ -396,9 +396,11 @@ router.get("/", async (req, res, next) => {
 router.post("/", requireAuth, validateGroup, async (req, res, next) => {
   const { user } = req;
 
-  const { name, about, type, private, city, state } = await user.createGroup(
-    req.body
-  );
+  // const { name, about, type, private, city, state } = await user.createGroup(
+  //   req.body
+  // );
+
+  const group = await user.createGroup(req.body);
 
   res.status(201).json({ name, about, type, private, city, state });
 });

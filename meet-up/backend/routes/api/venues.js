@@ -33,7 +33,7 @@ router.patch(
       where: { memberId: user.id, groupId: group.id },
     });
 
-    if (!membership || membership.status !== "co-host") {
+    if (membership.status !== "co-host") {
       const err = new Error("Must be co-host");
       err.status = 404;
       next(err);
