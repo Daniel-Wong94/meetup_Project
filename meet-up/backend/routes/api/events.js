@@ -16,7 +16,10 @@ const {
 } = require("../../middlewares/group-authorization");
 const { requireAuth } = require("../../utils/auth");
 const { validateEvent, validateEventQuery } = require("../../utils/validation");
-const { isValidEvent } = require("../../middlewares/event-authorization");
+const {
+  isValidEvent,
+  eventAuth,
+} = require("../../middlewares/event-authorization");
 const {
   isValidAttendance,
   attendeeAuth,
@@ -225,8 +228,6 @@ router.patch(
     } = req.body;
     const event = await Event.findByPk(eventId);
 
-    // middleware to check user is owner
-
     await event.update({
       venueId: venueId || event.venueId,
       name: name || event.name,
@@ -239,47 +240,55 @@ router.patch(
     });
 
     // add scoping
-    const response = await Event.findByPk(eventId);
+    const response = await Event.findByPk(eventId, {
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+    });
     res.json(response);
   }
 );
 
 // Delete an event by id: DELETE /api/events/:eventId
 // STILL NEED ERROR HANDLING
-router.delete("/:eventId", requireAuth, async (req, res, next) => {
-  try {
-    const { eventId } = req.params;
-    const { user } = req;
+router.delete(
+  "/:eventId",
+  requireAuth,
+  isValidEvent,
+  eventAuth,
+  async (req, res, next) => {
+    try {
+      const { eventId } = req.params;
+      const { user } = req;
 
-    const event = await Event.findByPk(eventId);
-    // middleware to make sure user is owner
-    const group = await event.getGroup();
-    const membership = await Membership.findOne({
-      where: {
-        memberId: user.id,
-        groupId: group.id,
-      },
-    });
-
-    if (
-      group.organizerId === user.id ||
-      membership.dataValues.status === "co-host" ||
-      membership.dataValues.status === "host"
-    ) {
-      // manual delete cascading a polymorphic association
-      await Image.destroy({
+      const event = await Event.findByPk(eventId);
+      // middleware to make sure user is owner
+      const group = await event.getGroup();
+      const membership = await Membership.findOne({
         where: {
-          imageableId: eventId,
-          imageableType: "event",
+          memberId: user.id,
+          groupId: group.id,
         },
       });
-      await event.destroy();
-      return res.json({ message: "success" });
+
+      if (
+        group.organizerId === user.id ||
+        membership.dataValues.status === "co-host" ||
+        membership.dataValues.status === "host"
+      ) {
+        // manual delete cascading a polymorphic association
+        await Image.destroy({
+          where: {
+            imageableId: eventId,
+            imageableType: "event",
+          },
+        });
+        await event.destroy();
+        return res.json({ message: "success" });
+      }
+    } catch (e) {
+      next(e);
     }
-  } catch (e) {
-    next(e);
   }
-});
+);
 
 // Get all events: GET /api/events
 // make a middleware to parse query
