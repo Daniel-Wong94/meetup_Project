@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: false,
         get() {
-          this.getDataValue("startDate").toLocaleString("sv");
+          return this.getDataValue("startDate").toLocaleString("sv");
         },
         // validate: {
         //   isAfter: new Date().toDateString(),
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
         //   isAfter: this.startDate,
         // },
         get() {
-          this.getDataValue("endDate").toLocaleString("sv");
+          return this.getDataValue("endDate").toLocaleString("sv");
         },
       },
       venueId: {

@@ -176,7 +176,7 @@ router.get("/:groupId/events", isValidGroup, async (req, res, next) => {
   const events = await Event.findAll({
     where: { groupId },
     attributes: {
-      exclude: ["createdAt", "updatedAt"],
+      exclude: ["capacity", "createdAt", "updatedAt"],
     },
     include: [
       { model: Venue, attributes: ["id", "city", "state"] },
@@ -270,24 +270,19 @@ router.post(
   "/:groupId/venues",
   isValidGroup,
   validateVenue,
+  groupAuth,
   async (req, res, next) => {
     const { groupId } = req.params;
-    const { user } = req;
-    const { address, city, state, lat, lng } = req.body;
 
-    const group = req.group;
-    const membership = await Membership.findOne({
-      where: {
-        memberId: user.id,
-        groupId,
-      },
-    });
-
-    if (group.organizerId === user.id || membership.status === "co-host") {
+    if (req.locals.isGroupAuth) {
       const venue = await Venue.create({ ...req.body, groupId });
       const { id, address, city, state, lat, lng } = venue;
 
       res.json({ id, groupId, address, city, state, lat, lng });
+    } else {
+      const err = new Error("Must be the organizer of the group");
+      err.status = 401;
+      next(err);
     }
   }
 );

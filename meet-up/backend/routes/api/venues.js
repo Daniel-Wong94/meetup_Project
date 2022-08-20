@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Venue, Group, Membership } = require("../../db/models");
-const { validateGroup, validateVenue } = require("../../utils/validation.js");
+const { validateVenue } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
 
 // Edit a venue by id: PATCH venues/:venueId
@@ -33,7 +33,7 @@ router.patch(
       where: { memberId: user.id, groupId: group.id },
     });
 
-    if (!membership) {
+    if (!membership || membership.status !== "co-host") {
       const err = new Error("Must be co-host");
       err.status = 404;
       next(err);

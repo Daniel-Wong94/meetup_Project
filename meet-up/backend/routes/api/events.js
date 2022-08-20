@@ -184,7 +184,7 @@ router.post("/:eventId/images", requireAuth, async (req, res, next) => {
 });
 
 // Get details of event by id: GET /api/events/:eventId
-router.get("/:eventId", async (req, res, next) => {
+router.get("/:eventId", isValidEvent, async (req, res, next) => {
   const { eventId } = req.params;
   const event = await Event.findByPk(eventId, {
     include: [
@@ -195,14 +195,14 @@ router.get("/:eventId", async (req, res, next) => {
       },
       { model: Image, attributes: ["id", "imageableId", "url"] },
     ],
+    attributes: {
+      exclude: ["createdAt", "updatedAt"],
+    },
   });
 
-  // middleware for no event found
-  if (!event) {
-    const err = new Error("Event couldn't be found");
-    err.status = 404;
-    next(err);
-  }
+  const numAttending = await Attendee.count({ where: { eventId } });
+
+  event.dataValues.numAttending = numAttending;
 
   res.json(event);
 });
