@@ -43,7 +43,37 @@ const attendeeAuth = async (req, res, next) => {
   next();
 };
 
+const requestAttendance = async (req, res, next) => {
+  const { eventId } = req.params;
+  const { user, event } = req;
+
+  const isAttending = await Attendee.findOne({
+    where: {
+      eventId,
+      userId: user.id,
+    },
+  });
+
+  if (!isAttending) next();
+
+  if (isAttending && isAttending.status === "pending") {
+    const err = new Error("Attendance has already been requested");
+    err.status = 400;
+    next(err);
+  }
+
+  if (
+    isAttending &&
+    (isAttending.status === "member" || isAttending.status === "waitlist")
+  ) {
+    const err = new Error("User is already an attendee of the event");
+    err.status = 400;
+    next(err);
+  }
+};
+
 module.exports = {
   isValidAttendance,
   attendeeAuth,
+  requestAttendance,
 };

@@ -12,7 +12,7 @@ const isValidMembership = async (req, res, next) => {
 
   if (!membership) {
     const err = new Error(
-      "Membership between the user and the group does not exits"
+      "Membership between the user and the group does not exists"
     );
     err.status = 404;
     next(err);
@@ -22,6 +22,21 @@ const isValidMembership = async (req, res, next) => {
   next();
 };
 
+const deleteMembershipAuth = async (req, res, next) => {
+  const { memberId } = req.params;
+  const { user, group } = req;
+
+  console.log(group.organizerId, memberId, user.id);
+  if (group.organizerId != user.id && user.id != memberId) {
+    const err = new Error("Forrbiden");
+    err.status = 403;
+    next(err);
+  }
+
+  next();
+};
+
 module.exports = {
   isValidMembership,
+  deleteMembershipAuth,
 };

@@ -129,8 +129,9 @@ const validateUpdateMembership = [
   check("memberId")
     .isInt()
     .notEmpty()
-    .custom((id, { req }) =>
-      Membership.isValidMembership(id, req.params.groupId)
+    .custom(
+      async (id, { req }) =>
+        await Membership.isValidMembership(id, req.params.groupId)
     )
     .withMessage("User couldn't be found"),
   check("status")

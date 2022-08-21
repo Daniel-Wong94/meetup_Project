@@ -22,6 +22,7 @@ const {
 
 const {
   isValidMembership,
+  deleteMembershipAuth,
 } = require("../../middlewares/membership-authorization");
 
 // Change status of a membership by groupId: PATCH /api/groups/:groupId/members/:memberId
@@ -30,9 +31,8 @@ router.patch(
   "/:groupId/members/:memberId",
   requireAuth,
   isValidGroup,
-  validateUpdateMembership,
   isValidMembership,
-  groupAuth,
+  validateUpdateMembership,
   async (req, res, next) => {
     const { memberId, status } = req.body;
     const { group, membership, user } = req;
@@ -44,28 +44,22 @@ router.patch(
       next(err);
     }
 
-    if (
-      (status === "co-host" || status === "member") &&
-      group.organizerId === user.id
+    let updated;
+    if ((await Group.isOrganizer(user.id, group.id)) && status !== "pending") {
+      updated = await membership.update({ status });
+    } else if (
+      (await Membership.isCohost(user.id, group.id)) &&
+      status === "member"
     ) {
-      const updated = await membership.update({
-        status,
-      });
-
-      const { id, groupId, memberId } = updated;
-
-      res.json({ id, groupId, memberId, status });
-    } else if (status === "member" && req.locals.isGroupAuth) {
-      const updated = await membership.update({
-        status,
-      });
-      const { id, groupId, memberId } = updated;
-      res.json({ id, groupId, memberId, status });
+      updated = await membership.update({ status });
     } else {
-      const err = new Error("Must be organizer to update to co-host");
-      err.status = 400;
+      const err = new Error("Forbidden");
+      err.status = 403;
       next(err);
     }
+
+    const { id, groupId } = updated;
+    res.json({ id, groupId, memberId, status });
   }
 );
 
@@ -74,65 +68,56 @@ router.delete(
   "/:groupId/members/:memberId",
   requireAuth,
   isValidGroup,
-  groupAuth,
   isValidMembership,
+  deleteMembershipAuth,
   async (req, res, next) => {
-    const { group, membership, user } = req;
-    const { memberId } = req.params;
+    const { membership } = req;
 
-    if (group.organizerId === user.id || user.id === memberId) {
-      await membership.destroy();
+    await membership.destroy();
 
-      res.json({ message: "Successfully deleted membership from group" });
-    } else {
-      res.json({
-        message:
-          "Must be host of the group or user whos membership is being deleted",
-      });
-    }
+    res.json({ message: "Successfully deleted membership from group" });
   }
 );
 
 // Get all members by groupId: GET /api/groups/:groupId/members
-router.get(
-  "/:groupId/members",
-  isValidGroup,
-  groupAuth,
-  async (req, res, next) => {
-    const { groupId } = req.params;
+router.get("/:groupId/members", isValidGroup, async (req, res, next) => {
+  const { groupId } = req.params;
+  const { user } = req;
 
-    let memberships;
+  let scope;
 
-    if (req.locals.isGroupAuth) {
-      memberships = await Membership.scope({
-        method: ["showPending", groupId],
-      }).findAll();
-    } else {
-      memberships = await Membership.scope({
-        method: ["hidePending", groupId],
-      }).findAll();
-    }
-
-    const payload = [];
-
-    for (const {
-      status,
-      User: { id, firstName, lastName },
-    } of memberships) {
-      const obj = {
-        id,
-        firstName,
-        lastName,
-        Membership: {
-          status,
-        },
-      };
-      payload.push(obj);
-    }
-
-    res.json({ Members: payload });
+  if (
+    (await Group.isOrganizer(user.id, groupId)) ||
+    (await Membership.isCohost(user.id, groupId))
+  ) {
+    scope = "showPending";
+  } else {
+    scope = "hidePending";
   }
-);
+
+  const memberships = await Membership.scope({
+    method: [scope, groupId],
+  }).findAll();
+
+  const payload = [];
+
+  for (const {
+    status,
+    User: { id, firstName, lastName },
+  } of memberships) {
+    const obj = {
+      id,
+      firstName,
+      lastName,
+      Membership: {
+        status,
+      },
+    };
+    payload.push(obj);
+  }
+
+  res.json({ Members: payload });
+});
 
 // Request a membership for a group by id: POST /api/groups/:groupId/members
 router.post(

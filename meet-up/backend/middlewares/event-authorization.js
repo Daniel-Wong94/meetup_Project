@@ -1,4 +1,4 @@
-const { Event } = require("../db/models");
+const { Event, Membership } = require("../db/models");
 
 const isValidEvent = async (req, res, next) => {
   const { eventId } = req.params;
@@ -26,9 +26,10 @@ const eventAuth = async (req, res, next) => {
   });
 
   if (
-    group.organizerId === user.id ||
-    membership.dataValues.status === "co-host" ||
-    membership.dataValues.status === "host"
+    membership &&
+    (group.organizerId === user.id ||
+      membership.dataValues.status === "co-host" ||
+      membership.dataValues.status === "host")
   ) {
     req.locals = {
       isEventAuth: true,

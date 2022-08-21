@@ -8,7 +8,6 @@ const {
   Membership,
   Attendee,
   User,
-  sequelize,
 } = require("../../db/models");
 const {
   groupAuth,
@@ -23,6 +22,7 @@ const {
 const {
   isValidAttendance,
   attendeeAuth,
+  requestAttendance,
 } = require("../../middlewares/attendee-authorization");
 
 // Change the status of an attendance by eventId: PATCH /api/events/:eventId/attendees/:attendeeId
@@ -102,20 +102,20 @@ router.get("/:eventId/attendees", isValidEvent, async (req, res, next) => {
   const { user, event } = req;
   const group = await event.getGroup();
 
-  let attendees;
+  let scope;
 
   if (
     (await Group.isOrganizer(user.id, group.id)) ||
     (await Membership.isCohost(user.id, group.id))
   ) {
-    attendees = await Attendee.scope({
-      method: ["showPending", eventId],
-    }).findAll();
+    scope = "showPending";
   } else {
-    attendees = await Attendee.scope({
-      method: ["hidePending", eventId],
-    }).findAll();
+    scope = "hidePending";
   }
+
+  const attendees = await Attendee.scope({
+    method: [scope, eventId],
+  }).findAll();
 
   const payload = [];
 
@@ -138,35 +138,38 @@ router.get("/:eventId/attendees", isValidEvent, async (req, res, next) => {
 });
 
 // Request attendance for an event: POST /api/events/:eventId/attendance
-router.post("/:eventId/attendance", isValidEvent, async (req, res, next) => {
-  const { eventId } = req.params;
-  const { user, event } = req;
+router.post(
+  "/:eventId/attendance",
+  isValidEvent,
+  requestAttendance,
+  async (req, res, next) => {
+    const { user, event } = req;
+    const group = await event.getGroup();
 
-  const isAttending = await Attendee.findOne({
-    where: {
-      eventId,
-      userId: user.id,
-    },
-  });
-
-  if (!isAttending) {
-    const { eventId, userId, status } = await Attendee.create({
-      eventId: event.id,
-      userId: user.id,
-      status: "pending",
+    const membership = await Membership.findOne({
+      where: {
+        memberId: user.id,
+        groupId: group.id,
+      },
     });
 
-    return res.json({ eventId, userId, status });
-  } else if (isAttending.status === "pending") {
-    const err = new Error("Attendance has already been requested");
-    err.status = 400;
-    next(err);
-  } else {
-    const err = new Error("User is already an attendee of the event");
-    err.status = 400;
-    next(err);
+    if (membership) {
+      const attendance = await Attendee.create({
+        eventId: event.id,
+        userId: user.id,
+        status: "pending",
+      });
+
+      const { eventId, userId, status } = attendance;
+
+      return res.json({ eventId, userId, status });
+    } else {
+      const err = new Error("Forbidden");
+      err.status = 403;
+      next(err);
+    }
   }
-});
+);
 
 // Add an image to an event: POST /api/events/:eventId/images
 router.post(
@@ -213,6 +216,7 @@ router.get("/:eventId", isValidEvent, async (req, res, next) => {
 router.patch(
   "/:eventId",
   requireAuth,
+  isValidEvent,
   validateEvent,
   async (req, res, next) => {
     const { eventId } = req.params;
@@ -255,38 +259,18 @@ router.delete(
   isValidEvent,
   eventAuth,
   async (req, res, next) => {
-    try {
-      const { eventId } = req.params;
-      const { user } = req;
+    const { eventId } = req.params;
+    const { event } = req;
 
-      const event = await Event.findByPk(eventId);
-      // middleware to make sure user is owner
-      const group = await event.getGroup();
-      const membership = await Membership.findOne({
-        where: {
-          memberId: user.id,
-          groupId: group.id,
-        },
-      });
-
-      if (
-        group.organizerId === user.id ||
-        membership.dataValues.status === "co-host" ||
-        membership.dataValues.status === "host"
-      ) {
-        // manual delete cascading a polymorphic association
-        await Image.destroy({
-          where: {
-            imageableId: eventId,
-            imageableType: "event",
-          },
-        });
-        await event.destroy();
-        return res.json({ message: "success" });
-      }
-    } catch (e) {
-      next(e);
-    }
+    // manual delete cascading a polymorphic association
+    await Image.destroy({
+      where: {
+        imageableId: eventId,
+        imageableType: "event",
+      },
+    });
+    await event.destroy();
+    return res.json({ message: "Successfully Deleted" });
   }
 );
 
