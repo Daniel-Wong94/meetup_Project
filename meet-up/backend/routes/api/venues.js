@@ -1,56 +1,46 @@
 const express = require("express");
 const router = express.Router();
-const { Venue, Group, Membership } = require("../../db/models");
+const { Venue, Membership } = require("../../db/models");
 const { validateVenue } = require("../../utils/validation.js");
 const { requireAuth } = require("../../utils/auth");
+const {
+  venueAuth,
+  isValidVenue,
+} = require("../../middlewares/venue-authorization");
 
-// Edit a venue by id: PATCH venues/:venueId
+// Edit a venue by id: PATCH /api/venues/:venueId
 router.patch(
   "/:venueId",
   requireAuth,
+  isValidVenue,
   validateVenue,
+  venueAuth,
   async (req, res, next) => {
-    const { user } = req;
-    const { venueId } = req.params;
+    const { venue } = req;
     const { address, city, state, lat, lng } = req.body;
 
-    const venue = await Venue.findByPk(venueId);
-    if (!venue) {
-      const err = new Error("Venue couldn't be found");
-      err.status = 400;
-      next(err);
-    }
-
-    // authorization middleware here:
-    const group = await venue.getGroup();
-    if (!group) {
-      const err = new Error("Group couldn't be found");
-      err.status = 404;
-      next(err);
-    }
-
-    const membership = await Membership.findOne({
-      where: { memberId: user.id, groupId: group.id },
+    await venue.update({
+      address: address || venue.address,
+      city: city || venue.city,
+      state: state || venue.state,
+      lat: lat || venue.lat,
+      lng: lng || venue.lng,
     });
 
-    if (!membership || membership.status !== "co-host") {
-      const err = new Error("Must be co-host");
-      err.status = 404;
-      next(err);
-    }
-
-    if (group.organizerId === user.id || membership.status === "co-host") {
-      await venue.update({
-        address: address || venue.address,
-        city: city || venue.city,
-        state: state || venue.state,
-        lat: lat || venue.lat,
-        lng: lng || venue.lng,
-      });
-
-      res.json(venue);
-    }
+    res.json(venue);
   }
 );
+
+// Get all Venues: GET /api/venues
+router.get("/", async (req, res, next) => {
+  const venues = await Venue.findAll();
+  res.json({ Venues: venues });
+});
+
+// Create a Venue: POST /api/venues
+router.post("/", requireAuth, validateVenue, async (req, res, next) => {
+  const venue = await Venue.create(req.body);
+  res.json(venue);
+});
 
 module.exports = router;
