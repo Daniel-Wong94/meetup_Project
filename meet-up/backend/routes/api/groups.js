@@ -308,7 +308,6 @@ router.get("/:groupId", isValidGroup, async (req, res, next) => {
 });
 
 // Update an existing group by id: PATCH /api/groups/:groupId
-// NEEDS AUTHORIZATION
 router.patch(
   "/:groupId",
   requireAuth,
@@ -380,14 +379,9 @@ router.get("/", async (req, res, next) => {
 // Create a group: POST /api/groups
 router.post("/", requireAuth, validateGroup, async (req, res, next) => {
   const { user } = req;
-
-  // const { name, about, type, private, city, state } = await user.createGroup(
-  //   req.body
-  // );
-
   const group = await user.createGroup(req.body);
 
-  res.status(201).json({ name, about, type, private, city, state });
+  res.status(201).json(group);
 });
 
 module.exports = router;
