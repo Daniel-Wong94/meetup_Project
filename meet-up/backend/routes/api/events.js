@@ -139,7 +139,7 @@ router.get("/:eventId/attendees", isValidEvent, async (req, res, next) => {
 
 // Request attendance for an event: POST /api/events/:eventId/attendance
 router.post(
-  "/:eventId/attendance",
+  "/:eventId/attendees",
   isValidEvent,
   requestAttendance,
   async (req, res, next) => {
