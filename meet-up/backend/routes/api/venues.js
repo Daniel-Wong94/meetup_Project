@@ -19,7 +19,7 @@ router.patch(
     const { venue } = req;
     const { address, city, state, lat, lng } = req.body;
 
-    await venue.update({
+    const updated = await venue.update({
       address: address || venue.address,
       city: city || venue.city,
       state: state || venue.state,
@@ -27,7 +27,9 @@ router.patch(
       lng: lng || venue.lng,
     });
 
-    res.json(venue);
+    const { id, groupId } = updated;
+
+    res.json({ id, groupId, address, city, state, lat, lng });
   }
 );
 
