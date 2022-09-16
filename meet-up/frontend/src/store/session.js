@@ -29,11 +29,20 @@ export const login = (user) => async (dispatch) => {
       password,
     }),
   });
-
   const data = await response.json();
   dispatch(setUser(data));
-  return response;
+  return data;
 };
+
+// export const logout = () => async (dispatch) => {
+//   const response = await csrfFetch("/api/users/logout", {
+//     method: "POST",
+//   });
+
+//   const data = await response.json();
+//   dispatch(removeUser());
+//   return data;
+// };
 
 const initialState = { user: null };
 
