@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import styles from "./Navigation.module.css";
 import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 const Navigation = () => {
   const sessionUser = useSelector((state) => state.session.user);
@@ -16,9 +17,7 @@ const Navigation = () => {
         <ProfileButton user={sessionUser} />
       ) : (
         <>
-          <NavLink to="/signup" activeClassName={styles.active}>
-            Sign Up
-          </NavLink>
+          <SignupFormModal />
           <LoginFormModal />
         </>
       )}

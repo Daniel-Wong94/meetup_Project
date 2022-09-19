@@ -2,9 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../store/session";
 import { useState } from "react";
 import styles from "./SignupForm.module.css";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const SignupFormPage = () => {
+const SignupForm = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -58,8 +58,6 @@ const SignupFormPage = () => {
       console.log(errors);
     }
   };
-
-  if (sessionUser) return <Redirect to="/" />;
 
   return (
     !sessionUser && (
@@ -137,4 +135,4 @@ const SignupFormPage = () => {
   );
 };
 
-export default SignupFormPage;
+export default SignupForm;
