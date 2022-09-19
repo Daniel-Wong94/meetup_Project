@@ -1,16 +1,15 @@
 import { NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
-import { logout } from "../../store/session";
 import styles from "./Navigation.module.css";
+import LoginFormModal from "../LoginFormModal";
 
 const Navigation = () => {
   const sessionUser = useSelector((state) => state.session.user);
-  const dispatch = useDispatch();
 
   return (
     <nav className={styles.navigationBar}>
-      <NavLink to="/" activeClassName={styles.active}>
+      <NavLink exact to="/" activeClassName={styles.active}>
         Home
       </NavLink>
       {sessionUser ? (
@@ -20,9 +19,7 @@ const Navigation = () => {
           <NavLink to="/signup" activeClassName={styles.active}>
             Sign Up
           </NavLink>
-          <NavLink to="/login" activeClassName={styles.active}>
-            Log In
-          </NavLink>
+          <LoginFormModal />
         </>
       )}
     </nav>

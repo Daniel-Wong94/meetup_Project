@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/session";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 
-const LoginFormPage = () => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-
-  if (sessionUser) return <Redirect to="/" />;
 
   const handleEmail = (e) => setEmail(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -75,4 +73,4 @@ const LoginFormPage = () => {
   );
 };
 
-export default LoginFormPage;
+export default LoginForm;
