@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/session";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 
 const LoginFormPage = () => {
@@ -39,50 +39,39 @@ const LoginFormPage = () => {
   };
 
   return (
-    <form onSubmit={handleLogin} className={styles.loginForm}>
-      <legend className={styles.loginTitle}>Log In</legend>
-      <p>Not a member yet? Sign Up</p>
-      <div className={styles.loginFields}>
-        {errors["Invalid credentials"] && (
-          <div className={styles.validationError}>
-            {errors["Invalid credentials"]}
-          </div>
-        )}
-        <label htmlFor="email">
-          Email:
-          <input
-            id="email"
-            type="text"
-            value={email}
-            placeholder="Email"
-            onChange={handleEmail}
-          />
-          {errors.email && (
-            <div
-              className={errors.email ? styles.validationError : styles.hidden}
-            >
-              {errors.email}
-            </div>
-          )}
-        </label>
-        <label htmlFor="password">
-          Password:
-          <input
-            id="passowrd"
-            type="password"
-            value={password}
-            placeholder="Password"
-            onChange={handlePassword}
-          />
-          <div
-            className={errors.password ? styles.validationError : styles.hidden}
-          >
-            {errors.password}
-          </div>
-        </label>
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    !sessionUser && (
+      <form onSubmit={handleLogin} className={styles.loginForm}>
+        <legend className={styles.loginTitle}>Log In</legend>
+        <p>
+          Not a member yet? <Link to="/signup">Sign Up</Link>
+        </p>
+        <div className={styles.loginFields}>
+          <label htmlFor="email">
+            Email:
+            <input
+              id="email"
+              type="text"
+              value={email}
+              placeholder="Email"
+              onChange={handleEmail}
+            />
+            <div className={styles.validationError}>{errors.email}</div>
+          </label>
+          <label htmlFor="password">
+            Password:
+            <input
+              id="passowrd"
+              type="password"
+              value={password}
+              placeholder="Password"
+              onChange={handlePassword}
+            />
+            <div className={styles.validationError}>{errors.password}</div>
+          </label>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    )
   );
 };
 

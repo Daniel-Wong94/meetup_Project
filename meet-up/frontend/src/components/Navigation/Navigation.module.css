@@ -1,0 +1,15 @@
+.navigationBar > * {
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+.navigationBar {
+  background-color: white;
+  display: block;
+  width: 100%;
+  border: 1px solid blue;
+}
+
+.active {
+  font-size: 30px;
+}

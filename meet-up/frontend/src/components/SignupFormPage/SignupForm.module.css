@@ -1,4 +1,4 @@
-.loginForm {
+.signupForm {
   /* border: 1px solid blue; */
   box-sizing: border-box;
   border-radius: 5px;
@@ -11,27 +11,27 @@
   margin-top: 50px;
 }
 
-.loginTitle {
+.signupTitle {
   font-family: sans-serif;
   font-size: 26px;
   font-weight: bold;
 }
 
-.loginFields {
+.signupFields {
   display: flex;
   flex-direction: column;
 }
 
-.loginFields input {
+.signupFields input {
   width: 100%;
 }
 
-.loginFields label {
+.signupFields label {
   margin: 10px 0;
 }
 
 .validationError {
-  font-size: 1px;
+  font-size: 10px;
   color: red;
   margin-top: 4px;
 }
@@ -40,9 +40,9 @@
   visibility: hidden;
 }
 
-body {
-  background-color: #f65858;
+/* body {
+  background-color: rgb(66, 66, 144);
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */

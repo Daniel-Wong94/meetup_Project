@@ -21,28 +21,23 @@ const removeUser = () => {
 
 // THUNK creators:
 export const login = (user) => async (dispatch) => {
-  const { email, password } = user;
   const response = await csrfFetch("/api/users/login", {
     method: "POST",
-    body: JSON.stringify({
-      email,
-      password,
-    }),
+    body: JSON.stringify(user),
   });
   const data = await response.json();
   dispatch(setUser(data));
   return data;
 };
 
-// export const logout = () => async (dispatch) => {
-//   const response = await csrfFetch("/api/users/logout", {
-//     method: "POST",
-//   });
+export const logout = () => async (dispatch) => {
+  const response = await csrfFetch("/api/users/logout", {
+    method: "POST",
+  });
 
-//   const data = await response.json();
-//   dispatch(removeUser());
-//   return data;
-// };
+  dispatch(removeUser());
+  return response;
+};
 
 export const restoreUser = () => async (dispatch) => {
   const response = await csrfFetch("/api/users/profile");
@@ -50,6 +45,17 @@ export const restoreUser = () => async (dispatch) => {
 
   dispatch(setUser(data));
   return response;
+};
+
+export const signup = (payload) => async (dispatch) => {
+  const response = await csrfFetch("/api/users/signup", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  dispatch(setUser(data));
+  return data;
 };
 
 const initialState = { user: null };
