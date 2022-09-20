@@ -8,12 +8,14 @@ const FormModal = () => {
   const [showSignup, setShowSignup] = useState(false);
 
   const switchToLogin = (e) => {
+    console.log("switched to login");
     e.preventDefault();
     setShowLogin(true);
     setShowSignup(false);
   };
 
   const switchToSignup = (e) => {
+    console.log("switched to signup");
     e.preventDefault();
     setShowLogin(false);
     setShowSignup(true);

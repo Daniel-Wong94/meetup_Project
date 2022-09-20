@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../store/session";
 import { useState } from "react";
 import styles from "./SignupForm.module.css";
+import { Link } from "react-router-dom";
 
 const SignupForm = ({ switchToLogin }) => {
   const [firstName, setFirstName] = useState("");
@@ -64,7 +65,7 @@ const SignupForm = ({ switchToLogin }) => {
       <form onSubmit={handleSignup} className={styles.signupForm}>
         <legend className={styles.signupTitle}>Sign Up</legend>
         <p>
-          Already a member? <button onClick={switchToLogin}>Log In</button>
+          Already a member? <Link onClick={switchToLogin}>Log In</Link>
         </p>
         <div className={styles.signupFields}>
           <label htmlFor="firstName">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/session";
 import styles from "./LoginForm.module.css";
+import { Link } from "react-router-dom";
 
 const LoginForm = ({ switchToSignup }) => {
   const [email, setEmail] = useState("");
@@ -40,7 +41,7 @@ const LoginForm = ({ switchToSignup }) => {
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <legend className={styles.loginTitle}>Log In</legend>
         <p>
-          Not a member yet? <button onClick={switchToSignup}>Sign Up</button>
+          Not a member yet? <Link onClick={switchToSignup}>Sign Up</Link>
         </p>
         <div className={styles.loginFields}>
           <label htmlFor="email">
