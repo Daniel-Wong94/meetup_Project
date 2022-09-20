@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/session";
-import { Link } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 
-const LoginForm = () => {
+const LoginForm = ({ switchToSignup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -41,7 +40,7 @@ const LoginForm = () => {
       <form onSubmit={handleLogin} className={styles.loginForm}>
         <legend className={styles.loginTitle}>Log In</legend>
         <p>
-          Not a member yet? <Link to="/signup">Sign Up</Link>
+          Not a member yet? <button onClick={switchToSignup}>Sign Up</button>
         </p>
         <div className={styles.loginFields}>
           <label htmlFor="email">

@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../store/session";
 import { useState } from "react";
 import styles from "./SignupForm.module.css";
-import { Link } from "react-router-dom";
 
-const SignupForm = () => {
+const SignupForm = ({ switchToLogin }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,6 +55,7 @@ const SignupForm = () => {
       const data = await err.json();
       setErrors(data.errors);
       console.log(errors);
+      // finish validation error handling!!
     }
   };
 
@@ -64,7 +64,7 @@ const SignupForm = () => {
       <form onSubmit={handleSignup} className={styles.signupForm}>
         <legend className={styles.signupTitle}>Sign Up</legend>
         <p>
-          Already a member? <Link to="/login">Log In</Link>
+          Already a member? <button onClick={switchToLogin}>Log In</button>
         </p>
         <div className={styles.signupFields}>
           <label htmlFor="firstName">
