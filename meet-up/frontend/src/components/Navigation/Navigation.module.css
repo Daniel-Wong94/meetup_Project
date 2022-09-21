@@ -1,15 +1,14 @@
+.navigationBar {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  /* border: 1px solid blue; */
+  position: absolute;
+  width: 100%;
+}
+
 .navigationBar > * {
   text-decoration: none;
   margin-right: 12px;
-}
-
-.navigationBar {
-  background-color: white;
-  display: block;
-  width: 100%;
-  border: 1px solid blue;
-}
-
-.active {
-  font-size: 30px;
 }

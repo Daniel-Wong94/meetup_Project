@@ -1,0 +1,15 @@
+.rightNavContainer {
+  margin: 10px;
+}
+
+.rightNavContainer > a {
+  /* border: 1px solid red; */
+  text-decoration: none;
+  justify-content: space-between;
+  margin-right: 20px;
+  color: black;
+}
+
+.rightNavContainer > a:hover {
+  color: blue;
+}

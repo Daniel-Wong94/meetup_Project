@@ -1,8 +1,8 @@
-import { Switch } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import Landing from "./components/Landing";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +19,7 @@ const App = () => {
     isLoaded && (
       <>
         <Navigation />
-        <Switch></Switch>
+        <Landing />
       </>
     )
   );
