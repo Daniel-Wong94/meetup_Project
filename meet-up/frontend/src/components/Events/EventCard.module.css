@@ -1,0 +1,45 @@
+.eventContainer {
+  display: flex;
+  border-top: 1px solid grey;
+  margin: 10px;
+  padding: 20px;
+  gap: 20px;
+  width: 640px;
+}
+
+/* .imgContainer {
+  /* border: 1px solid red; */
+/* } */
+
+img {
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.eventName {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.eventCity {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #877456;
+  /* margin-bottom: 24px; */
+}
+
+.description,
+.cardFooter {
+  font-size: 14px;
+  color: #757575;
+  margin-top: 24px;
+}

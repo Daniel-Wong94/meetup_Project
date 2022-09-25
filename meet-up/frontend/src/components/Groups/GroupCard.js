@@ -2,10 +2,17 @@ import styles from "./GroupCard.module.css";
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ group }) => {
+  // console.log("group", group);
   return (
     <div className={styles.groupContainer}>
       <div className={styles.imgContainer}>
-        <img src={group.previewImage} alt={group.name} />
+        <img
+          src={
+            group.previewImage ||
+            "https://theme.zdassets.com/theme_assets/2041222/c3ea09fd3c3bd646257ea97a6083bf5f45807354.png"
+          }
+          alt={group.name}
+        />
       </div>
       <div className={styles.detailContainer}>
         <Link to={`/all-groups/${group.id}`}>

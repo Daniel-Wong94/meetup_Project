@@ -60,7 +60,6 @@ export const deleteGroup = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${id}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },
-    body: JSON.stringify(id),
   });
 
   const data = await response.json();
