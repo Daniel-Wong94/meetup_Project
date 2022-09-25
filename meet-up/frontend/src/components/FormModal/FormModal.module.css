@@ -2,14 +2,17 @@
   margin: 10px;
 }
 
-.rightNavContainer > a {
-  /* border: 1px solid red; */
+.rightNavContainer > button {
   text-decoration: none;
   justify-content: space-between;
   margin-right: 20px;
   color: black;
+  background: none;
+  border: none;
+  font-size: 14px;
 }
 
-.rightNavContainer > a:hover {
-  color: blue;
+.rightNavContainer > button:hover {
+  cursor: pointer;
+  color: rgb(1, 130, 148);
 }

@@ -1,0 +1,27 @@
+.gridContainer {
+  border: 1px solid blue;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+  margin: 24px 10vw 0;
+  column-gap: 3rem;
+}
+
+.leftColumn {
+  border: 1px solid red;
+}
+
+.leftColumn h1 {
+  font-size: 42px;
+  font-weight: 600;
+}
+
+.leftColumn h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 40px;
+}
+
+.rightColumn {
+  border: 1px solid green;
+}

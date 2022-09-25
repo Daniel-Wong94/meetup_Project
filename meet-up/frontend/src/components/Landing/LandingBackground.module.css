@@ -2,10 +2,11 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  /* border: 1px solid red; */
+  /* border: 6px solid green; */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: -10000;
 }
 
 .blueBlob {
@@ -13,9 +14,6 @@
   right: 0;
   top: 0;
 }
-
-/* .yellowBlob {
-} */
 
 .redBlob {
   position: absolute;

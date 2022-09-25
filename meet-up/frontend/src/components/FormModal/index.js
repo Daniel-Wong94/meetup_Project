@@ -2,7 +2,6 @@ import LoginForm from "../LoginFormModal/LoginForm";
 import SignupForm from "../SignupFormModal/SignupForm";
 import Modal from "../Modal/index";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "./FormModal.module.css";
 
 const FormModal = () => {
@@ -10,14 +9,12 @@ const FormModal = () => {
   const [showSignup, setShowSignup] = useState(false);
 
   const switchToLogin = (e) => {
-    console.log("switched to login");
     e.preventDefault();
     setShowLogin(true);
     setShowSignup(false);
   };
 
   const switchToSignup = (e) => {
-    console.log("switched to signup");
     e.preventDefault();
     setShowLogin(false);
     setShowSignup(true);
@@ -25,8 +22,8 @@ const FormModal = () => {
 
   return (
     <div className={styles.rightNavContainer}>
-      <Link onClick={() => setShowLogin(true)}>Log In</Link>
-      <Link onClick={() => setShowSignup(true)}>Sign Up</Link>
+      <button onClick={() => setShowLogin(true)}>Log In</button>
+      <button onClick={() => setShowSignup(true)}>Sign Up</button>
       {showLogin && (
         <Modal onClose={() => setShowLogin(false)}>
           <LoginForm switchToSignup={switchToSignup} />

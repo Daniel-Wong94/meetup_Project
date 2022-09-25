@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import Landing from "./components/Landing";
+import LandingBackground from "./components/Landing";
+import LandingContent from "./components/Landing/LandingContent";
+import { Switch, Route } from "react-router";
+import Homepage from "./components/Homepage";
+import Groups from "./components/Groups";
+import GroupDetail from "./components/GroupDetail";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -19,7 +24,21 @@ const App = () => {
     isLoaded && (
       <>
         <Navigation />
-        <Landing />
+        <Switch>
+          <Route exact path="/">
+            <LandingBackground />
+            <LandingContent />
+          </Route>
+          <Route path="/homepage">
+            <Homepage />
+          </Route>
+          <Route exact path="/all-groups">
+            <Groups />
+          </Route>
+          <Route path="/all-groups/:groupId">
+            <GroupDetail />
+          </Route>
+        </Switch>
       </>
     )
   );
