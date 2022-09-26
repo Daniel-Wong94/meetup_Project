@@ -308,8 +308,6 @@ router.get("/", validateEventQuery, async (req, res, next) => {
     }
   }
 
-  console.log("search: ", search);
-
   // NEED TO FORMAT DATE
   const events = await Event.findAll({
     where: {

@@ -42,14 +42,16 @@ module.exports = {
           model: "Venues",
           key: "id",
         },
+        onDelete: "cascade",
       },
       groupId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Venues",
+          model: "Groups",
           key: "id",
         },
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

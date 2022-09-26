@@ -5,19 +5,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Group.belongsTo(models.User, {
         foreignKey: "organizerId",
-        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Event, {
         foreignKey: "groupId",
+        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Venue, {
         foreignKey: "groupId",
+        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Membership, {
         foreignKey: "groupId",
+        onDelete: "CASCADE",
       });
 
       Group.hasMany(models.Image, {
@@ -91,6 +93,20 @@ module.exports = (sequelize, DataTypes) => {
             arg: [true],
             msg: "State is required",
           },
+        },
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        get() {
+          return this.getDataValue("createdAt").toLocaleString("sv");
+        },
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        get() {
+          return this.getDataValue("updatedAt").toLocaleString("sv");
         },
       },
     },

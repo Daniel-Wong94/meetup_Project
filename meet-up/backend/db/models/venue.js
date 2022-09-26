@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Venue.belongsTo(models.Group, {
         foreignKey: "groupId",
+      });
+
+      Venue.hasMany(models.Event, {
+        foreignKey: "venueId",
         onDelete: "CASCADE",
       });
     }
@@ -45,7 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       groupId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        // allowNull: false,
       },
     },
     {

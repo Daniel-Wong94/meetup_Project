@@ -368,25 +368,46 @@ router.patch(
 );
 
 // Delete an existing group by id: DELETE /api/groups/:groupId
-router.delete("/:groupId", requireAuth, async (req, res, next) => {
-  try {
-    const { groupId } = req.params;
-    const { user } = req;
+// router.delete("/:groupId", requireAuth, async (req, res, next) => {
+//   try {
+//     const { groupId } = req.params;
+//     const { user } = req;
 
-    const group = await Group.findByPk(groupId);
+//     const group = await Group.findByPk(groupId);
 
-    if (group.organizerId === user.id) {
-      await group.destroy();
+//     if (group.organizerId === user.id) {
+//       await group.destroy();
+//       res.json({ message: "Successfully deleted", statusCode: 200 });
+//     }
+
+//     throw new Error("Authorization Error");
+//   } catch (e) {
+//     const err = new Error(e.message || "Group couldn't be found");
+//     err.status = 404;
+//     next(err);
+//   }
+// });
+
+router.delete(
+  "/:groupId",
+  requireAuth,
+  isValidGroup,
+  async (req, res, next) => {
+    const { user, group } = req;
+
+    if (await Group.isOrganizer(user.id, group.id)) {
+      await Image.destroy({
+        where: { imageableId: group.id, imageableType: "group" },
+      });
+      await group.destroy({ where: { id: group.id } });
       res.json({ message: "Successfully deleted", statusCode: 200 });
+    } else {
+      const err = new Error("Must be the organizer of the group");
+      err.status = 401;
+      next(err);
     }
-
-    throw new Error("Authorization Error");
-  } catch (e) {
-    const err = new Error(e.message || "Group couldn't be found");
-    err.status = 404;
-    next(err);
   }
-});
+);
 
 // Get all groups: GET /api/groups
 router.get("/", async (req, res, next) => {
