@@ -4,6 +4,7 @@ import { getGroups } from "../../store/groups";
 import GroupCard from "./GroupCard";
 
 const Groups = () => {
+  console.log("in groups");
   const dispatch = useDispatch();
   // const sessionUser = useSelector((state) => state.session.user);
   const groups = Object.values(useSelector((state) => state.groups));

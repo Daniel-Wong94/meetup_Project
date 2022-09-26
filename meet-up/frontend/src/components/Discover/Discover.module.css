@@ -1,0 +1,10 @@
+.discoverNav a {
+  color: black;
+  text-decoration: none;
+  padding: 0 20px;
+  font-size: 28px;
+}
+
+.active {
+  color: pink;
+}

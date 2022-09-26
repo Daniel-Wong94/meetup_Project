@@ -5,6 +5,8 @@ const CREATE_GROUP = "/groups/ADD_GROUP";
 const UPDATE_GROUP = "/groups/UPDATE_GROUP";
 const DELETE_GROUP = "/groups/DELETE_GROUP";
 
+const SET_MEMBERS = "/groups/members/SET_MEMBERS";
+
 const setGroups = (groups) => {
   return {
     type: SET_GROUPS,
@@ -31,6 +33,14 @@ const removeGroup = (id) => {
   return {
     type: DELETE_GROUP,
     id,
+  };
+};
+
+const setMembers = (groupId, members) => {
+  return {
+    type: SET_MEMBERS,
+    groupId,
+    members,
   };
 };
 
@@ -63,11 +73,20 @@ export const deleteGroup = (id) => async (dispatch) => {
   });
 
   const data = await response.json();
+
   console.log("data", data);
 
   if (response.ok) dispatch(removeGroup(id));
 
   console.log("response", response);
+};
+
+export const getMembers = (groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/members`);
+
+  const data = await response.json();
+
+  if (response.ok) dispatch(setMembers(groupId, data.Members));
 };
 
 const groupReducer = (state = {}, action) => {
@@ -84,6 +103,13 @@ const groupReducer = (state = {}, action) => {
       return newState;
     case DELETE_GROUP:
       delete newState[action.id];
+      return newState;
+    case SET_MEMBERS:
+      if (state[action.groupId]["members"])
+        newState[action.groupId]["members"] = [
+          ...state[action.groupId]["members"],
+        ];
+      newState[action.groupId]["members"] = action.members;
       return newState;
     default:
       return state;

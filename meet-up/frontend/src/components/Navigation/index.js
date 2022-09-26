@@ -10,8 +10,9 @@ const Navigation = () => {
 
   const loggedIn = (
     <>
-      <NavLink to="/all-events">Events</NavLink>
-      <NavLink to="/all-groups">Groups</NavLink>
+      {/* <NavLink to="/all-events">Events</NavLink>
+      <NavLink to="/all-groups">Groups</NavLink> */}
+      <NavLink to="/discover/groups">Discover</NavLink>
       <ProfileButton user={sessionUser} />
     </>
   );
