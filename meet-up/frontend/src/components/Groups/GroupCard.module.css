@@ -2,16 +2,11 @@
   display: flex;
   border-top: 1px solid grey;
   margin: 10px;
-  padding: 20px;
+  padding: 20px 10px;
   gap: 20px;
-  width: 640px;
 }
 
-/* .imgContainer {
-  /* border: 1px solid red; */
-/* } */
-
-img {
+.image {
   border-radius: 10px;
   width: 300px;
   height: 200px;
@@ -22,6 +17,7 @@ img {
 .detailContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .groupName {
@@ -34,7 +30,6 @@ img {
   font-size: 14px;
   text-transform: uppercase;
   color: #877456;
-  /* margin-bottom: 24px; */
 }
 
 .about,
@@ -42,4 +37,10 @@ img {
   font-size: 14px;
   color: #757575;
   margin-top: 24px;
+}
+
+@media screen and (max-width: 1000px) {
+  .image {
+    display: none;
+  }
 }

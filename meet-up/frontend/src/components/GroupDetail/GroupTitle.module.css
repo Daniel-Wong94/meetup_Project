@@ -1,3 +1,22 @@
 .groupTitleContainer {
+  /* border: 1px solid red; */
   display: flex;
+  gap: 20px;
+}
+
+.infoContainer {
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.groupName {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.infoContainer p {
+  font-size: 16px;
 }

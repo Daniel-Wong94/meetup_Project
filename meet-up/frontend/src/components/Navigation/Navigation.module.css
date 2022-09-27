@@ -1,4 +1,4 @@
-.navBar {
+.loggedOutNav {
   /* border: 1px solid blue; */
   display: flex;
   position: absolute;
@@ -9,7 +9,7 @@
   width: 100%;
 }
 
-.homepageNavBar {
+.loggedInNav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,7 +20,14 @@
   border-bottom: 1px solid #e6e6e6;
 }
 
-.navigationBar > * {
+.loggedInLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loggedInLinks > a {
   text-decoration: none;
-  margin-right: 12px;
+  margin-right: 10px;
+  font-size: 18px;
 }

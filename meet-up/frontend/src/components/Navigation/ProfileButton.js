@@ -33,12 +33,12 @@ const ProfileButton = ({ user }) => {
       {showMenu && (
         <div className="dropdown">
           <ul>
-            <li>
+            {/* <li>
               <Link to="/profile/events">Your Events</Link>
             </li>
             <li>
               <Link to="/profile/groups">Your Groups</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/profile/settings">Settings</Link>
             </li>

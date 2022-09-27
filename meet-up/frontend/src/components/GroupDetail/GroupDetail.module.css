@@ -1,0 +1,7 @@
+.groupDetailContainer {
+  /* border: 1px solid blue; */
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10%;
+  gap: 10px;
+}

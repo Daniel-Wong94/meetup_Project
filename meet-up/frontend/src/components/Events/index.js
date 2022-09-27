@@ -5,7 +5,7 @@ import EventCard from "./EventCard";
 
 const Events = () => {
   const dispatch = useDispatch();
-  // const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user);
   const events = Object.values(useSelector((state) => state.events));
 
   useEffect(() => {

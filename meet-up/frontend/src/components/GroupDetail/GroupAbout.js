@@ -17,7 +17,7 @@ const GroupAbout = ({ group }) => {
   return (
     members && (
       <div className={styles.groupAboutContainer}>
-        <div>
+        <div className={styles.about}>
           <h2>What we're about</h2>
           <p>{group.about}</p>
         </div>

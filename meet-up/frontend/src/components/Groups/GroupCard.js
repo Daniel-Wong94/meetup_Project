@@ -6,6 +6,7 @@ const GroupCard = ({ group }) => {
     <div className={styles.groupContainer}>
       <div className={styles.imgContainer}>
         <img
+          className={styles.image}
           src={
             group.previewImage ||
             "https://theme.zdassets.com/theme_assets/2041222/c3ea09fd3c3bd646257ea97a6083bf5f45807354.png"
@@ -14,12 +15,14 @@ const GroupCard = ({ group }) => {
         />
       </div>
       <div className={styles.detailContainer}>
-        <Link to={`/discover/groups/${group.id}`}>
-          <h1 className={styles.groupName}>{group.name}</h1>
-        </Link>
-        <h2 className={styles.groupCity}>
-          {group.city}, {group.state}
-        </h2>
+        <div>
+          <Link to={`/discover/groups/${group.id}`}>
+            <h1 className={styles.groupName}>{group.name}</h1>
+          </Link>
+          <h2 className={styles.groupCity}>
+            {group.city}, {group.state}
+          </h2>
+        </div>
         <p className={styles.about}>{group.about}</p>
         <p className={styles.cardFooter}>
           {group.numMembers} members · {group.private ? "Private" : "Public"} ·{" "}

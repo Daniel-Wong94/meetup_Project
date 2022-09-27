@@ -9,16 +9,17 @@ const Navigation = () => {
   const sessionUser = useSelector((state) => state.session.user);
 
   const loggedIn = (
-    <>
+    <div className={styles.loggedInLinks}>
       <NavLink to="/discover/groups">Discover</NavLink>
+      <NavLink to="/profile/create-group">Create a Group</NavLink>
       <ProfileButton user={sessionUser} />
-    </>
+    </div>
   );
 
   const loggedOut = <FormModal />;
 
   return (
-    <nav className={sessionUser ? styles.homepageNavBar : styles.navBar}>
+    <nav className={sessionUser ? styles.loggedInNav : styles.loggedOutNav}>
       <NavLink exact to={sessionUser ? "/homepage" : "/"}>
         <MeetupLogo />
       </NavLink>

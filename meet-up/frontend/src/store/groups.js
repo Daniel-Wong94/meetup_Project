@@ -84,6 +84,18 @@ export const getMembers = (groupId) => async (dispatch) => {
   if (response.ok) dispatch(setMembers(groupId, data.Members));
 };
 
+export const updateGroup = (group, groupId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}`, {
+    method: "PATCH",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(group),
+  });
+
+  const data = await response.json();
+
+  console.log("update data", response);
+};
+
 const groupReducer = (state = {}, action) => {
   let newState = { ...state };
   switch (action.type) {
@@ -94,7 +106,7 @@ const groupReducer = (state = {}, action) => {
       newState[action.group.id] = action.group;
       return newState;
     case UPDATE_GROUP:
-      newState[action.id] = { ...action.payload };
+      newState[action.id] = { ...state[action.id], ...action.group };
       return newState;
     case DELETE_GROUP:
       delete newState[action.id];

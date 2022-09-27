@@ -10,9 +10,20 @@ const Discover = () => {
   return (
     <div>
       <ul className={styles.discoverNav}>
-        <NavLink to="/discover/groups">Groups</NavLink>
-        <NavLink to="/discover/events">Events</NavLink>
+        <NavLink
+          to="/discover/groups"
+          className={(state) => (state ? styles.active : styles.inactive)}
+        >
+          Groups
+        </NavLink>
+        <NavLink
+          to="/discover/events"
+          className={(state) => (state ? styles.active : styles.inactive)}
+        >
+          Events
+        </NavLink>
       </ul>
+
       <Route exact path="/discover/groups">
         <Groups />
       </Route>

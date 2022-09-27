@@ -1,21 +1,30 @@
 import { useState } from "react";
-import STATES from "../../elements/states.json";
+import { useDispatch, useSelector } from "react-redux";
+import { addGroup } from "../../store/groups";
+import { useHistory } from "react-router-dom";
+import STATES from "../../assets/states.json";
 import styles from "./GroupForm.module.css";
 
 const GroupForm = () => {
-  const [title, setTitle] = useState("");
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const sessionUser = useSelector((state) => state.session.user);
+  const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [type, setType] = useState("In person");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
 
-  const handleSubmit = (e) => {
+  // Still need validations
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const form = { title, about, type, city, state, isPrivate };
+    const form = { name, about, type, city, state, private: isPrivate };
+    const result = await dispatch(addGroup(form));
 
-    console.log("form", form);
+    console.log("result", result);
+    return history.push("/profile/groups");
   };
 
   // for state selection
@@ -31,7 +40,7 @@ const GroupForm = () => {
     select.size = 0;
   };
 
-  return (
+  return sessionUser ? (
     <div className={styles.groupFormContainer}>
       <form onSubmit={handleSubmit} className={styles.groupForm}>
         <div className={styles.formName}>
@@ -39,12 +48,12 @@ const GroupForm = () => {
           <p>Fill out the form to create a group</p>
         </div>
         <div className={styles.groupFormField}>
-          <label htmlFor="title">Title:</label>
+          <label htmlFor="name">Name:</label>
           <input
-            id="title"
+            id="name"
             type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
           <label htmlFor="type">
@@ -112,63 +121,9 @@ const GroupForm = () => {
         <button>Create Group</button>
       </form>
     </div>
+  ) : (
+    "FORBIDDEN"
   );
 };
 
 export default GroupForm;
-
-{
-  /* <select>
-	<option value="AL">AL</option>
-	<option value="AK">AK</option>
-	<option value="AR">AR</option>
-	<option value="AZ">AZ</option>
-	<option value="CA">CA</option>
-	<option value="CO">CO</option>
-	<option value="CT">CT</option>
-	<option value="DC">DC</option>
-	<option value="DE">DE</option>
-	<option value="FL">FL</option>
-	<option value="GA">GA</option>
-	<option value="HI">HI</option>
-	<option value="IA">IA</option>
-	<option value="ID">ID</option>
-	<option value="IL">IL</option>
-	<option value="IN">IN</option>
-	<option value="KS">KS</option>
-	<option value="KY">KY</option>
-	<option value="LA">LA</option>
-	<option value="MA">MA</option>
-	<option value="MD">MD</option>
-	<option value="ME">ME</option>
-	<option value="MI">MI</option>
-	<option value="MN">MN</option>
-	<option value="MO">MO</option>
-	<option value="MS">MS</option>
-	<option value="MT">MT</option>
-	<option value="NC">NC</option>
-	<option value="NE">NE</option>
-	<option value="NH">NH</option>
-	<option value="NJ">NJ</option>
-	<option value="NM">NM</option>
-	<option value="NV">NV</option>
-	<option value="NY">NY</option>
-	<option value="ND">ND</option>
-	<option value="OH">OH</option>
-	<option value="OK">OK</option>
-	<option value="OR">OR</option>
-	<option value="PA">PA</option>
-	<option value="RI">RI</option>
-	<option value="SC">SC</option>
-	<option value="SD">SD</option>
-	<option value="TN">TN</option>
-	<option value="TX">TX</option>
-	<option value="UT">UT</option>
-	<option value="VT">VT</option>
-	<option value="VA">VA</option>
-	<option value="WA">WA</option>
-	<option value="WI">WI</option>
-	<option value="WV">WV</option>
-	<option value="WY">WY</option>
-</select> */
-}

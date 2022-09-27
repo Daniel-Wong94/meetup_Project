@@ -3,18 +3,19 @@ import styles from "./GroupTitle.module.css";
 const GroupTitle = ({ group }) => {
   return (
     <div className={styles.groupTitleContainer}>
-      <div>
+      <div className={styles.imageContainer}>
         <img src={group.previewImage} alt={group.name} />
       </div>
-      <div>
-        <h1>{group.name}</h1>
+      <div className={styles.infoContainer}>
+        <h1 className={styles.groupName}>{group.name}</h1>
         <p>
           {group.city}, {group.state}
         </p>
         <p>
-          {group.numOfMembers} members . {group.private ? "Private" : "Public"}
+          {group.numMembers} members . {group.private ? "Private" : "Public"}{" "}
+          Group
         </p>
-        <p>{group.organizerId}</p>
+        <p>Organized by User {group.organizerId}</p>
       </div>
     </div>
   );
