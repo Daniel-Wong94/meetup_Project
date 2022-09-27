@@ -7,7 +7,6 @@ const Events = () => {
   const dispatch = useDispatch();
   // const sessionUser = useSelector((state) => state.session.user);
   const events = Object.values(useSelector((state) => state.events));
-  console.log("events", events);
 
   useEffect(() => {
     (async () => {

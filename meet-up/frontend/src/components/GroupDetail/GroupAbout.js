@@ -8,7 +8,6 @@ const GroupAbout = ({ group }) => {
   const dispatch = useDispatch();
   const members = useSelector((state) => state.groups[group.id]["members"]);
 
-  console.log("members", members);
   useEffect(() => {
     (async () => {
       await dispatch(getMembers(group.id));

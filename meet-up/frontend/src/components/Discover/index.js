@@ -4,22 +4,26 @@ import Events from "../Events";
 import Groups from "../Groups";
 import GroupDetail from "../GroupDetail";
 import styles from "./Discover.module.css";
+import EventDetail from "../EventDetail";
 
 const Discover = () => {
   return (
     <div>
-      <u className={styles.discoverNav}>
+      <ul className={styles.discoverNav}>
         <NavLink to="/discover/groups">Groups</NavLink>
         <NavLink to="/discover/events">Events</NavLink>
-      </u>
+      </ul>
       <Route exact path="/discover/groups">
         <Groups />
       </Route>
       <Route path="/discover/groups/:groupId">
         <GroupDetail />
       </Route>
-      <Route path="/discover/events">
+      <Route exact path="/discover/events">
         <Events />
+      </Route>
+      <Route path="/discover/events/:eventId">
+        <EventDetail />
       </Route>
     </div>
   );

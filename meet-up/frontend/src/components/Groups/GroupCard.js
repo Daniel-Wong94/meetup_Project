@@ -2,7 +2,6 @@ import styles from "./GroupCard.module.css";
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ group }) => {
-  // console.log("group", group);
   return (
     <div className={styles.groupContainer}>
       <div className={styles.imgContainer}>

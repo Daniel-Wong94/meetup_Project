@@ -65,20 +65,15 @@ export const addGroup = (group) => async (dispatch) => {
   return response;
 };
 
-// WORK IN PROGRESS
 export const deleteGroup = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${id}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },
   });
 
-  const data = await response.json();
+  await response.json();
 
-  console.log("data", data);
-
-  if (response.ok) dispatch(removeGroup(id));
-
-  console.log("response", response);
+  if (response.ok) return dispatch(removeGroup(id));
 };
 
 export const getMembers = (groupId) => async (dispatch) => {

@@ -39,7 +39,7 @@ const EventCard = ({ event }) => {
               timeZone: "America/New_York",
             })}
           </p>
-          <Link to={`/all-events/${event.id}`}>
+          <Link to={`/discover/events/${event.id}`}>
             <h1 className={styles.eventName}>{event.name}</h1>
           </Link>
           <h2 className={styles.eventCity}>

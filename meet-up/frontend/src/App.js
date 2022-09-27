@@ -6,10 +6,10 @@ import LandingBackground from "./components/Landing";
 import LandingContent from "./components/Landing/LandingContent";
 import { Switch, Route } from "react-router";
 import Homepage from "./components/Homepage";
-// import Groups from "./components/Groups";
-// import GroupDetail from "./components/GroupDetail";
-// import Events from "./components/Events";
+import Groups from "./components/Groups";
 import Discover from "./components/Discover";
+import Events from "./components/Events";
+import Profile from "./components/Profile";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,18 +34,13 @@ const App = () => {
           <Route path="/homepage">
             <Homepage />
           </Route>
-          {/* <Route exact path="/all-groups">
-            <Groups />
-          </Route>
-          <Route path="/all-groups/:groupId">
-            <GroupDetail />
-          </Route>
-          <Route path="/all-events">
-            <Events />
-          </Route> */}
           <Route path="/discover">
             <Discover />
           </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route>404 PAGE NOT FOUND</Route>
         </Switch>
       </>
     )

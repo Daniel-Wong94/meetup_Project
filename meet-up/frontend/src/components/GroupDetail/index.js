@@ -3,7 +3,6 @@ import GroupNav from "./GroupNav";
 import GroupAbout from "./GroupAbout";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-// import { Route } from "react-router";
 
 const GroupDetail = () => {
   const { groupId } = useParams();
@@ -11,13 +10,14 @@ const GroupDetail = () => {
     (group) => group.id === Number(groupId)
   );
 
-  return (
+  return group ? (
     <div>
-      Group Detail
       <GroupTitle group={group} />
       <GroupNav group={group} />
       <GroupAbout group={group} />
     </div>
+  ) : (
+    <h1>This group has been deleted!</h1>
   );
 };
 
