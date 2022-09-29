@@ -21,7 +21,7 @@
   width: 100%;
 }
 
-.buttonContainer button {
+.buttonContainer * {
   font-weight: 700;
   color: white;
   background-color: #f65858;
@@ -31,9 +31,10 @@
   font-size: 16px;
   margin-right: 10px;
   cursor: pointer;
+  text-decoration: none;
 }
 
-.buttonContainer button:hover {
+.buttonContainer *:hover {
   opacity: 0.8;
   cursor: pointer;
 }

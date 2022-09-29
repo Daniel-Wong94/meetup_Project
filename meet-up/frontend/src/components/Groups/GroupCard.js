@@ -16,7 +16,7 @@ const GroupCard = ({ group }) => {
       </div>
       <div className={styles.detailContainer}>
         <div>
-          <Link to={`/discover/groups/${group.id}`}>
+          <Link to={`/discover/groups/${group.id}/about`}>
             <h1 className={styles.groupName}>{group.name}</h1>
           </Link>
           <h2 className={styles.groupCity}>

@@ -1,9 +1,9 @@
 import { csrfFetch } from "./csrf";
 
-const SET_EVENTS = "/groups/SET_EVENTS";
-const CREATE_EVENT = "/groups/ADD_EVENT";
-const UPDATE_EVENT = "/groups/UPDATE_EVENT";
-const DELETE_EVENT = "/groups/DELETE_EVENT";
+const SET_EVENTS = "/events/SET_EVENTS";
+const CREATE_EVENT = "/events/ADD_EVENT";
+const UPDATE_EVENT = "/events/UPDATE_EVENT";
+const DELETE_EVENT = "/events/DELETE_EVENT";
 
 const setEvents = (events) => {
   return {
@@ -59,16 +59,11 @@ export const addEvent = (event) => async (dispatch) => {
 export const deleteEvent = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${id}`, {
     method: "DELETE",
-    headers: { "Content-type": "application/json" },
-    body: JSON.stringify(id),
   });
 
   const data = await response.json();
-  console.log("data", data);
 
   if (response.ok) dispatch(removeEvent(id));
-
-  console.log("response", response);
 };
 
 const eventReducer = (state = {}, action) => {

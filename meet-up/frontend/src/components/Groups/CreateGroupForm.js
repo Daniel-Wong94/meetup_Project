@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addGroup } from "../../store/groups";
 import { useHistory } from "react-router-dom";
 import STATES from "../../assets/states.json";
 import styles from "./GroupForm.module.css";
 
-const GroupForm = () => {
+const CreateGroupForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const selectElement = useRef(null);
+
   const sessionUser = useSelector((state) => state.session.user);
+
   const [name, setName] = useState("");
   const [about, setAbout] = useState("");
   const [type, setType] = useState("In person");
@@ -21,25 +24,23 @@ const GroupForm = () => {
     e.preventDefault();
 
     const form = { name, about, type, city, state, private: isPrivate };
-    const result = await dispatch(addGroup(form));
+    await dispatch(addGroup(form));
 
-    console.log("result", result);
-    return history.push("/profile/groups");
+    return history.push("/homepage/groups");
   };
 
-  // for state selection
+  // useRef for DOM selection - for state select tag
   const handleMouseDown = (e) => {
-    const select = document.querySelector("#state");
-    if (e.target.length > 8) select.size = 8;
+    if (selectElement.current.length > 8) selectElement.current.size = 8;
   };
 
   // on click - set state and reset size to 0
   const handleStateChange = (e) => {
-    const select = document.querySelector("#state");
     setState(e.target.value);
-    select.size = 0;
+    selectElement.current.size = 0;
   };
 
+  // BUG: /EDIT-GROUP/{DELETED GROUP} RENDERS CREATE GROUP FORM
   return sessionUser ? (
     <div className={styles.groupFormContainer}>
       <form onSubmit={handleSubmit} className={styles.groupForm}>
@@ -96,6 +97,7 @@ const GroupForm = () => {
             id="state"
             value={state}
             required
+            ref={selectElement}
             onMouseDown={handleMouseDown}
             onChange={handleStateChange}
           >
@@ -126,4 +128,4 @@ const GroupForm = () => {
   );
 };
 
-export default GroupForm;
+export default CreateGroupForm;

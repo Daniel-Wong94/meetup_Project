@@ -1,32 +1,66 @@
 import GroupTitle from "./GroupTitle";
-import GroupNav from "./GroupNav";
 import GroupAbout from "./GroupAbout";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getGroups } from "../../store/groups";
-import { useEffect } from "react";
+import { useParams, NavLink, useHistory } from "react-router-dom";
 import styles from "./GroupDetail.module.css";
+import {
+  deleteGroup,
+  fetchEventsByGroup,
+  fetchGroupDetail,
+} from "../../store/groups";
+import { useState, useEffect } from "react";
+import { getMembers } from "../../store/groups";
 
 const GroupDetail = () => {
   const dispatch = useDispatch();
-  const { groupId } = useParams();
-  const group = Object.values(useSelector((state) => state.groups)).find(
-    (group) => group.id === Number(groupId)
-  );
+  const history = useHistory();
 
-  const deleted = <h1>This group has been deleted!</h1>;
+  const [loaded, setLoaded] = useState(false);
+  const { groupId } = useParams();
+
+  const group = useSelector((state) => state.groups[groupId]);
 
   useEffect(() => {
     (async () => {
-      await dispatch(getGroups());
+      await dispatch(fetchGroupDetail(groupId));
+      await dispatch(getMembers(groupId));
+      await dispatch(fetchEventsByGroup(groupId));
+      setLoaded(true);
     })();
-  }, [dispatch]);
+  }, [dispatch, groupId]);
 
-  return group ? (
+  const sessionUser = useSelector((state) => state.session.user);
+  const isOrganizer = group?.organizerId === sessionUser.id;
+  const deleted = <h1>This group has been deleted!</h1>;
+
+  const handleDeleteGroup = async (e) => {
+    e.preventDefault();
+
+    await dispatch(deleteGroup(group.id));
+
+    return history.push(`/discover/groups/${group.id}`);
+  };
+
+  return loaded && group ? (
     <div className={styles.groupDetailContainer}>
       <GroupTitle group={group} />
-      <GroupNav group={group} />
-      <GroupAbout group={group} />
+      <div className={styles.navContainer}>
+        <ul className={styles.navLinks}>
+          <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
+          <NavLink to={`/discover/groups/${group.id}/events`}>Events</NavLink>
+        </ul>
+        {isOrganizer ? (
+          <div className={styles.buttonContainer}>
+            <button onClick={handleDeleteGroup}>Delete Group</button>
+            <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
+          </div>
+        ) : (
+          <div className={styles.buttonContainer}>
+            <button>Join this group</button>
+          </div>
+        )}
+      </div>
+      <GroupAbout members={group.members} />
     </div>
   ) : (
     deleted

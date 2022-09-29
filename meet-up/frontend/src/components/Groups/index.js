@@ -1,20 +1,18 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getGroups } from "../../store/groups";
 import GroupCard from "./GroupCard";
-import { Link } from "react-router-dom";
+import { fetchUserGroups } from "../../store/session";
+import { useEffect, useState } from "react";
+import { getGroups } from "../../store/groups";
 
-const Groups = ({ owner }) => {
+const Groups = () => {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const allGroups = Object.values(useSelector((state) => state.groups));
-  const userGroups = allGroups.filter(
-    (group) => group.organizerId === sessionUser.id
-  );
+  const [loaded, setLoaded] = useState(false);
+  const groups = Object.values(useSelector((state) => state.groups));
 
   useEffect(() => {
     (async () => {
       await dispatch(getGroups());
+      setLoaded(true);
     })();
   }, [dispatch]);
 
@@ -22,10 +20,11 @@ const Groups = ({ owner }) => {
     groups.map((group) => <GroupCard key={group.id} group={group} />);
 
   return (
-    <div>
-      <ul>{owner ? renderGroups(userGroups) : renderGroups(allGroups)}</ul>
-      {userGroups.length <= 0 && "You do not have any groups!"}
-    </div>
+    loaded && (
+      <div>
+        <ul>{renderGroups(groups)}</ul>
+      </div>
+    )
   );
 };
 

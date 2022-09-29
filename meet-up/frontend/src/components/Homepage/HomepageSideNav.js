@@ -8,7 +8,7 @@ const HomepageSideNav = () => {
 
   return (
     <div>
-      <label forHtml="date">Pick a Date:</label>
+      <label htmlFor="date">Pick a Date:</label>
       <input
         type="date"
         id="date"

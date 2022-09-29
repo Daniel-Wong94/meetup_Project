@@ -11,7 +11,7 @@ const Navigation = () => {
   const loggedIn = (
     <div className={styles.loggedInLinks}>
       <NavLink to="/discover/groups">Discover</NavLink>
-      <NavLink to="/profile/create-group">Create a Group</NavLink>
+      <NavLink to="/create-group">Create a Group</NavLink>
       <ProfileButton user={sessionUser} />
     </div>
   );

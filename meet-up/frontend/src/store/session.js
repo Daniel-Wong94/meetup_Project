@@ -4,6 +4,7 @@ import { csrfFetch } from "./csrf";
 // Type constants:
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
+const SET_USER_GROUPS = "session/SET_USER_GROUPS";
 
 // Action creators:
 const setUser = (user) => {
@@ -16,6 +17,13 @@ const setUser = (user) => {
 const removeUser = () => {
   return {
     type: REMOVE_USER,
+  };
+};
+
+const setUserGroups = (groups) => {
+  return {
+    type: SET_USER_GROUPS,
+    groups,
   };
 };
 
@@ -58,6 +66,16 @@ export const signup = (payload) => async (dispatch) => {
   return data;
 };
 
+export const fetchUserGroups = () => async (dispatch) => {
+  const response = await csrfFetch("/api/users/profile/groups");
+  const data = await response.json();
+
+  const groups = {};
+  data.Groups.forEach((group) => (groups[group.id] = group));
+
+  dispatch(setUserGroups(groups));
+};
+
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
@@ -68,6 +86,9 @@ const sessionReducer = (state = initialState, action) => {
       return newState;
     case REMOVE_USER:
       newState.user = null;
+      return newState;
+    case SET_USER_GROUPS:
+      newState.groups = { ...state.groups, ...action.groups };
       return newState;
     default:
       return state;

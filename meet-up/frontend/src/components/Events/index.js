@@ -1,27 +1,30 @@
-import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getEvents } from "../../store/events";
 import EventCard from "./EventCard";
+import { useEffect, useState } from "react";
+import { getEvents } from "../../store/events";
 
 const Events = () => {
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const events = Object.values(useSelector((state) => state.events));
+  const allEvents = Object.values(useSelector((state) => state.events));
 
   useEffect(() => {
     (async () => {
       await dispatch(getEvents());
+      setLoaded(true);
     })();
   }, [dispatch]);
 
   return (
-    <div>
-      <ul>
-        {events.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))}
-      </ul>
-    </div>
+    loaded && (
+      <div>
+        <ul>
+          {allEvents.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
+        </ul>
+      </div>
+    )
   );
 };
 

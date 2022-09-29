@@ -6,10 +6,12 @@ import LandingBackground from "./components/Landing";
 import LandingContent from "./components/Landing/LandingContent";
 import { Switch, Route } from "react-router";
 import Homepage from "./components/Homepage";
-import Groups from "./components/Groups";
 import Discover from "./components/Discover";
-import Events from "./components/Events";
 import Profile from "./components/Profile";
+import CreateGroupForm from "./components/Groups/CreateGroupForm";
+import EditGroupForm from "./components/Groups/EditGroupForm";
+import { getGroups } from "./store/groups";
+import { getEvents } from "./store/events";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -18,6 +20,8 @@ const App = () => {
   useEffect(() => {
     (async () => {
       await dispatch(sessionActions.restoreUser());
+      // await dispatch(getGroups());
+      // await dispatch(getEvents());
       setIsLoaded(true);
     })();
   }, [dispatch]);
@@ -37,8 +41,14 @@ const App = () => {
           <Route path="/discover">
             <Discover />
           </Route>
-          <Route path="/profile">
+          {/* <Route path="/profile">
             <Profile />
+          </Route> */}
+          <Route path="/create-group">
+            <CreateGroupForm />
+          </Route>
+          <Route path="/edit-group/:groupId">
+            <EditGroupForm />
           </Route>
           <Route>404 PAGE NOT FOUND</Route>
         </Switch>
