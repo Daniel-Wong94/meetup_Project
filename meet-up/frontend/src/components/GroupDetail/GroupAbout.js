@@ -6,6 +6,7 @@ import EventCard from "../Events/EventCard";
 import { useEffect, useState } from "react";
 import { getMembers } from "../../store/groups";
 import { fetchEventsByGroup } from "../../store/groups";
+import CreateEventForm from "../Events/CreateEventForm";
 
 const GroupAbout = () => {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const GroupAbout = () => {
   useEffect(() => {
     (async () => {
       await dispatch(getMembers(groupId));
-      await dispatch(fetchEventsByGroup(groupId));
+      // await dispatch(fetchEventsByGroup(groupId));
       setLoaded(true);
     })();
   }, [dispatch, groupId]);
@@ -53,6 +54,10 @@ const GroupAbout = () => {
             ) : (
               <div>There are currently no events for this group!</div>
             )}
+          </Route>
+          <Route path={`/discover/groups/${group.id}/add-event`}>
+            Add Event Form Here
+            <CreateEventForm />
           </Route>
         </Switch>
       </div>

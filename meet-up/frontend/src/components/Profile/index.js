@@ -4,7 +4,6 @@ import ProfileGroups from "./ProfileGroups";
 import { useEffect, useState } from "react";
 import { fetchUserGroups } from "../../store/session.js";
 import { useDispatch } from "react-redux";
-import { getGroups } from "../../store/groups";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -12,7 +11,6 @@ const Profile = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getGroups());
       await dispatch(fetchUserGroups());
       setLoaded(true);
     })();

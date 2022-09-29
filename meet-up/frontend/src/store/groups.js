@@ -51,6 +51,7 @@ const setEvents = (groupId, events) => ({
 export const fetchGroupDetail = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`);
   const data = await response.json();
+  console.log("data", data);
 
   dispatch(setGroup(groupId, data));
 };
@@ -106,7 +107,7 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}/events`);
   const { Events } = await response.json();
 
-  console.log("HERERE", Events);
+  console.log("EVENTS", Events);
 
   dispatch(setEvents(groupId, Events));
 };

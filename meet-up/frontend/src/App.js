@@ -20,8 +20,8 @@ const App = () => {
   useEffect(() => {
     (async () => {
       await dispatch(sessionActions.restoreUser());
-      // await dispatch(getGroups());
-      // await dispatch(getEvents());
+      await dispatch(getGroups());
+      await dispatch(getEvents());
       setIsLoaded(true);
     })();
   }, [dispatch]);

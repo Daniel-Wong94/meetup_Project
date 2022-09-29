@@ -5,6 +5,8 @@ const CREATE_EVENT = "/events/ADD_EVENT";
 const UPDATE_EVENT = "/events/UPDATE_EVENT";
 const DELETE_EVENT = "/events/DELETE_EVENT";
 
+const SET_EVENT = "/events/SET_EVENT";
+
 const setEvents = (events) => {
   return {
     type: SET_EVENTS,
@@ -12,7 +14,14 @@ const setEvents = (events) => {
   };
 };
 
-const createEvent = (event) => {
+const setEvent = (event) => {
+  return {
+    type: SET_EVENT,
+    event,
+  };
+};
+
+const addEvent = (event) => {
   return {
     type: CREATE_EVENT,
     event,
@@ -43,14 +52,15 @@ export const getEvents = () => async (dispatch) => {
   dispatch(setEvents(events));
 };
 
-export const addEvent = (event) => async (dispatch) => {
-  const response = await csrfFetch("/api/events", {
+export const createEvent = (groupId, event) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/events`, {
     method: "POST",
-    header: { "Content-type": "application/json" },
     body: JSON.stringify(event),
   });
 
-  if (response.ok) dispatch(createEvent(response));
+  const data = await response.json();
+
+  if (response.ok) dispatch(addEvent(groupId, data));
 
   return response;
 };
@@ -66,14 +76,28 @@ export const deleteEvent = (id) => async (dispatch) => {
   if (response.ok) dispatch(removeEvent(id));
 };
 
+export const fetchEventById = (eventId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`);
+  const data = await response.json();
+
+  console.log("data", data);
+  if (response.ok) dispatch(setEvent(data));
+};
+
 const eventReducer = (state = {}, action) => {
   let newState = { ...state };
   switch (action.type) {
     case SET_EVENTS:
       newState = { ...action.events };
       return newState;
+    case SET_EVENT:
+      newState[action.event.id] = {
+        ...state[action.event.id],
+        ...action.event,
+      };
+      return newState;
     case CREATE_EVENT:
-      newState[action.group.id] = action.event;
+      newState[action.event.id] = action.event;
       return newState;
     case UPDATE_EVENT:
       newState[action.id] = { ...action.payload };

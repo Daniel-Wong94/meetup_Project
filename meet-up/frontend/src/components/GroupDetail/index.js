@@ -41,29 +41,32 @@ const GroupDetail = () => {
     return history.push(`/discover/groups/${group.id}`);
   };
 
-  return loaded && group ? (
-    <div className={styles.groupDetailContainer}>
-      <GroupTitle group={group} />
-      <div className={styles.navContainer}>
-        <ul className={styles.navLinks}>
-          <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
-          <NavLink to={`/discover/groups/${group.id}/events`}>Events</NavLink>
-        </ul>
-        {isOrganizer ? (
-          <div className={styles.buttonContainer}>
-            <button onClick={handleDeleteGroup}>Delete Group</button>
-            <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
-          </div>
-        ) : (
-          <div className={styles.buttonContainer}>
-            <button>Join this group</button>
-          </div>
-        )}
+  return (
+    loaded && (
+      <div className={styles.groupDetailContainer}>
+        <GroupTitle group={group} />
+        <div className={styles.navContainer}>
+          <ul className={styles.navLinks}>
+            <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
+            <NavLink to={`/discover/groups/${group.id}/events`}>Events</NavLink>
+          </ul>
+          {isOrganizer ? (
+            <div className={styles.buttonContainer}>
+              <NavLink to={`/discover/groups/${groupId}/add-event`}>
+                Add Event
+              </NavLink>
+              <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
+              <button onClick={handleDeleteGroup}>Delete Group</button>
+            </div>
+          ) : (
+            <div className={styles.buttonContainer}>
+              <button>Join this group</button>
+            </div>
+          )}
+        </div>
+        <GroupAbout members={group.members} />
       </div>
-      <GroupAbout members={group.members} />
-    </div>
-  ) : (
-    deleted
+    )
   );
 };
 

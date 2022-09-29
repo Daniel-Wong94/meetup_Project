@@ -1,10 +1,10 @@
-// import styles from "./GroupCard.module.css";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./EventCard.module.css";
 
 const EventCard = ({ event }) => {
-  const group = useSelector((state) => state.groups?.[event.groupId]);
+  const group = useSelector((state) => state.groups[event.groupId]);
 
   return (
     <div className={styles.eventContainer}>
