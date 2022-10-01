@@ -28,13 +28,13 @@ const addEvent = (event) => {
   };
 };
 
-// const updateGroup = (id, payload) => {
-//   return {
-//     type: UPDATE_GROUP,
-//     id,
-//     payload,
-//   };
-// };
+const updateEvent = (id, payload) => {
+  return {
+    type: UPDATE_EVENT,
+    id,
+    payload,
+  };
+};
 
 const removeEvent = (id) => {
   return {
@@ -71,7 +71,7 @@ export const deleteEvent = (id) => async (dispatch) => {
     method: "DELETE",
   });
 
-  const data = await response.json();
+  await response.json();
 
   if (response.ok) dispatch(removeEvent(id));
 };
@@ -82,6 +82,17 @@ export const fetchEventById = (eventId) => async (dispatch) => {
 
   console.log("data", data);
   if (response.ok) dispatch(setEvent(data));
+};
+
+export const updateEventById = (eventId, payload) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+
+  console.log("data", data);
 };
 
 const eventReducer = (state = {}, action) => {

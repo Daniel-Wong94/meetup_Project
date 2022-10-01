@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEvent } from "../../store/events";
+import { NavLink } from "react-router-dom";
 
 const EventTitle = ({ event }) => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const EventTitle = ({ event }) => {
 
     await dispatch(deleteEvent(event.id));
   };
+
   return (
     <div>
       <div>
@@ -25,6 +27,7 @@ const EventTitle = ({ event }) => {
       </div>
       <div>
         <h1>{event.name}</h1>
+        <h2>{event.description}</h2>
         <p>
           Where: {event.Venue.city}, {event.Venue.state}
         </p>
@@ -37,7 +40,14 @@ const EventTitle = ({ event }) => {
         </p>
         <p>{event.organizerId}</p>
       </div>
-      {sessionUser && <button onClick={handleDeleteEvent}>Delete Event</button>}
+      <div>
+        {group.organizerId === sessionUser.id && (
+          <>
+            <NavLink to={`/edit-event/${event.id}`}>Edit Event</NavLink>
+            <button onClick={handleDeleteEvent}>Delete Event</button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

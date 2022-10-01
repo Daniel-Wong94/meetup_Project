@@ -5,8 +5,6 @@ import Groups from "../Groups";
 import GroupDetail from "../GroupDetail";
 import styles from "./Discover.module.css";
 import EventDetail from "../EventDetail";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 const Discover = () => {
   return (

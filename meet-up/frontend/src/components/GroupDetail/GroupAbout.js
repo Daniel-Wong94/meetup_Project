@@ -55,7 +55,7 @@ const GroupAbout = () => {
               <div>There are currently no events for this group!</div>
             )}
           </Route>
-          <Route path={`/discover/groups/${group.id}/add-event`}>
+          <Route path={`/discover/groups/:groupId/add-event`}>
             Add Event Form Here
             <CreateEventForm />
           </Route>

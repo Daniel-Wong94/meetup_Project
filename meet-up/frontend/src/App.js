@@ -12,6 +12,7 @@ import CreateGroupForm from "./components/Groups/CreateGroupForm";
 import EditGroupForm from "./components/Groups/EditGroupForm";
 import { getGroups } from "./store/groups";
 import { getEvents } from "./store/events";
+import EditEventForm from "./components/Events/EditEventForm";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -49,6 +50,9 @@ const App = () => {
           </Route>
           <Route path="/edit-group/:groupId">
             <EditGroupForm />
+          </Route>
+          <Route path="/edit-event/:eventId">
+            <EditEventForm />
           </Route>
           <Route>404 PAGE NOT FOUND</Route>
         </Switch>

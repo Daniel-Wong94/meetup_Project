@@ -1,25 +1,27 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { createEvent } from "../../store/events";
+import { useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { updateEventById } from "../../store/events";
 
-const CreateEventForm = () => {
+const EditEventForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { groupId } = useParams();
+  const { eventId } = useParams();
 
   const sessionUser = useSelector((state) => state.session.user);
+  const event = useSelector((state) => state.events[eventId]);
+  const group = useSelector((state) => state.groups[event.Group.id]);
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(event.name);
   const [venueId, setVenueId] = useState(1);
-  const [type, setType] = useState("In person");
-  const [capacity, setCapacity] = useState(1);
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("12:00");
-  const [endDate, setEndDate] = useState("");
-  const [endTime, setEndTime] = useState("13:00");
+  const [type, setType] = useState(event.type);
+  const [capacity, setCapacity] = useState(event.capacity || 0);
+  const [price, setPrice] = useState(event.price);
+  const [description, setDescription] = useState(event.description);
+  const [startDate, setStartDate] = useState(event.startDate.split(" ")[0]);
+  const [startTime, setStartTime] = useState(event.startDate.split(" ")[1]);
+  const [endDate, setEndDate] = useState(event.endDate.split(" ")[0]);
+  const [endTime, setEndTime] = useState(event.endDate.split(" ")[1]);
 
   // Still need validations
   const handleSubmit = async (e) => {
@@ -36,9 +38,9 @@ const CreateEventForm = () => {
       endDate: endDate + " " + endTime + ":00",
     };
 
-    await dispatch(createEvent(groupId, form));
+    await dispatch(updateEventById(event.id, form));
 
-    return history.push(`/discover/groups/${groupId}/events`);
+    return history.push(`/discover/groups/${group.id}/events`);
   };
 
   return sessionUser ? (
@@ -129,7 +131,7 @@ const CreateEventForm = () => {
             onChange={(e) => setEndTime(e.target.value)}
           />
         </div>
-        <button>Create Event</button>
+        <button>Update Event</button>
       </form>
     </div>
   ) : (
@@ -137,4 +139,4 @@ const CreateEventForm = () => {
   );
 };
 
-export default CreateEventForm;
+export default EditEventForm;
