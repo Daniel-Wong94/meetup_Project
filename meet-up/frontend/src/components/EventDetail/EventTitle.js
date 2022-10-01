@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deleteEvent } from "../../store/events";
 import { NavLink } from "react-router-dom";
+import styles from "./EventTitle.module.css";
 
 const EventTitle = ({ event }) => {
   const dispatch = useDispatch();
@@ -8,15 +9,15 @@ const EventTitle = ({ event }) => {
   const group = groups.find((group) => group.id === event.groupId);
   const sessionUser = useSelector((state) => state.session.user);
 
-  const handleDeleteEvent = async (e) => {
-    e.preventDefault();
+  // const handleDeleteEvent = async (e) => {
+  //   e.preventDefault();
 
-    await dispatch(deleteEvent(event.id));
-  };
+  //   await dispatch(deleteEvent(event.id));
+  // };
 
   return (
-    <div>
-      <div>
+    <div className={styles.eventTitleContainer}>
+      <div className={styles.imageContainer}>
         <img
           src={
             group.previewImage ||
@@ -25,9 +26,8 @@ const EventTitle = ({ event }) => {
           alt={group.name}
         />
       </div>
-      <div>
-        <h1>{event.name}</h1>
-        <h2>{event.description}</h2>
+      <div className={styles.infoContainer}>
+        <h1 className={styles.eventName}>{event.name}</h1>
         <p>
           Where: {event.Venue.city}, {event.Venue.state}
         </p>
@@ -38,16 +38,16 @@ const EventTitle = ({ event }) => {
           insert attendee number here attending .{" "}
           {event.private ? "Private" : "Public"}
         </p>
-        <p>{event.organizerId}</p>
+        {/* <p>Hosted by {event.organizerId}</p> */}
       </div>
-      <div>
+      {/* <div>
         {group.organizerId === sessionUser.id && (
           <>
             <NavLink to={`/edit-event/${event.id}`}>Edit Event</NavLink>
             <button onClick={handleDeleteEvent}>Delete Event</button>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

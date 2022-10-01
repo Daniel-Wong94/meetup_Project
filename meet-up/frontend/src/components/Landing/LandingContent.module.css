@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   margin-top: 200px;
   padding: 0 16px;
 }
@@ -20,6 +20,6 @@
 }
 
 .upperContentContainer {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   display: flex;
 }

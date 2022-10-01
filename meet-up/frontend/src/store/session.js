@@ -6,6 +6,7 @@ const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
 const SET_USER_GROUPS = "session/SET_USER_GROUPS";
 
+const REMOVE_SESSION_GROUP = "/session/REMOVE_SESSION_GROUP";
 // Action creators:
 const setUser = (user) => {
   return {
@@ -24,6 +25,13 @@ const setUserGroups = (groups) => {
   return {
     type: SET_USER_GROUPS,
     groups,
+  };
+};
+
+export const removeSessionGroup = (groupId) => {
+  return {
+    type: REMOVE_SESSION_GROUP,
+    groupId,
   };
 };
 
@@ -89,6 +97,10 @@ const sessionReducer = (state = initialState, action) => {
       return newState;
     case SET_USER_GROUPS:
       newState.groups = { ...state.groups, ...action.groups };
+      return newState;
+    case REMOVE_SESSION_GROUP:
+      newState.groups = { ...state.groups };
+      delete newState.groups[action.groupId];
       return newState;
     default:
       return state;

@@ -4,10 +4,10 @@
 // const ProfileEvents = () => {
 //   const events = Object.values(useSelector((state) => state.session.groups));
 
-//   const renderGroups = (groups) =>
-//     groups.map((group) => <GroupCard key={group.id} group={group} />);
+//   const renderEvents = (events) =>
+//     events.map((event) => <EventCard key={event.id} event={event} />);
 
-//   return groups && <div>{renderGroups(groups)}</div>;
+//   return events && <div>{renderEvents(events)}</div>;
 // };
 
 // export default ProfileEvents;

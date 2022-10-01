@@ -20,7 +20,7 @@ const Navigation = () => {
 
   return (
     <nav className={sessionUser ? styles.loggedInNav : styles.loggedOutNav}>
-      <NavLink exact to={sessionUser ? "/homepage" : "/"}>
+      <NavLink exact to={sessionUser ? "/homepage/groups" : "/"}>
         <MeetupLogo />
       </NavLink>
       {sessionUser ? loggedIn : loggedOut}

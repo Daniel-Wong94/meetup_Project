@@ -12,3 +12,12 @@
   font-size: 28px;
   text-decoration: underline;
 }
+
+.discoverContent {
+  /* border: 1px solid red; */
+  max-width: 60%;
+}
+
+.discoverNav {
+  margin-top: 2%;
+}

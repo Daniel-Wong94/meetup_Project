@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { updateEventById } from "../../store/events";
+import styles from "./EventForm.module.css";
 
 const EditEventForm = () => {
   const dispatch = useDispatch();
@@ -40,17 +41,17 @@ const EditEventForm = () => {
 
     await dispatch(updateEventById(event.id, form));
 
-    return history.push(`/discover/groups/${group.id}/events`);
+    return history.push(`/discover/events/${event.id}`);
   };
 
   return sessionUser ? (
-    <div className={""}>
-      <form onSubmit={handleSubmit} className={""}>
-        <div className={""}>
-          <h1>Create Event</h1>
+    <div className={styles.eventFormContainer}>
+      <form onSubmit={handleSubmit} className={styles.eventForm}>
+        <div className={styles.formName}>
+          <h1>Update Event</h1>
           <p>Fill out the form to create an Event</p>
         </div>
-        <div className={""}>
+        <div className={styles.eventFormField}>
           <label htmlFor="name">Name:</label>
           <input
             id="name"

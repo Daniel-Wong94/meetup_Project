@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGroup } from "../../store/groups";
 import { useHistory, useParams } from "react-router-dom";
@@ -28,7 +28,7 @@ const EditGroupForm = () => {
     e.preventDefault();
 
     const form = { name, about, type, city, state, private: isPrivate };
-
+    console.log("FORM", form);
     await dispatch(updateGroup(form, groupId));
 
     return history.push("/homepage/groups");

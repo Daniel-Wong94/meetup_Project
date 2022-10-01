@@ -7,7 +7,6 @@ import LandingContent from "./components/Landing/LandingContent";
 import { Switch, Route } from "react-router";
 import Homepage from "./components/Homepage";
 import Discover from "./components/Discover";
-import Profile from "./components/Profile";
 import CreateGroupForm from "./components/Groups/CreateGroupForm";
 import EditGroupForm from "./components/Groups/EditGroupForm";
 import { getGroups } from "./store/groups";
@@ -29,34 +28,36 @@ const App = () => {
 
   return (
     isLoaded && (
-      <>
+      <div>
         <Navigation />
-        <Switch>
-          <Route exact path="/">
-            <LandingBackground />
-            <LandingContent />
-          </Route>
-          <Route path="/homepage">
-            <Homepage />
-          </Route>
-          <Route path="/discover">
-            <Discover />
-          </Route>
-          {/* <Route path="/profile">
+        <div className="main-content">
+          <Switch>
+            <Route exact path="/">
+              <LandingBackground />
+              <LandingContent />
+            </Route>
+            <Route path="/homepage">
+              <Homepage />
+            </Route>
+            <Route path="/discover">
+              <Discover />
+            </Route>
+            {/* <Route path="/profile">
             <Profile />
           </Route> */}
-          <Route path="/create-group">
-            <CreateGroupForm />
-          </Route>
-          <Route path="/edit-group/:groupId">
-            <EditGroupForm />
-          </Route>
-          <Route path="/edit-event/:eventId">
-            <EditEventForm />
-          </Route>
-          <Route>404 PAGE NOT FOUND</Route>
-        </Switch>
-      </>
+            <Route path="/create-group">
+              <CreateGroupForm />
+            </Route>
+            <Route path="/edit-group/:groupId">
+              <EditGroupForm />
+            </Route>
+            <Route path="/edit-event/:eventId">
+              <EditEventForm />
+            </Route>
+            <Route>404 PAGE NOT FOUND</Route>
+          </Switch>
+        </div>
+      </div>
     )
   );
 };

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { createEvent } from "../../store/events";
+import { addEventToGroup } from "../../store/groups";
+import styles from "./EventForm.module.css";
 
 const CreateEventForm = () => {
   const dispatch = useDispatch();
@@ -9,6 +11,11 @@ const CreateEventForm = () => {
   const { groupId } = useParams();
 
   const sessionUser = useSelector((state) => state.session.user);
+
+  // const today = new Date();
+  // const tomorrow = today.setDate(today.getDate() + 1);
+
+  // console.log("date", tomorrow);
 
   const [name, setName] = useState("");
   const [venueId, setVenueId] = useState(1);
@@ -36,19 +43,20 @@ const CreateEventForm = () => {
       endDate: endDate + " " + endTime + ":00",
     };
 
-    await dispatch(createEvent(groupId, form));
+    const event = await dispatch(createEvent(groupId, form));
+    await dispatch(addEventToGroup(groupId, event));
 
     return history.push(`/discover/groups/${groupId}/events`);
   };
 
   return sessionUser ? (
-    <div className={""}>
-      <form onSubmit={handleSubmit} className={""}>
-        <div className={""}>
+    <div className={styles.eventFormContainer}>
+      <form onSubmit={handleSubmit} className={styles.eventForm}>
+        <div className={styles.formName}>
           <h1>Create Event</h1>
           <p>Fill out the form to create an Event</p>
         </div>
-        <div className={""}>
+        <div className={styles.eventFormField}>
           <label htmlFor="name">Name:</label>
           <input
             id="name"
@@ -76,7 +84,7 @@ const CreateEventForm = () => {
             />
             Online
           </label>
-          <label htmlFor="description">description:</label>
+          <label htmlFor="description">Description:</label>
           <textarea
             id="description"
             className={""}

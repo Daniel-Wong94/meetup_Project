@@ -6,18 +6,27 @@
   gap: 20px;
 }
 
+.groupContainer:first-child {
+  border-top: none;
+}
+
+.imgContainer {
+  aspect-ratio: 4/3;
+  flex: 1;
+}
+
 .image {
   border-radius: 10px;
-  width: 300px;
-  height: 200px;
-  min-width: 100%;
-  min-height: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
 .detailContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 }
 
 .groupName {
@@ -32,7 +41,13 @@
   color: #877456;
 }
 
-.about,
+.about {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
 .cardFooter {
   font-size: 14px;
   color: #757575;

@@ -1,0 +1,21 @@
+.eventTitleContainer {
+  /* border: 1px solid red; */
+  display: flex;
+  gap: 20px;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.eventName {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.infoContainer p {
+  font-size: 16px;
+}

@@ -19,10 +19,10 @@ const Profile = () => {
   return (
     loaded && (
       <div>
-        <h1>Your Stuff</h1>
+        <h1>Dashboard</h1>
         <ul>
           <NavLink to="/homepage/groups">Your Groups</NavLink>
-          <NavLink to="/homepage/events">Your Events</NavLink>
+          {/* <NavLink to="/homepage/events">Your Events</NavLink> */}
         </ul>
         <div>
           <Switch>

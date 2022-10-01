@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addGroup } from "../../store/groups";
+import { addGroup, addImageToGroupById } from "../../store/groups";
 import { useHistory } from "react-router-dom";
 import STATES from "../../assets/states.json";
 import styles from "./GroupForm.module.css";
@@ -18,13 +18,15 @@ const CreateGroupForm = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
 
   // Still need validations
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = { name, about, type, city, state, private: isPrivate };
-    await dispatch(addGroup(form));
+    const group = await dispatch(addGroup(form));
+    await dispatch(addImageToGroupById(group.id, previewImage));
 
     return history.push("/homepage/groups");
   };
@@ -92,7 +94,7 @@ const CreateGroupForm = () => {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
-          <label htmlFor="state">State:</label>
+          <label htmlFor="state">State (Required):</label>
           <select
             id="state"
             value={state}
@@ -119,6 +121,13 @@ const CreateGroupForm = () => {
             />
             Private Group
           </label>
+          <label htmlFor="previewImage">Image URL (Optional):</label>
+          <input
+            id="previewImage"
+            type="text"
+            value={previewImage}
+            onChange={(e) => setPreviewImage(e.target.value)}
+          />
         </div>
         <button>Create Group</button>
       </form>

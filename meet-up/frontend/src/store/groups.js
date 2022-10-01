@@ -9,6 +9,10 @@ const SET_GROUP = "/groups/SET_GROUP";
 const SET_MEMBERS = "/groups/members/SET_MEMBERS";
 const SET_EVENTS = "/groups/events/SET_EVENTS";
 
+const ADD_IMAGE = "/groups/image/ADD_IMAGE";
+const ADD_EVENT_TO_GROUP = "/groups/events/ADD_EVENT_TO_GROUP";
+const REMOVE_EVENT_FROM_GROUP = "/groups/events/REMOVE_EVENT_FROM_GROUP";
+
 const setGroups = (groups) => ({
   type: SET_ALL_GROUPS,
   groups,
@@ -48,6 +52,24 @@ const setEvents = (groupId, events) => ({
   events,
 });
 
+const addImage = (groupId, url) => ({
+  type: ADD_IMAGE,
+  groupId,
+  url,
+});
+
+export const addEventToGroup = (groupId, event) => ({
+  type: ADD_EVENT_TO_GROUP,
+  groupId,
+  event,
+});
+
+export const removeEventFromGroup = (groupId, eventId) => ({
+  type: REMOVE_EVENT_FROM_GROUP,
+  groupId,
+  eventId,
+});
+
 export const fetchGroupDetail = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`);
   const data = await response.json();
@@ -71,7 +93,11 @@ export const addGroup = (group) => async (dispatch) => {
     body: JSON.stringify(group),
   });
 
-  if (response.ok) dispatch(createGroup(response));
+  const data = await response.json();
+
+  if (response.ok) dispatch(createGroup(data));
+
+  return data;
 };
 
 export const deleteGroup = (id) => async (dispatch) => {
@@ -109,6 +135,17 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
   dispatch(setEvents(groupId, Events));
 };
 
+export const addImageToGroupById = (groupId, url) => async (dispatch) => {
+  const response = await csrfFetch(`/api/groups/${groupId}/images`, {
+    method: "POST",
+    body: JSON.stringify({ url }),
+  });
+
+  await response.json();
+
+  if (response.ok) dispatch(addImage(groupId, url));
+};
+
 const groupReducer = (state = {}, action) => {
   let newState = { ...state };
   switch (action.type) {
@@ -136,6 +173,22 @@ const groupReducer = (state = {}, action) => {
       return newState;
     case SET_EVENTS:
       newState[action.groupId]["events"] = action.events;
+      return newState;
+    case ADD_IMAGE:
+      newState[action.groupId] = { ...state[action.groupId] };
+      newState[action.groupId]["previewImage"] = action.url;
+      return newState;
+    case ADD_EVENT_TO_GROUP:
+      newState[action.groupId]["events"] = {
+        ...state[action.groupId]["events"],
+      };
+      newState[action.groupId]["events"][action.event.id] = action.event;
+      return newState;
+    case REMOVE_EVENT_FROM_GROUP:
+      newState[action.groupId]["events"] = {
+        ...state[action.groupId]["events"],
+      };
+      delete newState[action.groupId]["events"][action.eventId];
       return newState;
     default:
       return state;

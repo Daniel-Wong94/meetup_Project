@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import styles from "./Homepage.module.css";
-import Groups from "../Groups";
 import HomepageSideNav from "./HomepageSideNav";
 import Profile from "../Profile";
 
@@ -20,7 +19,6 @@ const Homepage = () => {
           <HomepageSideNav />
         </div>
         <div className={styles.rightSection}>
-          {/* <Groups owner={true} /> */}
           <Profile />
         </div>
       </section>

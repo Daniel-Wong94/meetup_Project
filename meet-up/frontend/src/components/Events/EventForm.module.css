@@ -1,25 +1,25 @@
-.groupFormContainer {
+.eventFormContainer {
   /* border: 1px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.groupForm {
+.eventForm {
   /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
   width: 50%;
 }
 
-.groupFormField {
+.eventFormField {
   /* border: 1px solid green; */
   display: flex;
   flex-direction: column;
 }
 
-.groupFormField input,
-.groupFormField textarea {
+.eventFormField input,
+.eventFormField textarea {
   margin: 10px 0;
 }
 

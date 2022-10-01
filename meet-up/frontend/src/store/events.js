@@ -28,14 +28,6 @@ const addEvent = (event) => {
   };
 };
 
-const updateEvent = (id, payload) => {
-  return {
-    type: UPDATE_EVENT,
-    id,
-    payload,
-  };
-};
-
 const removeEvent = (id) => {
   return {
     type: DELETE_EVENT,
@@ -59,10 +51,9 @@ export const createEvent = (groupId, event) => async (dispatch) => {
   });
 
   const data = await response.json();
+  if (response.ok) dispatch(addEvent(data));
 
-  if (response.ok) dispatch(addEvent(groupId, data));
-
-  return response;
+  return data;
 };
 
 // WORK IN PROGRESS
@@ -71,7 +62,7 @@ export const deleteEvent = (id) => async (dispatch) => {
     method: "DELETE",
   });
 
-  await response.json();
+  const data = await response.json();
 
   if (response.ok) dispatch(removeEvent(id));
 };
@@ -80,7 +71,6 @@ export const fetchEventById = (eventId) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${eventId}`);
   const data = await response.json();
 
-  console.log("data", data);
   if (response.ok) dispatch(setEvent(data));
 };
 

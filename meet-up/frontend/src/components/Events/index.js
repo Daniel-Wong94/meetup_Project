@@ -5,8 +5,6 @@ import { useEffect } from "react";
 const Events = () => {
   const allEvents = Object.values(useSelector((state) => state.events));
 
-  console.log("ALL EVENTS", allEvents);
-
   return (
     <div>
       <ul>

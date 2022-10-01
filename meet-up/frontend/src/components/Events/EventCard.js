@@ -7,8 +7,9 @@ const EventCard = ({ event }) => {
 
   return (
     <div className={styles.eventContainer}>
-      <div>
+      <div className={styles.imgContainer}>
         <img
+          className={styles.image}
           src={
             group?.previewImage ||
             group?.Images?.[0].url ||
@@ -27,11 +28,11 @@ const EventCard = ({ event }) => {
             timeZone: "America/New_York",
           })}
         </p>
-        <Link to={`/discover/events/${event.id}`}>
+        <Link to={`/discover/events/${event.id}/about`}>
           <h1 className={styles.eventName}>{event.name}</h1>
         </Link>
         <h2 className={styles.eventCity}>
-          {event.Venue.city}, {event.Venue.state}
+          {event?.Venue?.city}, {event?.Venue?.state}
         </h2>
         <p className={styles.description}>{event.description}</p>
         <p className={styles.cardFooter}>
