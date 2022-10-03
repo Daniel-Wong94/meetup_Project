@@ -1,0 +1,61 @@
+.groupContainer {
+  display: flex;
+  border-top: 1px solid grey;
+  margin: 10px;
+  padding: 20px 10px;
+  gap: 20px;
+}
+
+.groupContainer:first-child {
+  border-top: none;
+}
+
+.imgContainer {
+  aspect-ratio: 4/3;
+  flex: 1;
+}
+
+.image {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.groupName {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.groupCity {
+  font-size: 14px;
+  text-transform: uppercase;
+  color: #877456;
+}
+
+.about {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+.cardFooter {
+  font-size: 14px;
+  color: #757575;
+  margin-top: 24px;
+}
+
+/* @media screen and (max-width: 1000px) {
+  .image {
+    display: none;
+  }
+} */

@@ -1,5 +1,4 @@
 "use strict";
-const { raw } = require("express");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {

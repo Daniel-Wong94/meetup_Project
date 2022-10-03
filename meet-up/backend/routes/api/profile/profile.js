@@ -3,10 +3,10 @@ const router = express.Router();
 const { Membership, Group, User, Image } = require("../../../db/models");
 const { requireAuth } = require("../../../utils/auth");
 
-router.use(requireAuth);
+// router.use(requireAuth);
 
 // Get all images of current user: GET /api/users/profile/images
-router.get("/images", async (req, res, next) => {
+router.get("/images", requireAuth, async (req, res, next) => {
   const { id: userId } = req.user;
   const images = await Image.findAll({ where: { userId } });
 
@@ -14,7 +14,7 @@ router.get("/images", async (req, res, next) => {
 });
 
 // Get all groups that current user is in: GET /api/users/profile/groups
-router.get("/groups", async (req, res, next) => {
+router.get("/groups", requireAuth, async (req, res, next) => {
   const { id: organizerId } = req.user;
   const groups = await Group.findAll({
     where: { organizerId },
@@ -39,12 +39,12 @@ router.get("/", async (req, res, next) => {
   if (user) {
     return res.json(user);
   } else {
-    res.json({});
+    res.json(null);
   }
 });
 
 // Change Password or Email: PATCH /api/users/profile
-router.patch("/", async (req, res, next) => {
+router.patch("/", requireAuth, async (req, res, next) => {
   const { email: currentEmail } = req.user;
   const { newEmail, currentPassword, newPassword } = req.body;
 

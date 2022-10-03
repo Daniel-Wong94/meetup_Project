@@ -205,9 +205,20 @@ router.get("/:eventId", isValidEvent, async (req, res, next) => {
     },
   });
 
-  const numAttending = await Attendee.count({ where: { eventId } });
+  // const numAttending = await Attendee.count({ where: { eventId } });
+  // event.dataValues.numAttending = numAttending;
 
-  event.dataValues.numAttending = numAttending;
+  const attendees = await Attendee.findAll({
+    where: { eventId },
+  });
+
+  event.dataValues.numAttending = attendees.length;
+  // middleware for no event found
+  if (!event) {
+    const err = new Error("Event couldn't be found");
+    err.status = 404;
+    next(err);
+  }
 
   res.json(event);
 });
@@ -292,8 +303,6 @@ router.get("/", validateEventQuery, async (req, res, next) => {
       search[param] = date;
     }
   }
-
-  // console.log("search: ", search);
 
   // NEED TO FORMAT DATE
   const events = await Event.findAll({

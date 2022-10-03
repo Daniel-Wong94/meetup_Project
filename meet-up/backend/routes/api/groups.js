@@ -176,10 +176,23 @@ router.get("/:groupId/events", isValidGroup, async (req, res, next) => {
       },
     });
 
-    const previewImage = await event.getImages();
+    // const previewImage = await event.getImages();
 
-    if (previewImage.length)
-      event.dataValues.previewImage = previewImage[0]["url"];
+    // if (previewImage.length)
+    //   event.dataValues.previewImage = previewImage[0]["url"];
+    try {
+      const previewImage = await Image.findOne({
+        where: {
+          imageableId: event.id,
+          imageableType: "event",
+        },
+      });
+      const { url } = previewImage;
+
+      event.dataValues.previewImage = url;
+    } catch (e) {
+      event.dataValues.previewImage = null;
+    }
   }
 
   await res.json({ Events: events });
@@ -322,7 +335,7 @@ router.patch(
         name: name || group.name,
         about: about || group.about,
         type: type || group.type,
-        private: private || group.private,
+        private: private,
         city: city || group.city,
         state: state || group.state,
       });

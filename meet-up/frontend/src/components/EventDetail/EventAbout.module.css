@@ -1,0 +1,16 @@
+.eventAboutContainer {
+  display: flex;
+  /* border: 1px solid red; */
+  justify-content: space-between;
+}
+
+.about h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.about p {
+  font-size: 18px;
+  line-height: 24px;
+}

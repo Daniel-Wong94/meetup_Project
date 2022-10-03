@@ -1,0 +1,22 @@
+.blobsContainer {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  /* border: 6px solid green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -10000;
+}
+
+.blueBlob {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.redBlob {
+  position: absolute;
+  left: 2vw;
+  bottom: 25vh;
+}
