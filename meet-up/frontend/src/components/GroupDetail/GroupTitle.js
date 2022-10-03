@@ -6,8 +6,6 @@ const GroupTitle = () => {
   const { groupId } = useParams();
   const group = useSelector((state) => state.groups[groupId]);
 
-  console.log("PRIVATE", group.private);
-
   return (
     <div className={styles.groupTitleContainer}>
       <div className={styles.imageContainer}>

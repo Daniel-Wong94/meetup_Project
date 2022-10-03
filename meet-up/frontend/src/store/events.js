@@ -80,9 +80,7 @@ export const updateEventById = (eventId, payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
 
-  const data = await response.json();
-
-  console.log("data", data);
+  await response.json();
 };
 
 const eventReducer = (state = {}, action) => {

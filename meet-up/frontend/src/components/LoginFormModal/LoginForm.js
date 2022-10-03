@@ -28,7 +28,7 @@ const LoginForm = ({ switchToSignup }) => {
 
     try {
       await dispatch(login(loginInfo));
-      return history.push("/homepage");
+      return history.push("/homepage/groups");
     } catch (err) {
       const data = await err.json();
       if (data.message === "Validation error") setErrors(data.errors);
@@ -39,14 +39,15 @@ const LoginForm = ({ switchToSignup }) => {
 
   return (
     !sessionUser && (
-      <form onSubmit={handleLogin} className={styles.loginForm}>
+      // <form onSubmit={handleLogin} className={styles.loginForm}>
+      <div className={styles.loginForm}>
         <div className={styles.titleContainer}>
           <svg
             viewBox="0 0 51 49"
             xmlns="http://www.w3.org/2000/svg"
             width="48"
             height="48"
-            class="mb-2"
+            className="mb-2"
           >
             <g fillRule="nonzero" fill="none">
               <path
@@ -62,41 +63,46 @@ const LoginForm = ({ switchToSignup }) => {
           <legend className={styles.loginTitle}>Log In</legend>
         </div>
         <p className={styles.description}>
-          Not a member yet? <Link onClick={switchToSignup}>Sign Up</Link>
+          Not a member yet?{" "}
+          <button className={styles.switchModal} onClick={switchToSignup}>
+            Sign Up
+          </button>
         </p>
-        <div className={styles.loginFields}>
-          <div className={styles.validationError}>
-            {errors["Invalid credentials"]}
+        <form onSubmit={handleLogin}>
+          <div className={styles.loginFields}>
+            <div className={styles.validationError}>
+              {errors["Invalid credentials"]}
+            </div>
+            <label htmlFor="email">
+              Email:
+              <input
+                id="email"
+                type="text"
+                value={email}
+                placeholder="Email"
+                onChange={handleEmail}
+                required={true}
+              />
+              <div className={styles.validationError}>{errors.email}</div>
+            </label>
+            <label htmlFor="password">
+              Password:
+              <input
+                id="passowrd"
+                type="password"
+                value={password}
+                placeholder="Password"
+                onChange={handlePassword}
+                required={true}
+              />
+              <div className={styles.validationError}>{errors.password}</div>
+            </label>
           </div>
-          <label htmlFor="email">
-            Email:
-            <input
-              id="email"
-              type="text"
-              value={email}
-              placeholder="Email"
-              onChange={handleEmail}
-              required={true}
-            />
-            <div className={styles.validationError}>{errors.email}</div>
-          </label>
-          <label htmlFor="password">
-            Password:
-            <input
-              id="passowrd"
-              type="password"
-              value={password}
-              placeholder="Password"
-              onChange={handlePassword}
-              required={true}
-            />
-            <div className={styles.validationError}>{errors.password}</div>
-          </label>
-        </div>
-        <button type="submit" className={styles.loginButton}>
-          Login
-        </button>
-      </form>
+          <button type="submit" className={styles.loginButton}>
+            Login
+          </button>
+        </form>
+      </div>
     )
   );
 };

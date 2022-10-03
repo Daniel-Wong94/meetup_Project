@@ -9,7 +9,7 @@ const SignupForm = ({ switchToLogin }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ const SignupForm = ({ switchToLogin }) => {
     setFirstName("");
     setLastName("");
     setConfirmPassword("");
+    setErrors({});
   };
 
   // for recaptcha
@@ -51,26 +52,27 @@ const SignupForm = ({ switchToLogin }) => {
       if (password === confirmPassword) {
         await dispatch(signup(payload));
         clearForm();
-        return history.push("/homepage");
+        return history.push("/homepage/groups");
+      } else {
+        setErrors({ ...errors, confirmPassword: "Password must match" });
       }
     } catch (err) {
       const data = await err.json();
       setErrors(data.errors);
-      console.log(errors);
-      // finish validation error handling!!
     }
   };
 
   return (
     !sessionUser && (
-      <form onSubmit={handleSignup} className={styles.signupForm}>
+      // <form onSubmit={handleSignup} className={styles.signupForm}>
+      <div className={styles.signupForm}>
         <div className={styles.titleContainer}>
           <svg
             viewBox="0 0 51 49"
             xmlns="http://www.w3.org/2000/svg"
             width="48"
             height="48"
-            class="mb-2"
+            className="mb-2"
           >
             <g fillRule="nonzero" fill="none">
               <path
@@ -86,75 +88,97 @@ const SignupForm = ({ switchToLogin }) => {
           <legend className={styles.signupTitle}>Sign Up</legend>
         </div>
         <p className={styles.description}>
-          Already a member? <Link onClick={switchToLogin}>Log In</Link>
+          Already a member?{" "}
+          <button className={styles.switchModal} onClick={switchToLogin}>
+            Log In
+          </button>
         </p>
-        <div className={styles.signupFields}>
-          <label htmlFor="firstName">
-            Your First Name:
-            <input
-              id="firstName"
-              type="text"
-              value={firstName}
-              placeholder="First Name"
-              onChange={handleFirstName}
-              required
-            />
-          </label>
-          <label htmlFor="lastName">
-            Your Last Name:
-            <input
-              id="lastName"
-              type="text"
-              value={lastName}
-              placeholder="Last Name"
-              onChange={handleLastName}
-              required
-            />
-          </label>
-          <label htmlFor="email">
-            Email:
-            <input
-              id="email"
-              type="text"
-              value={email}
-              placeholder="example@email.com"
-              onChange={handleEmail}
-              required
-            />
-          </label>
-          <label htmlFor="password">
-            Password:
-            <input
-              id="passowrd"
-              type="password"
-              value={password}
-              placeholder="Password"
-              onChange={handlePassword}
-              required
-            />
-          </label>
-          <label htmlFor="confirmPassword">
-            Confirm Password:
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              placeholder="Confirm Password"
-              onChange={handleConfirmPassword}
-              required
-            />
-          </label>
-          {/* <div
+        <form onSubmit={handleSignup}>
+          <div className={styles.signupFields}>
+            <label htmlFor="firstName">
+              Your First Name:
+              <input
+                id="firstName"
+                type="text"
+                value={firstName}
+                placeholder="First Name"
+                onChange={handleFirstName}
+                required
+              />
+              {errors.firstName && (
+                <div className={styles.validationError}>{errors.firstName}</div>
+              )}
+            </label>
+            <label htmlFor="lastName">
+              Your Last Name:
+              <input
+                id="lastName"
+                type="text"
+                value={lastName}
+                placeholder="Last Name"
+                onChange={handleLastName}
+                required
+              />
+              {errors.lastName && (
+                <div className={styles.validationError}>{errors.lastName}</div>
+              )}
+            </label>
+            <label htmlFor="email">
+              Email:
+              <input
+                id="email"
+                type="text"
+                value={email}
+                placeholder="example@email.com"
+                onChange={handleEmail}
+                required
+              />
+              {errors.email && (
+                <div className={styles.validationError}>{errors.email}</div>
+              )}
+            </label>
+            <label htmlFor="password">
+              Password:
+              <input
+                id="passowrd"
+                type="password"
+                value={password}
+                placeholder="Password"
+                onChange={handlePassword}
+                required
+              />
+              {errors.password && (
+                <div className={styles.validationError}>{errors.password}</div>
+              )}
+            </label>
+            <label htmlFor="confirmPassword">
+              Confirm Password:
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                placeholder="Confirm Password"
+                onChange={handleConfirmPassword}
+                required
+              />
+              {errors.confirmPassword && (
+                <div className={styles.validationError}>
+                  {errors.confirmPassword}
+                </div>
+              )}
+            </label>
+            {/* <div
             className="g-recaptcha"
             data-sitekey={"6LeYFgYiAAAAAJgbfYg5jbJtHo5Ze9p7Q1BEeTCq"}
-          ></div>
+            ></div>
           <input type="submit" value="Submit" /> */}
-        </div>
-        <br />
-        <button type="submit" className={styles.signupButton}>
-          Sign up
-        </button>
-      </form>
+          </div>
+          <br />
+          <button type="submit" className={styles.signupButton}>
+            Sign up
+          </button>
+        </form>
+      </div>
     )
   );
 };
