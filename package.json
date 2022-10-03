@@ -4,8 +4,10 @@
   "description": "## Description",
   "main": "index.js",
   "scripts": {
-    "install": "npm --prefix meet-up/backend install backend",
+    "heroku-postbuild": "npm run build --prefix meet-up/frontend",
+    "install": "npm --prefix meet-up/backend install meet-up/backend && npm --prefix meet-up/frontend install meet-up/frontend",
     "dev:backend": "npm install --prefix meet-up/backend start",
+    "dev:frontend": "npm install --prefix meet-up/frontend start",
     "sequelize": "npm run --prefix meet-up/backend sequelize",
     "sequelize-cli": "npm run --prefix meet-up/backend sequelize-cli",
     "start": "npm start --prefix meet-up/backend"
