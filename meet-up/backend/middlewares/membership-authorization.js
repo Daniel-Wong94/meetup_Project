@@ -26,7 +26,7 @@ const deleteMembershipAuth = async (req, res, next) => {
   const { memberId } = req.params;
   const { user, group } = req;
 
-  console.log(group.organizerId, memberId, user.id);
+  // console.log(group.organizerId, memberId, user.id);
   if (group.organizerId != user.id && user.id != memberId) {
     const err = new Error("Forrbiden");
     err.status = 403;

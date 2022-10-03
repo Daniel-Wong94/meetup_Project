@@ -28,7 +28,7 @@ const EditGroupForm = () => {
     e.preventDefault();
 
     const form = { name, about, type, city, state, private: isPrivate };
-    console.log("FORM", form);
+    // console.log("FORM", form);
     await dispatch(updateGroup(form, groupId));
 
     return history.push("/homepage/groups");
