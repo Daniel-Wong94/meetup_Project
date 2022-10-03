@@ -26,7 +26,7 @@ const GroupTitle = () => {
           {group.city}, {group.state}
         </p>
         <p>
-          {group.numMembers} members . {group.private ? "Private" : "Public"}{" "}
+          {group.numMembers} members · {group.private ? "Private" : "Public"}{" "}
           Group
         </p>
         <p>Organized by User {group.organizerId}</p>

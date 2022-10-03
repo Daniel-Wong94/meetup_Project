@@ -71,6 +71,8 @@ export const fetchEventById = (eventId) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${eventId}`);
   const data = await response.json();
 
+  console.log("FETCH EVENT", data);
+
   if (response.ok) dispatch(setEvent(data));
 };
 
@@ -80,7 +82,11 @@ export const updateEventById = (eventId, payload) => async (dispatch) => {
     body: JSON.stringify(payload),
   });
 
-  await response.json();
+  const data = await response.json();
+
+  if (response.ok) dispatch(setEvent(data));
+
+  return data;
 };
 
 const eventReducer = (state = {}, action) => {

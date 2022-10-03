@@ -35,7 +35,7 @@ const EventTitle = ({ event }) => {
           When: {event.startDate} - {event.endDate}
         </p>
         <p>
-          insert attendee number here attending .{" "}
+          {event.numAttending} Attending ·{" "}
           {event.private ? "Private" : "Public"}
         </p>
         {/* <p>Hosted by {event.organizerId}</p> */}

@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router";
-import { updateEventById } from "../../store/events";
+import { fetchEventById, updateEventById } from "../../store/events";
 import styles from "./EventForm.module.css";
+import { fetchGroupDetail } from "../../store/groups";
 
 const EditEventForm = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,13 @@ const EditEventForm = () => {
   const [startTime, setStartTime] = useState(event.startDate.split(" ")[1]);
   const [endDate, setEndDate] = useState(event.endDate.split(" ")[0]);
   const [endTime, setEndTime] = useState(event.endDate.split(" ")[1]);
+  const today = new Date().toISOString().split("T")[0];
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(fetchGroupDetail(group.id));
+    })();
+  }, [dispatch]);
 
   // Still need validations
   const handleSubmit = async (e) => {
@@ -41,7 +49,7 @@ const EditEventForm = () => {
 
     await dispatch(updateEventById(event.id, form));
 
-    return history.push(`/discover/events/${event.id}`);
+    return history.push(`/discover/events/${event.id}/about`);
   };
 
   return sessionUser ? (
@@ -88,6 +96,22 @@ const EditEventForm = () => {
           >
             Enter Description
           </textarea>
+          <label htmlFor="venue">Venue:</label>
+          <select
+            id="venue"
+            value={venueId}
+            required
+            onChange={(e) => setVenueId(e.target.value)}
+          >
+            <option value="" disabled>
+              SELECT VENUE
+            </option>
+            {group?.Venues?.map((venue) => (
+              <option value={venue.id} key={venue.id}>
+                {venue.address}
+              </option>
+            ))}
+          </select>
           <label htmlFor="city">Capacity:</label>
           <input
             id="city"
@@ -109,6 +133,7 @@ const EditEventForm = () => {
           <input
             id="startDate"
             type="date"
+            min={today}
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
@@ -122,6 +147,7 @@ const EditEventForm = () => {
           <input
             id="endDate"
             type="date"
+            min={startDate}
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
@@ -129,6 +155,7 @@ const EditEventForm = () => {
             id="endTime"
             type="time"
             value={endTime}
+            min={startTime}
             onChange={(e) => setEndTime(e.target.value)}
           />
         </div>
