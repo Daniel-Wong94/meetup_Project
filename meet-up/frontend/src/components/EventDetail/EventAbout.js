@@ -1,6 +1,6 @@
 // import ProfilePicture from "../../elements/ProfilePicture";
 import { Switch, Route } from "react-router-dom";
-import EditEventForm from "./EditEventForm";
+import EditEventForm from "../Events/EditEventForm";
 import styles from "./EventAbout.module.css";
 
 const EventAbout = ({ event }) => {
@@ -14,8 +14,8 @@ const EventAbout = ({ event }) => {
               <p>{event.description}</p>
             </div>
             <div>
-              {/* <h3>Organizer</h3> */}
-              {/* <h3>Members ({group.numMembers})</h3> */}
+              <h3>Organizer</h3>
+              <h3>Attendees ({event.numAttending})</h3>
               {/* <ul>
                 {group?.members?.map((member) => (
                   <ProfilePicture
@@ -35,10 +35,6 @@ const EventAbout = ({ event }) => {
           ) : (
             <div>There are currently no events for this group!</div>
           )}
-        </Route> */}
-        {/* <Route path={`/discover/groups/:groupId/add-event`}>
-          Add Event Form Here
-          <CreateEventForm />
         </Route> */}
         <Route path={`/discover/events/:eventId/edit`}>
           <EditEventForm />

@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../store/session";
 import { useState } from "react";
 import styles from "./SignupForm.module.css";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import SubmitButton from "../../elements/SubmitButton";
 
 const SignupForm = ({ switchToLogin }) => {
   const [firstName, setFirstName] = useState("");
@@ -174,9 +175,7 @@ const SignupForm = ({ switchToLogin }) => {
           <input type="submit" value="Submit" /> */}
           </div>
           <br />
-          <button type="submit" className={styles.signupButton}>
-            Sign up
-          </button>
+          <SubmitButton>Sign up</SubmitButton>
         </form>
       </div>
     )

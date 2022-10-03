@@ -1,0 +1,19 @@
+.profileNav {
+  /* border: 1px solid blue; */
+  display: flex;
+}
+
+.inactive {
+  color: black;
+  /* text-decoration: none; */
+  padding: 0 20px;
+  font-size: 24px;
+}
+
+.active {
+  color: #f6405f;
+  /* text-decoration: none; */
+  padding: 0 20px;
+  font-size: 24px;
+  text-decoration: underline;
+}

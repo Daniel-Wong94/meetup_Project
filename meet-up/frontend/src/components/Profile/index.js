@@ -4,6 +4,7 @@ import ProfileGroups from "./ProfileGroups";
 import { useEffect, useState } from "react";
 import { fetchUserGroups } from "../../store/session.js";
 import { useDispatch } from "react-redux";
+import styles from "./Profile.module.css";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,15 @@ const Profile = () => {
 
   return (
     loaded && (
-      <div>
-        <h1>Dashboard</h1>
-        <ul>
-          <NavLink to="/homepage/groups">Your Groups</NavLink>
+      <div className={styles.dashboard}>
+        {/* <h1>Dashboard</h1> */}
+        <ul className={styles.profileNav}>
+          <NavLink
+            to="/homepage/groups"
+            className={(state) => (state ? styles.active : styles.inactive)}
+          >
+            Your Groups
+          </NavLink>
           {/* <NavLink to="/homepage/events">Your Events</NavLink> */}
         </ul>
         <div>

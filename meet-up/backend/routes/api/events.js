@@ -197,6 +197,11 @@ router.get("/:eventId", async (req, res, next) => {
     ],
   });
 
+  const attendees = await Attendee.findAll({
+    where: { eventId },
+  });
+
+  event.dataValues.numAttending = attendees.length;
   // middleware for no event found
   if (!event) {
     const err = new Error("Event couldn't be found");

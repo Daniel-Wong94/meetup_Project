@@ -191,16 +191,19 @@ router.get("/:groupId/events", isValidGroup, async (req, res, next) => {
       },
     });
 
-    const previewImage = await Image.findOne({
-      where: {
-        imageableId: event.id,
-        imageableType: "event",
-      },
-    });
+    try {
+      const previewImage = await Image.findOne({
+        where: {
+          imageableId: event.id,
+          imageableType: "event",
+        },
+      });
+      const { url } = previewImage;
 
-    const { url } = previewImage;
-
-    event.dataValues.previewImage = url;
+      event.dataValues.previewImage = url;
+    } catch (e) {
+      event.dataValues.previewImage = null;
+    }
   }
 
   await res.json({ Events: events });
@@ -353,7 +356,7 @@ router.patch(
         name: name || group.name,
         about: about || group.about,
         type: type || group.type,
-        private: private || group.private,
+        private: private,
         city: city || group.city,
         state: state || group.state,
       });
@@ -368,26 +371,6 @@ router.patch(
 );
 
 // Delete an existing group by id: DELETE /api/groups/:groupId
-// router.delete("/:groupId", requireAuth, async (req, res, next) => {
-//   try {
-//     const { groupId } = req.params;
-//     const { user } = req;
-
-//     const group = await Group.findByPk(groupId);
-
-//     if (group.organizerId === user.id) {
-//       await group.destroy();
-//       res.json({ message: "Successfully deleted", statusCode: 200 });
-//     }
-
-//     throw new Error("Authorization Error");
-//   } catch (e) {
-//     const err = new Error(e.message || "Group couldn't be found");
-//     err.status = 404;
-//     next(err);
-//   }
-// });
-
 router.delete(
   "/:groupId",
   requireAuth,

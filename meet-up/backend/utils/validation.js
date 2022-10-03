@@ -39,12 +39,21 @@ const validateSignup = [
   check("firstName")
     .exists({ checkFalsy: true })
     .withMessage("First Name is required"),
+  check("firstName")
+    .isLength({ min: 2, max: 20 })
+    .withMessage("First name must have 2-20 characters"),
   check("lastName")
     .exists({ checkFalsy: true })
     .withMessage("Last Name is required"),
+  check("lastName")
+    .isLength({ min: 2, max: 25 })
+    .withMessage("Last Name must have 2-25 characters"),
   check("password")
     .exists({ checkFalsy: true })
     .withMessage("Password is required"),
+  check("password")
+    .isLength({ min: 8, max: 20 })
+    .withMessage("Password must be 8 - 20 characters"),
   handleValidationErrors,
 ];
 

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/session";
 import styles from "./LoginForm.module.css";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import SubmitButton from "../../elements/SubmitButton";
 
 const LoginForm = ({ switchToSignup }) => {
   const [email, setEmail] = useState("");
@@ -98,9 +99,7 @@ const LoginForm = ({ switchToSignup }) => {
               <div className={styles.validationError}>{errors.password}</div>
             </label>
           </div>
-          <button type="submit" className={styles.loginButton}>
-            Login
-          </button>
+          <SubmitButton>Login</SubmitButton>
         </form>
       </div>
     )

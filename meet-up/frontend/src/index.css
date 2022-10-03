@@ -128,3 +128,10 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+.main-content {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

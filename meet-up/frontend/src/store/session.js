@@ -94,6 +94,7 @@ const sessionReducer = (state = initialState, action) => {
       return newState;
     case REMOVE_USER:
       newState.user = null;
+      newState.groups = null;
       return newState;
     case SET_USER_GROUPS:
       newState.groups = { ...state.groups, ...action.groups };

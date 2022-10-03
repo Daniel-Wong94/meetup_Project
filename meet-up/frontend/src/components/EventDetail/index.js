@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { fetchEventById } from "../../store/events";
 import { deleteEvent } from "../../store/events";
 import styles from "./EventDetail.module.css";
-import EventAbout from "../Events/EventAbout";
+import EventAbout from "./EventAbout";
 import { removeEventFromGroup } from "../../store/groups";
 
 const EventDetail = () => {

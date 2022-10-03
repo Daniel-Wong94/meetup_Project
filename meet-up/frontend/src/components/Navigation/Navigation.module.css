@@ -10,10 +10,12 @@
 }
 
 .loggedInNav {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: transparent;
+  background-color: white;
   padding: 8px 20px;
   width: 100%;
   z-index: 10000;
@@ -28,6 +30,7 @@
 
 .loggedInLinks > a {
   text-decoration: none;
+  color: black;
   margin-right: 10px;
   font-size: 18px;
 }
