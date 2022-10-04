@@ -54,7 +54,7 @@ const CreateEventForm = () => {
     } catch (err) {
       const errors = await err.json();
       setErrors(errors.errors);
-      console.log("ERRRS", errors);
+      // console.log("ERRRS", errors);
     }
   };
 

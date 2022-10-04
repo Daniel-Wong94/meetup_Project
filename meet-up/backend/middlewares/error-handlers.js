@@ -11,7 +11,7 @@ const resourceNotFoundHandler = (_req, _res, next) => {
 // Catch sequelize errors
 const sequelizeErrorsHandler = (err, _req, _res, next) => {
   if (err instanceof ValidationError) {
-    console.log(err.errors);
+    // console.log(err.errors);
     const error = {};
     err.errors.forEach((err) => (error[err.path] = err.message));
     // err.errors = err.errors.map((e) => e.message);

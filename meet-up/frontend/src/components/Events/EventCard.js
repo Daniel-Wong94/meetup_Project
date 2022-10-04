@@ -9,7 +9,7 @@ const EventCard = ({ event }) => {
   const group = useSelector((state) => state.groups[event?.Group?.id]);
   const event1 = useSelector((state) => state.events[event.id]);
 
-  console.log("here", event1);
+  // console.log("here", event1);
 
   useEffect(() => {
     (async () => {
