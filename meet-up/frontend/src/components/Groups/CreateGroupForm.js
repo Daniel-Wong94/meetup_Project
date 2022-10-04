@@ -56,7 +56,6 @@ const CreateGroupForm = () => {
     setCharCount(e.target.value.length);
   };
 
-  // BUG: /EDIT-GROUP/{DELETED GROUP} RENDERS CREATE GROUP FORM
   return sessionUser ? (
     <div className={styles.groupFormContainer}>
       <form onSubmit={handleSubmit} className={styles.groupForm}>

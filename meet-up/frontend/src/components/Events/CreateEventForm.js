@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { createEvent } from "../../store/events";
@@ -9,6 +9,7 @@ import SubmitButton from "../../elements/SubmitButton";
 const CreateEventForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const textareaElement = useRef(null);
   const { groupId } = useParams();
 
   const sessionUser = useSelector((state) => state.session.user);
@@ -26,6 +27,9 @@ const CreateEventForm = () => {
   const [startTime, setStartTime] = useState("12:00");
   const [endDate, setEndDate] = useState(today);
   const [endTime, setEndTime] = useState("13:00");
+  const [charCount, setCharCount] = useState(0);
+
+  const [errors, setErrors] = useState({});
 
   // Still need validations
   const handleSubmit = async (e) => {
@@ -42,14 +46,27 @@ const CreateEventForm = () => {
       endDate: endDate + " " + endTime + ":00",
     };
 
-    const event = await dispatch(createEvent(groupId, form));
-    await dispatch(addEventToGroup(groupId, event));
+    try {
+      const event = await dispatch(createEvent(groupId, form));
+      await dispatch(addEventToGroup(groupId, event));
 
-    return history.push(`/discover/groups/${groupId}/events`);
+      return history.push(`/discover/groups/${groupId}/events`);
+    } catch (err) {
+      const errors = await err.json();
+      setErrors(errors.errors);
+      console.log("ERRRS", errors);
+    }
+  };
+
+  const handleDescriptionChange = (e) => {
+    e.preventDefault();
+
+    setDescription(e.target.value);
+    setCharCount(e.target.value.length);
   };
 
   return sessionUser ? (
-    // <div className={styles.eventFormContainer}>
+    // < className={styles.eventFormContainer}>
     <form onSubmit={handleSubmit} className={styles.eventForm}>
       <div className={styles.formName}>
         <h1>Create Event</h1>
@@ -64,6 +81,9 @@ const CreateEventForm = () => {
           onChange={(e) => setName(e.target.value)}
           required
         />
+        {errors.name && (
+          <div className={styles.validationError}>{errors.name}</div>
+        )}
         <label htmlFor="type">
           Type:
           <input
@@ -83,16 +103,20 @@ const CreateEventForm = () => {
           />
           Online
         </label>
-        <label htmlFor="description">Description:</label>
+        <label htmlFor="description">
+          Description: ({charCount} characters)
+        </label>
         <textarea
           id="description"
-          className={""}
+          ref={textareaElement}
+          placeholder="(enter at least 50 characters)"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        >
-          Enter Description
-        </textarea>
-        <label htmlFor="venue">Venue:</label>
+          onChange={handleDescriptionChange}
+        />
+        {errors.description && (
+          <div className={styles.validationError}>{errors.description}</div>
+        )}
+        <label htmlFor="venue">Venue (optional):</label>
         <select
           id="venue"
           value={venueId}
@@ -116,6 +140,9 @@ const CreateEventForm = () => {
           value={capacity}
           onChange={(e) => setCapacity(e.target.value)}
         />
+        {errors.capacity && (
+          <div className={styles.validationError}>{errors.capacity}</div>
+        )}
         <label htmlFor="price">Price:</label>
         <input
           id="price"
@@ -139,6 +166,9 @@ const CreateEventForm = () => {
           value={startTime}
           onChange={(e) => setStartTime(e.target.value)}
         />
+        {errors.startDate && (
+          <div className={styles.validationError}>{errors.startDate}</div>
+        )}
         <label htmlFor="endDate">End Date and Time:</label>
         <input
           id="endDate"
@@ -153,12 +183,13 @@ const CreateEventForm = () => {
           value={endTime}
           onChange={(e) => setEndTime(e.target.value)}
         />
+        {errors.endDate && (
+          <div className={styles.validationError}>{errors.endDate}</div>
+        )}
       </div>
-      {/* <button>Create Event</button> */}
       <SubmitButton>Create Event</SubmitButton>
     </form>
   ) : (
-    // </div>
     "FORBIDDEN"
   );
 };

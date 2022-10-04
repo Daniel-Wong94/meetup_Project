@@ -68,6 +68,9 @@ const validateGroup = [
     .withMessage("Type must be 'Online' or 'In person'"),
   check("private").isBoolean().withMessage("Private must be a boolean"),
   check("city").notEmpty().withMessage("City is required"),
+  check("city")
+    .isLength({ min: 3 })
+    .withMessage("City should be at least 3 characters"),
   check("state").notEmpty().withMessage("State is required"),
   handleValidationErrors,
 ];
@@ -104,11 +107,14 @@ const validateEvent = [
   //   .custom((id) => Venue.isValidVenue(id))
   //   .withMessage("Venue does not exist"),
   check("name")
-    .isLength({ min: 4 })
+    .isLength({ min: 5 })
     .withMessage("Name must be at least 5 characters"),
   check("type")
     .isIn(["Online", "In person"])
     .withMessage("Type must be Online or In person"),
+  check("description")
+    .isLength({ min: 50 })
+    .withMessage("Description must be at least 50 characters"),
   check("capacity")
     .isInt()
     .not()

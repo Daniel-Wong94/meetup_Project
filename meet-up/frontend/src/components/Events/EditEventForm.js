@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router";
-import { fetchEventById, updateEventById } from "../../store/events";
+import { updateEventById } from "../../store/events";
 import styles from "./EventForm.module.css";
 import { fetchGroupDetail } from "../../store/groups";
 import SubmitButton from "../../elements/SubmitButton";
@@ -11,12 +11,14 @@ const EditEventForm = () => {
   const history = useHistory();
   const { eventId } = useParams();
 
+  const textareaElement = useRef(null);
+
   const sessionUser = useSelector((state) => state.session.user);
   const event = useSelector((state) => state.events[eventId]);
   const group = useSelector((state) => state.groups[event.Group.id]);
 
   const [name, setName] = useState(event.name);
-  const [venueId, setVenueId] = useState(1);
+  const [venueId, setVenueId] = useState("");
   const [type, setType] = useState(event.type);
   const [capacity, setCapacity] = useState(event.capacity || 0);
   const [price, setPrice] = useState(event.price);
@@ -25,21 +27,24 @@ const EditEventForm = () => {
   const [startTime, setStartTime] = useState(event.startDate.split(" ")[1]);
   const [endDate, setEndDate] = useState(event.endDate.split(" ")[0]);
   const [endTime, setEndTime] = useState(event.endDate.split(" ")[1]);
+  const [charCount, setCharCount] = useState(0);
+  const [errors, setErrors] = useState({});
+
   const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     (async () => {
       await dispatch(fetchGroupDetail(group.id));
     })();
-  }, [dispatch]);
+    setCharCount(textareaElement.current.value.length);
+  }, [dispatch, group.id]);
 
-  // Still need validations
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = {
       name,
-      venueId: 2,
+      venueId: venueId || null,
       type,
       capacity: Number(capacity),
       price,
@@ -48,9 +53,21 @@ const EditEventForm = () => {
       endDate: endDate + " " + endTime + ":00",
     };
 
-    await dispatch(updateEventById(event.id, form));
+    try {
+      await dispatch(updateEventById(event.id, form));
 
-    return history.push(`/discover/events/${event.id}/about`);
+      return history.push(`/discover/events/${event.id}/about`);
+    } catch (err) {
+      const errors = await err.json();
+      setErrors(errors.errors);
+    }
+  };
+
+  const handleDescriptionChange = (e) => {
+    e.preventDefault();
+
+    setDescription(e.target.value);
+    setCharCount(e.target.value.length);
   };
 
   return sessionUser ? (
@@ -69,6 +86,9 @@ const EditEventForm = () => {
             onChange={(e) => setName(e.target.value)}
             required
           />
+          {errors.name && (
+            <div className={styles.validationError}>{errors.name}</div>
+          )}
           <label htmlFor="type">
             Type:
             <input
@@ -88,24 +108,27 @@ const EditEventForm = () => {
             />
             Online
           </label>
-          <label htmlFor="description">description:</label>
+          <label htmlFor="description">
+            Description: ({charCount} characters)
+          </label>
           <textarea
             id="description"
-            className={""}
+            ref={textareaElement}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          >
-            Enter Description
-          </textarea>
-          <label htmlFor="venue">Venue:</label>
+            onChange={handleDescriptionChange}
+          />
+          {errors.description && (
+            <div className={styles.validationError}>{errors.description}</div>
+          )}
+          <label htmlFor="venue">Venue (optional):</label>
           <select
             id="venue"
             value={venueId}
-            required
+            // required
             onChange={(e) => setVenueId(e.target.value)}
           >
             <option value="" disabled>
-              SELECT VENUE
+              NO VENUE
             </option>
             {group?.Venues?.map((venue) => (
               <option value={venue.id} key={venue.id}>
@@ -121,6 +144,9 @@ const EditEventForm = () => {
             value={capacity}
             onChange={(e) => setCapacity(e.target.value)}
           />
+          {errors.capacity && (
+            <div className={styles.validationError}>{errors.capacity}</div>
+          )}
           <label htmlFor="price">Price:</label>
           <input
             id="price"
@@ -144,6 +170,9 @@ const EditEventForm = () => {
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
           />
+          {errors.startDate && (
+            <div className={styles.validationError}>{errors.startDate}</div>
+          )}
           <label htmlFor="endDate">End Date:</label>
           <input
             id="endDate"
@@ -159,6 +188,9 @@ const EditEventForm = () => {
             min={startTime}
             onChange={(e) => setEndTime(e.target.value)}
           />
+          {errors.endDate && (
+            <div className={styles.validationError}>{errors.endDate}</div>
+          )}
         </div>
         <SubmitButton>Update Event</SubmitButton>
       </form>
