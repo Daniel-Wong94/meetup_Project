@@ -94,7 +94,6 @@ export const addGroup = (group) => async (dispatch) => {
   });
 
   const data = await response.json();
-
   if (response.ok) dispatch(createGroup(data));
 
   return data;
@@ -126,6 +125,7 @@ export const updateGroup = (group, groupId) => async (dispatch) => {
   const data = await response.json();
 
   if (response.ok) dispatch(updateGroupById(data));
+  return data;
 };
 
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {

@@ -1,14 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGroup } from "../../store/groups";
 import { useHistory, useParams } from "react-router-dom";
 import STATES from "../../assets/states.json";
 import styles from "./GroupForm.module.css";
+import SubmitButton from "../../elements/SubmitButton";
 
 const EditGroupForm = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectElement = useRef(null);
+  const textareaElement = useRef(null);
 
   const { groupId } = useParams();
   const sessionUser = useSelector((state) => state.session.user);
@@ -22,16 +24,24 @@ const EditGroupForm = () => {
   const [city, setCity] = useState(group.city);
   const [state, setState] = useState(group.state);
   const [isPrivate, setIsPrivate] = useState(group.private);
+  const [charCount, setCharCount] = useState(0);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setCharCount(textareaElement.current.value.length);
+  }, []);
 
   // Still need validations
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const form = { name, about, type, city, state, private: isPrivate };
-    // console.log("FORM", form);
-    await dispatch(updateGroup(form, groupId));
-
-    return history.push("/homepage/groups");
+    try {
+      await dispatch(updateGroup(form, groupId));
+      return history.push("/homepage/groups");
+    } catch (err) {
+      const errors = await err.json();
+      setErrors(errors.errors);
+    }
   };
 
   // useRef for DOM selection - for state select tag
@@ -43,6 +53,11 @@ const EditGroupForm = () => {
   const handleStateChange = (e) => {
     setState(e.target.value);
     selectElement.current.size = 0;
+  };
+
+  const handleAboutChange = (e) => {
+    setAbout(e.target.value);
+    setCharCount(e.target.value.length);
   };
 
   return sessionUser && isOrganizer ? (
@@ -61,6 +76,9 @@ const EditGroupForm = () => {
             onChange={(e) => setName(e.target.value)}
             required
           />
+          {errors?.name && (
+            <div className={styles.validationError}>{errors.name}</div>
+          )}
           <label htmlFor="type">
             Type:
             <input
@@ -80,15 +98,18 @@ const EditGroupForm = () => {
             />
             Online
           </label>
-          <label htmlFor="about">About:</label>
+          <label htmlFor="about"> About: ({charCount} characters)</label>
           <textarea
             id="about"
+            ref={textareaElement}
+            placeholder="(enter at least 50 characters)"
             className={styles.about}
             value={about}
-            onChange={(e) => setAbout(e.target.value)}
-          >
-            Enter Description
-          </textarea>
+            onChange={handleAboutChange}
+          />
+          {errors.about && (
+            <div className={styles.validationError}>{errors.about}</div>
+          )}
           <label htmlFor="city">City:</label>
           <input
             id="city"
@@ -96,6 +117,9 @@ const EditGroupForm = () => {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
+          {errors.city && (
+            <div className={styles.validationError}>{errors.city}</div>
+          )}
           <label htmlFor="state">State:</label>
           <select
             id="state"
@@ -124,7 +148,7 @@ const EditGroupForm = () => {
             Private Group
           </label>
         </div>
-        <button>Update Group</button>
+        <SubmitButton>Update Group</SubmitButton>
       </form>
     </div>
   ) : (

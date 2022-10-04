@@ -41,3 +41,16 @@
   font-size: 16px;
   resize: none;
 }
+
+.validationError {
+  font-size: 12px;
+  color: red;
+  margin-top: 4px;
+}
+
+.typeContainer {
+  /* border: 1px solid red; */
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}

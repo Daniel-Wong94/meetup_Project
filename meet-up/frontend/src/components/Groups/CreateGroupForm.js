@@ -19,6 +19,7 @@ const CreateGroupForm = () => {
   const [state, setState] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [charCount, setCharCount] = useState(0);
 
@@ -27,10 +28,16 @@ const CreateGroupForm = () => {
     e.preventDefault();
 
     const form = { name, about, type, city, state, private: isPrivate };
-    const group = await dispatch(addGroup(form));
-    await dispatch(addImageToGroupById(group.id, previewImage));
 
-    return history.push("/homepage/groups");
+    try {
+      const group = await dispatch(addGroup(form));
+      await dispatch(addImageToGroupById(group.id, previewImage));
+
+      return history.push("/homepage/groups");
+    } catch (err) {
+      const errors = await err.json();
+      setErrors(errors.errors);
+    }
   };
 
   // useRef for DOM selection - for state select tag
@@ -66,24 +73,31 @@ const CreateGroupForm = () => {
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <label htmlFor="type">
+          {errors.name && (
+            <div className={styles.validationError}>{errors.name}</div>
+          )}
+          <label htmlFor="type" className={styles.typeContainer}>
             Type:
-            <input
-              checked={type === "In person"}
-              id="type"
-              type="radio"
-              value="In person"
-              onChange={(e) => setType(e.target.value)}
-            />
-            In Person
-            <input
-              checked={type === "Online"}
-              id="type"
-              type="radio"
-              value="Online"
-              onChange={(e) => setType(e.target.value)}
-            />
-            Online
+            <div>
+              <input
+                checked={type === "In person"}
+                id="type"
+                type="radio"
+                value="In person"
+                onChange={(e) => setType(e.target.value)}
+              />
+              In Person
+            </div>
+            <div>
+              <input
+                checked={type === "Online"}
+                id="type"
+                type="radio"
+                value="Online"
+                onChange={(e) => setType(e.target.value)}
+              />
+              Online
+            </div>
           </label>
           <label htmlFor="about">
             {/* About: (enter at least 50 characters) {charCount} characters */}
@@ -96,13 +110,20 @@ const CreateGroupForm = () => {
             value={about}
             onChange={handleAboutChange}
           />
-          <label htmlFor="city">City:</label>
+          {errors.about && (
+            <div className={styles.validationError}>{errors.about}</div>
+          )}
+          <label htmlFor="city">City (required):</label>
           <input
             id="city"
             type="text"
             value={city}
+            required
             onChange={(e) => setCity(e.target.value)}
           />
+          {errors.city && (
+            <div className={styles.validationError}>{errors.city}</div>
+          )}
           <label htmlFor="state">State (Required):</label>
           <select
             id="state"
@@ -137,13 +158,6 @@ const CreateGroupForm = () => {
             value={previewImage}
             onChange={(e) => setPreviewImage(e.target.value)}
           />
-          {/* <label htmlFor="address">Address</label>
-          <input
-            id="address"
-            type="text"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          /> */}
         </div>
         <button>Create Group</button>
       </form>

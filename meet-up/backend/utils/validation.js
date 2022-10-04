@@ -58,8 +58,8 @@ const validateSignup = [
 
 const validateGroup = [
   check("name")
-    .isLength({ min: 0, max: 60 })
-    .withMessage("Name must be 60 characters or less"),
+    .isLength({ min: 10, max: 60 })
+    .withMessage("Name must be 10 - 60 characters"),
   check("about")
     .isLength({ min: 50, max: undefined })
     .withMessage("About must be 50 characters or more"),

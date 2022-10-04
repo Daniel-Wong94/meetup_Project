@@ -1,6 +1,17 @@
 .groupAboutContainer {
   display: flex;
   /* border: 1px solid red; */
+  gap: 20px;
+}
+
+.rightSection {
+  /* border: 1px solid blue; */
+  flex: 1;
+}
+
+.membersContainer {
+  /* border: 1px solid red; */
+  display: flex;
 }
 
 .about h2 {

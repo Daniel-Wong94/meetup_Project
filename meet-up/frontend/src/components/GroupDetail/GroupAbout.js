@@ -1,28 +1,15 @@
 import styles from "./GroupAbout.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ProfilePicture from "../../elements/ProfilePicture";
 import { Switch, Route, useParams } from "react-router-dom";
 import EventCard from "../Events/EventCard";
-import { useEffect, useState } from "react";
-import { getMembers } from "../../store/groups";
-import { fetchEventsByGroup } from "../../store/groups";
 import CreateEventForm from "../Events/CreateEventForm";
 
 const GroupAbout = () => {
-  // const dispatch = useDispatch();
-  // const [loaded, setLoaded] = useState(false);
   const { groupId } = useParams();
   const group = useSelector((state) => state.groups[groupId]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     // await dispatch(getMembers(groupId));
-  //     setLoaded(true);
-  //   })();
-  // }, [dispatch, groupId]);
-
   return (
-    // loaded && (
     <div>
       <Switch>
         <Route path={`/discover/groups/${group.id}/about`}>
@@ -31,10 +18,10 @@ const GroupAbout = () => {
               <h2>What we're about</h2>
               <p>{group.about}</p>
             </div>
-            <div>
+            <div className={styles.rightSection}>
               <h3>Organizer</h3>
               <h3>Members ({group.numMembers})</h3>
-              <ul>
+              <ul className={styles.membersContainer}>
                 {group?.members?.map((member, idx) => (
                   <ProfilePicture
                     key={idx}
@@ -61,7 +48,6 @@ const GroupAbout = () => {
       </Switch>
     </div>
   );
-  // );
 };
 
 export default GroupAbout;
