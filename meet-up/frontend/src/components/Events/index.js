@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import EventCard from "./EventCard";
 import { useEffect } from "react";
 import { getEvents } from "../../store/events";
+import styles from "./Events.module.css";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Events = () => {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className={styles.eventsContainer}>
       <ul>
         {allEvents.map((event) => (
           <EventCard key={event.id} event={event} />
