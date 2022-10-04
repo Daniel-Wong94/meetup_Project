@@ -1,10 +1,21 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchEventById } from "../../store/events";
 import styles from "./EventCard.module.css";
 
 const EventCard = ({ event }) => {
-  const group = useSelector((state) => state.groups[event?.groupId]);
+  const dispatch = useDispatch();
+  const group = useSelector((state) => state.groups[event?.Group?.id]);
+  const event1 = useSelector((state) => state.events[event.id]);
+
+  console.log("here", event1);
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(fetchEventById(event.id));
+    })();
+  }, [dispatch]);
 
   return event ? (
     <div className={styles.eventContainer}>
@@ -29,12 +40,16 @@ const EventCard = ({ event }) => {
             timeZone: "America/New_York",
           })}
         </p>
-        <Link to={`/discover/events/${event.id}/about`}>
-          <h1 className={styles.eventName}>{event.name}</h1>
-        </Link>
-        <h2 className={styles.eventCity}>
-          {event?.Venue?.city}, {event?.Venue?.state}
-        </h2>
+        <div>
+          <Link to={`/discover/events/${event.id}/about`}>
+            <h1 className={styles.eventName}>{event.name}</h1>
+          </Link>
+          <h2 className={styles.eventCity}>
+            {event?.Venue?.city && event?.Venue?.state
+              ? event.Venue.city + ", " + event.Venue.state
+              : "No venue"}
+          </h2>
+        </div>
         <p className={styles.description}>{event?.description}</p>
         <p className={styles.cardFooter}>
           {event?.numAttending || "0"} Attendees ·{" "}

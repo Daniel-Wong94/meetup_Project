@@ -4,6 +4,11 @@
   gap: 20px;
 }
 
+.imageContainer {
+  /* border: 1px solid blue; */
+  width: 100%;
+}
+
 .imageContainer > img {
   width: 100%;
 }

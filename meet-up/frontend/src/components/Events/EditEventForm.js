@@ -4,6 +4,7 @@ import { useHistory, useParams } from "react-router";
 import { fetchEventById, updateEventById } from "../../store/events";
 import styles from "./EventForm.module.css";
 import { fetchGroupDetail } from "../../store/groups";
+import SubmitButton from "../../elements/SubmitButton";
 
 const EditEventForm = () => {
   const dispatch = useDispatch();
@@ -159,7 +160,8 @@ const EditEventForm = () => {
             onChange={(e) => setEndTime(e.target.value)}
           />
         </div>
-        <button>Update Event</button>
+        {/* <button>Update Event</button> */}
+        <SubmitButton>Update Event</SubmitButton>
       </form>
     </div>
   ) : (

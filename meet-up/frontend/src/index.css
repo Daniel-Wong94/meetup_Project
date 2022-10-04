@@ -137,3 +137,8 @@ table {
   height: 100vh;
   /* justify-content: space-between; */
 }
+
+.main-content {
+  /* border: 1px solid red; */
+  margin-bottom: 20%;
+}

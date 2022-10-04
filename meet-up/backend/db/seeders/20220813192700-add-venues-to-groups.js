@@ -11,6 +11,14 @@ const venues = [
     groupId: 1,
   },
   {
+    address: "1725 York Ave",
+    city: "New York",
+    state: "NY",
+    lat: 40.778868,
+    lng: -73.94609,
+    groupId: 1,
+  },
+  {
     address: "30 Basketball Way",
     city: "Basketball Town",
     state: "NY",
@@ -49,6 +57,14 @@ const venues = [
     lat: 12.4262345,
     lng: 179.3234235,
     groupId: 6,
+  },
+  {
+    address: "980 5th Ave",
+    city: "Manhattan",
+    state: "NY",
+    lat: 40.77715,
+    lng: -73.963725,
+    groupId: 10,
   },
 ];
 

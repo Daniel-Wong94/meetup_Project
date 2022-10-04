@@ -132,6 +132,41 @@ const users = [
       },
     ],
   },
+  {
+    firstName: "Demo",
+    lastName: "User",
+    email: "demo_user@email.com",
+    hashedPassword: bcrypt.hashSync("demouserpw"),
+    groups: [
+      {
+        name: "New York Urban Explorers: Art, Food, Museums, Walks, etc.",
+        about:
+          "Hello, thanks for joining our Meetup group as we explore New York City! We have all different types of fun events and look forward to meeting you. Enjoy the hustle and bustle of the famous concrete jungle, the lights of time square, and the calming walk away it all in central park.",
+        type: "In person",
+        private: false,
+        city: "Manhattan",
+        state: "NY",
+      },
+      {
+        name: "Ethnic Dining in Queens and Beyond!",
+        about:
+          "It’s time to eat all the ethnic cuisines that Queens and other boroughs have to offer. Members will eat in a family style setting and share the total food costs plus tax and tips. The only exception is that you pay for your own drinks and dessert. This group is for adventurous people. I can’t guarantee that the food is up to your liking. Covid virus is real and it could be risky to eat with a group of members especially indoor. Please be aware that you are eating at your own risk. Proof of Vaccination and ID will be checked by the Host of each event.",
+        type: "In person",
+        private: true,
+        city: "Queens",
+        state: "NY",
+      },
+      {
+        name: "New York Code and Coffee",
+        about:
+          "An NYC coding meetup for any dev-curious, aspiring, or professional developer to work/hack on your project. Or learn to code in an afternoon with coffee and cool-inclusive people. All skill levels are welcome. Bring your laptop! Details on individual event pages. We typically meet every two weeks, Sunday at 2 pm.",
+        type: "In person",
+        private: true,
+        city: "Brooklyn",
+        state: "NY",
+      },
+    ],
+  },
 ];
 
 module.exports = {

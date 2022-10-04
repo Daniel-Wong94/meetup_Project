@@ -20,6 +20,8 @@ const CreateGroupForm = () => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
 
+  const [charCount, setCharCount] = useState(0);
+
   // Still need validations
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,6 +42,11 @@ const CreateGroupForm = () => {
   const handleStateChange = (e) => {
     setState(e.target.value);
     selectElement.current.size = 0;
+  };
+
+  const handleAboutChange = (e) => {
+    setAbout(e.target.value);
+    setCharCount(e.target.value.length);
   };
 
   // BUG: /EDIT-GROUP/{DELETED GROUP} RENDERS CREATE GROUP FORM
@@ -78,15 +85,17 @@ const CreateGroupForm = () => {
             />
             Online
           </label>
-          <label htmlFor="about">About:</label>
+          <label htmlFor="about">
+            {/* About: (enter at least 50 characters) {charCount} characters */}
+            About: ({charCount} characters)
+          </label>
           <textarea
             id="about"
+            placeholder="(enter at least 50 characters)"
             className={styles.about}
             value={about}
-            onChange={(e) => setAbout(e.target.value)}
-          >
-            Enter Description
-          </textarea>
+            onChange={handleAboutChange}
+          />
           <label htmlFor="city">City:</label>
           <input
             id="city"

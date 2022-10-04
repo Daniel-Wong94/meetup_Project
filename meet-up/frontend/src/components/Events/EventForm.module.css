@@ -1,15 +1,15 @@
-.eventFormContainer {
-  /* border: 1px solid red; */
+/* .eventFormContainer {
+  border: 1px solid red;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .eventForm {
   /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 100%;
 }
 
 .eventFormField {

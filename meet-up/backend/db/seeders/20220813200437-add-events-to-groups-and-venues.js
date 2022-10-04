@@ -69,6 +69,18 @@ const events = [
     venueId: 5,
     groupId: 5,
   },
+  {
+    name: "Walk through Central Park",
+    description:
+      "Take a mental break from it all and enjoy a peaceful stroll through central park. We plan on having a BYOB picnic so feel free to bring food and drinks. If someone could bring a frisbee, that would be nice.",
+    type: "In person",
+    capacity: 20,
+    price: 0,
+    startDate: new Date(`October 17, 2024 12:30:00`),
+    endDate: new Date(`October 17, 2024 20:30:00`),
+    venueId: 8,
+    groupId: 10,
+  },
 ];
 
 module.exports = {
