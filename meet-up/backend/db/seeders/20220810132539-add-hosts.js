@@ -21,7 +21,7 @@ const users = [
       {
         name: "Basketball Tournament",
         about:
-          "20 teams compete in a streetball tournament. Winner gets cash prize of $10,000",
+          "We hold basketball tournaments every two weeks on Sundays. Music, BBQ, and drinks are provided.",
         type: "In person",
         private: true,
         city: "New York",
@@ -98,7 +98,7 @@ const users = [
       {
         name: "Meet and greet",
         about:
-          "Meet at McDonalds on grand st. for casual socializing event. Interests: dogs, mcdonalds, and stonks",
+          "Meet at McDonalds on Grand St. for casual socializing event. Interests: dogs, mcdonalds, and stonks",
         type: "In person",
         private: false,
         city: "Queens",

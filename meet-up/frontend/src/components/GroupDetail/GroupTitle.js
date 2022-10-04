@@ -29,7 +29,10 @@ const GroupTitle = () => {
           {group.numMembers} members · {group.private ? "Private" : "Public"}{" "}
           Group
         </p>
-        <p>Organized by User {group.organizerId}</p>
+        <p>
+          Organized by{" "}
+          {group?.Organizer?.firstName + " " + group?.Organizer?.lastName}
+        </p>
       </div>
     </div>
   );

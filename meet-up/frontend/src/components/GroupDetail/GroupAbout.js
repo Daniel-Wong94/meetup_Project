@@ -35,7 +35,6 @@ const GroupAbout = () => {
         <Route path={`/discover/groups/${group.id}/events`}>
           {Object.values(group.events).length > 0 ? (
             Object.values(group.events).map((event) => (
-              // console.log("EVENTTT", event)
               <EventCard key={event.id} event={event} />
             ))
           ) : (

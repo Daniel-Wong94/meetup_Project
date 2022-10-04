@@ -108,6 +108,7 @@ const CreateEventForm = () => {
         </label>
         <textarea
           id="description"
+          className={styles.description}
           ref={textareaElement}
           placeholder="(enter at least 50 characters)"
           value={description}

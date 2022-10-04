@@ -24,3 +24,9 @@
   font-size: 18px;
   line-height: 24px;
 }
+
+@media screen and (max-width: 1200px) {
+  .groupAboutContainer {
+    flex-direction: column;
+  }
+}

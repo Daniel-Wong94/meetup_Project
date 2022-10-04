@@ -4,6 +4,7 @@ import { addGroup, addImageToGroupById } from "../../store/groups";
 import { useHistory } from "react-router-dom";
 import STATES from "../../assets/states.json";
 import styles from "./GroupForm.module.css";
+import SubmitButton from "../../elements/SubmitButton";
 
 const CreateGroupForm = () => {
   const dispatch = useDispatch();
@@ -158,7 +159,7 @@ const CreateGroupForm = () => {
             onChange={(e) => setPreviewImage(e.target.value)}
           />
         </div>
-        <button>Create Group</button>
+        <SubmitButton>Create Group</SubmitButton>
       </form>
     </div>
   ) : (

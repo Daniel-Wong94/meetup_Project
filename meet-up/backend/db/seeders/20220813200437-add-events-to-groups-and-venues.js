@@ -4,7 +4,8 @@ const { Event } = require("../models");
 const events = [
   {
     name: "US Open",
-    description: "Watch the US Open with your group!",
+    description:
+      "Watch the US Open with your group! We'll gather at the entrance (we'll be holding a red flag so you can't miss us). Make sure to bring vaccination cards.",
     type: "In person",
     capacity: 30,
     price: 30.0,
@@ -16,7 +17,7 @@ const events = [
   {
     name: "Basketball Pickup Games",
     description:
-      "Play pickup games to 21 with the members of the group, two day event",
+      "Play pickup games to 21 with the members of the group, two day event. Bring your kids, family, and friends.",
     type: "In person",
     capacity: 16,
     price: 0.0,
@@ -27,7 +28,8 @@ const events = [
   },
   {
     name: "D&D slay Dragons",
-    description: "Slay some dragons",
+    description:
+      "Slay some dragons. Online event since my basement is flooded.",
     type: "Online",
     capacity: 8,
     price: 5.0,
@@ -38,7 +40,7 @@ const events = [
   },
   {
     name: "Pokemon Red",
-    description: "Beat pokemon red version in one day",
+    description: "Play the retro Pokemon red version on a gameboy.",
     type: "Online",
     capacity: 10,
     price: 10.0,

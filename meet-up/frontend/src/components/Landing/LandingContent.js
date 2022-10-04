@@ -438,7 +438,7 @@ const LandingContent = () => {
           </g>
         </svg>
       </div>
-      <div className={styles.lowerContentContainer}>put cards here</div>
+      <div className={styles.lowerContentContainer}></div>
     </div>
   );
 };

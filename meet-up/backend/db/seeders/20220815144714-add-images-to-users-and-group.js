@@ -43,12 +43,12 @@ const images = [
     url: "https://media.istockphoto.com/photos/the-empire-state-picture-id1089200736?k=20&m=1089200736&s=612x612&w=0&h=0gT-injpIgrI-CPGsgpR0kOBVDqsoXArahvsTflt_FU=",
   },
   {
-    // url: "meditation image",
+    // url: "central park image",
     url: "https://media.architecturaldigest.com/photos/62670cf1a841e371198e0b28/master/pass/GettyImages-1347979016.jpg",
   },
   {
-    // url: "meditation image",
-    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8YOW4Zg6peaV1TECCo3EkQye5GAQYoM_khg&usqp=CAU",
+    // url: "coffee code image",
+    url: "https://www.gabadigital.com/images/coding.jpg",
   },
 ];
 

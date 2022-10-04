@@ -1,6 +1,5 @@
-.navContainer {
+/* .navContainer {
   display: flex;
-  /* border: 1px solid green; */
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid grey;
@@ -15,7 +14,6 @@
 }
 
 .buttonContainer {
-  /* border: 1px solid blue; */
   display: flex;
   justify-content: flex-end;
   width: 100%;
@@ -42,4 +40,4 @@
 .navLinks a:hover {
   color: blue;
   text-decoration: underline;
-}
+} */
