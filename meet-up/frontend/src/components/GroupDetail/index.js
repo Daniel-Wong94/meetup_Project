@@ -20,6 +20,13 @@ const GroupDetail = () => {
   const { groupId } = useParams();
 
   const group = useSelector((state) => state.groups[groupId]);
+  const sessionUser = useSelector((state) => state.session.user);
+  const isOrganizer = group?.organizerId === sessionUser.id;
+  const isCohost =
+    group?.members?.[sessionUser.id]?.Membership?.status === "co-host";
+  const deleted = <h1>This group has been deleted!</h1>;
+
+  // console.log("group", group.members[sessionUser.id].Membership.status);
 
   useEffect(() => {
     (async () => {
@@ -29,10 +36,6 @@ const GroupDetail = () => {
       setLoaded(true);
     })();
   }, [dispatch, groupId]);
-
-  const sessionUser = useSelector((state) => state.session.user);
-  const isOrganizer = group?.organizerId === sessionUser.id;
-  const deleted = <h1>This group has been deleted!</h1>;
 
   const handleDeleteGroup = async (e) => {
     e.preventDefault();
@@ -51,7 +54,7 @@ const GroupDetail = () => {
           <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
           <NavLink to={`/discover/groups/${group.id}/events`}>Events</NavLink>
         </ul>
-        {isOrganizer ? (
+        {isOrganizer || isCohost ? (
           <div className={styles.buttonContainer}>
             <NavLink to={`/discover/groups/${groupId}/add-event`}>
               Add Event

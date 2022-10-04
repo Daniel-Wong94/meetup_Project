@@ -1,24 +1,22 @@
-.loggedOutNav {
-  /* border: 1px solid blue; */
+.loggedOutNav,
+.loggedInNav {
   display: flex;
-  position: absolute;
   justify-content: space-between;
   align-items: center;
-  background-color: transparent;
+  position: sticky;
   padding: 8px 20px;
   width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.loggedOutNav {
+  background: transparent;
+  background-color: transparent;
 }
 
 .loggedInNav {
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: white;
-  padding: 8px 20px;
-  width: 100%;
-  z-index: 10000;
   border-bottom: 1px solid #e6e6e6;
 }
 

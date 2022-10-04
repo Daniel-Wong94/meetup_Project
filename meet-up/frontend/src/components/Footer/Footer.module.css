@@ -1,9 +1,10 @@
 .footerContainer {
-  /* position: absolute;
-  bottom: 0; */
+  position: relative;
+  align-self: flex-end;
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  margin-top: auto;
+  /* display: flex;
+  flex-direction: column; */
   background-color: #212121;
   padding: 20px 10%;
   color: white;

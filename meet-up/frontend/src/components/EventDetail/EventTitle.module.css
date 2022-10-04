@@ -4,6 +4,10 @@
   gap: 20px;
 }
 
+.imageContainer > img {
+  width: 100%;
+}
+
 .infoContainer {
   display: flex;
   flex-direction: column;

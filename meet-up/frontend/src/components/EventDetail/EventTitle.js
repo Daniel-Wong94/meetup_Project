@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import styles from "./EventTitle.module.css";
 
 const EventTitle = ({ event }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const groups = Object.values(useSelector((state) => state.groups));
   const group = groups.find((group) => group.id === event.groupId);
-  const sessionUser = useSelector((state) => state.session.user);
+  // const sessionUser = useSelector((state) => state.session.user);
 
   // const handleDeleteEvent = async (e) => {
   //   e.preventDefault();

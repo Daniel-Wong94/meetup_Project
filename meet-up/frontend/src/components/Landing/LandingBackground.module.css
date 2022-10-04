@@ -6,7 +6,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: -10000;
+  z-index: -1;
+  top: 0;
 }
 
 .blueBlob {

@@ -1,11 +1,12 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import styles from "./EventCard.module.css";
 
 const EventCard = ({ event }) => {
-  const group = useSelector((state) => state.groups[event.groupId]);
+  const group = useSelector((state) => state.groups[event?.groupId]);
 
-  return (
+  return event ? (
     <div className={styles.eventContainer}>
       <div className={styles.imgContainer}>
         <img
@@ -34,13 +35,15 @@ const EventCard = ({ event }) => {
         <h2 className={styles.eventCity}>
           {event?.Venue?.city}, {event?.Venue?.state}
         </h2>
-        <p className={styles.description}>{event.description}</p>
+        <p className={styles.description}>{event?.description}</p>
         <p className={styles.cardFooter}>
-          {event.numAttending || "0"} Attendees ·{" "}
-          {group.private ? "Private" : "Public"} ·{group.type}
+          {event?.numAttending || "0"} Attendees ·{" "}
+          {group?.private ? "Private" : "Public"} ·{group?.type}
         </p>
       </div>
     </div>
+  ) : (
+    <h1>Event does not exist!</h1>
   );
 };
 

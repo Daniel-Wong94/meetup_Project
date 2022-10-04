@@ -128,6 +128,13 @@ const CreateGroupForm = () => {
             value={previewImage}
             onChange={(e) => setPreviewImage(e.target.value)}
           />
+          {/* <label htmlFor="address">Address</label>
+          <input
+            id="address"
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+          /> */}
         </div>
         <button>Create Group</button>
       </form>

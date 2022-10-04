@@ -11,14 +11,12 @@ const CreateEventForm = () => {
   const { groupId } = useParams();
 
   const sessionUser = useSelector((state) => state.session.user);
+  const group = useSelector((state) => state.groups[groupId]);
 
-  // const today = new Date();
-  // const tomorrow = today.setDate(today.getDate() + 1);
-
-  // console.log("date", tomorrow);
+  const today = new Date().toISOString().split("T")[0];
 
   const [name, setName] = useState("");
-  const [venueId, setVenueId] = useState(1);
+  const [venueId, setVenueId] = useState(null);
   const [type, setType] = useState("In person");
   const [capacity, setCapacity] = useState(1);
   const [price, setPrice] = useState(0);
@@ -34,7 +32,7 @@ const CreateEventForm = () => {
 
     const form = {
       name,
-      venueId: 2,
+      venueId,
       type,
       capacity: Number(capacity),
       price,
@@ -42,6 +40,8 @@ const CreateEventForm = () => {
       startDate: startDate + " " + startTime + ":00",
       endDate: endDate + " " + endTime + ":00",
     };
+
+    console.log("FORM", form);
 
     const event = await dispatch(createEvent(groupId, form));
     await dispatch(addEventToGroup(groupId, event));
@@ -93,6 +93,22 @@ const CreateEventForm = () => {
           >
             Enter Description
           </textarea>
+          <label htmlFor="venue">Venue:</label>
+          <select
+            id="venue"
+            value={venueId}
+            // required
+            onChange={(e) => setVenueId(e.target.value)}
+          >
+            <option value={null} disabled>
+              SELECT VENUE
+            </option>
+            {group?.Venues?.map((venue) => (
+              <option value={venue.id} key={venue.id}>
+                {venue.address}
+              </option>
+            ))}
+          </select>
           <label htmlFor="city">Capacity:</label>
           <input
             id="city"
@@ -114,6 +130,7 @@ const CreateEventForm = () => {
           <input
             id="startDate"
             type="date"
+            min={today}
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
           />
@@ -127,6 +144,7 @@ const CreateEventForm = () => {
           <input
             id="endDate"
             type="date"
+            min={startDate}
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />

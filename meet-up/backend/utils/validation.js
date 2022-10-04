@@ -100,9 +100,9 @@ const validateVenue = [
 ];
 
 const validateEvent = [
-  check("venueId")
-    .custom((id) => Venue.isValidVenue(id))
-    .withMessage("Venue does not exist"),
+  // check("venueId")
+  //   .custom((id) => Venue.isValidVenue(id))
+  //   .withMessage("Venue does not exist"),
   check("name")
     .isLength({ min: 4 })
     .withMessage("Name must be at least 5 characters"),

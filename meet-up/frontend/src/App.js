@@ -29,7 +29,7 @@ const App = () => {
 
   return (
     isLoaded && (
-      <div>
+      <div className="page-container">
         <Navigation />
         <div className="main-content">
           <Switch>
@@ -54,8 +54,8 @@ const App = () => {
             </Route>
             <Route>404 PAGE NOT FOUND</Route>
           </Switch>
-          {/* <Footer /> */}
         </div>
+        <Footer />
       </div>
     )
   );
