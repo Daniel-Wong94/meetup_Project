@@ -160,7 +160,6 @@ const EditEventForm = () => {
             onChange={(e) => setEndTime(e.target.value)}
           />
         </div>
-        {/* <button>Update Event</button> */}
         <SubmitButton>Update Event</SubmitButton>
       </form>
     </div>

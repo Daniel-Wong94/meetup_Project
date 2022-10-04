@@ -38,6 +38,13 @@ const LoginForm = ({ switchToSignup }) => {
     }
   };
 
+  const handleDemoUser = (e) => {
+    e.preventDefault();
+
+    setEmail("demo_user@email.com");
+    setPassword("demouserpw");
+  };
+
   return (
     !sessionUser && (
       // <form onSubmit={handleLogin} className={styles.loginForm}>
@@ -63,12 +70,17 @@ const LoginForm = ({ switchToSignup }) => {
           </svg>
           <legend className={styles.loginTitle}>Log In</legend>
         </div>
-        <p className={styles.description}>
-          Not a member yet?{" "}
-          <button className={styles.switchModal} onClick={switchToSignup}>
-            Sign Up
-          </button>
-        </p>
+        <div className={styles.description}>
+          <p>
+            Not a member yet?{" "}
+            <button className={styles.switchModal} onClick={switchToSignup}>
+              Sign Up
+            </button>
+          </p>
+          <div className={styles.switchModal} onClick={handleDemoUser}>
+            Demo User
+          </div>
+        </div>
         <form onSubmit={handleLogin}>
           <div className={styles.loginFields}>
             <div className={styles.validationError}>
