@@ -41,23 +41,23 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://https://github.com/Daniel-Wong94/meetup_Project">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/Meetup.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Meetup Clone</h3>
 
   <p align="center">
-    project_description
+    A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetup may host live/virtual events, organize groups, and meet like-minded peers based on interests, hobbies, professions, and more. 
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://upload.wikimedia.org/wikipedia/commons/1/10/Meetup.png"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://lets-meetup-clone.herokuapp.com/">View Demo</a>
+   <!-- · -->
+   <!-- <a href="https://github.com/github_username/repo_name/issues">Report Bug</a> -->
+   <!-- · -->
+   <!-- <a href="https://github.com/github_username/repo_name/issues">Request Feature</a> -->
   </p>
 </div>
 
@@ -93,8 +93,9 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<img width="1638" alt="Screen Shot 2022-10-04 at 8 59 15 PM" src="https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png">
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png)
 
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
 
@@ -104,14 +105,16 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
+<!-- * [![Next][Next.js]][Next-url] -->
 * [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![Sequelize][Sequelize.js]][Sequelize-url]
+* [![Git][Git][Git-url]
+<!-- * [![Vue][Vue.js]][Vue-url] -->
+<!-- * [![Angular][Angular.io]][Angular-url] -->
+<!-- * [![Svelte][Svelte.dev]][Svelte-url] -->
+<!-- * [![Laravel][Laravel.com]][Laravel-url] --> 
+<!-- * [![Bootstrap][Bootstrap.com]][Bootstrap-url] -->
+<!-- * [![JQuery][JQuery.com]][JQuery-url] -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -256,3 +259,8 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+[Sequelize-url]: https://sequelize.org/
+[Sequelize.js]: https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white
+[Git]: https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white
+[Git-url]: https://git-scm.com/
+
