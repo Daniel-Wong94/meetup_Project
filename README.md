@@ -106,9 +106,18 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 ### Built With
 
 <!-- * [![Next][Next.js]][Next-url] -->
+* [![HTML5][HTML5]][HTML-url]
+* [![CSS][CSS]][CSS-url]
+* [![Javascript][Javascript]][Javascript-url]
+* [![Express.js][Express.js]][Express-url]
 * [![React][React.js]][React-url]
+* [![Node.js][Node.js]][Node-url]
 * [![Sequelize][Sequelize.js]][Sequelize-url]
-* [![Git][Git][Git-url]
+* [![SQLite][SQLite]][SQLite-url]
+* [![Heroku][Heroku]][Heroku-url]
+* [![NPM][NPM]][NPM-url]
+* [![Git][Git]][Git-url]
+* [![Github][Github]][Github-url]
 <!-- * [![Vue][Vue.js]][Vue-url] -->
 <!-- * [![Angular][Angular.io]][Angular-url] -->
 <!-- * [![Svelte][Svelte.dev]][Svelte-url] -->
@@ -263,4 +272,21 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [Sequelize.js]: https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white
 [Git]: https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white
 [Git-url]: https://git-scm.com/
-
+[Github]: https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white
+[Github-url]: https://github.com/
+[Javascript]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[Javascript-url]: https://www.javascript.com/
+[HTML5]: https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white
+[HTML-url]: https://html.com/
+[CSS]: https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+[CSS-url]: https://developer.mozilla.org/en-US/docs/Web/CSS
+[Node.js]: https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white
+[Node-url]: https://nodejs.org/en/
+[Express.js]: https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB
+[Express-url]: https://expressjs.com/
+[NPM]: https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white
+[NPM-url]: https://www.npmjs.com/
+[Heroku]: https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white
+[Heroku-url]: https://id.heroku.com/
+[SQLite]: https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white
+[SQLite-url]: https://www.sqlite.org/index.html
