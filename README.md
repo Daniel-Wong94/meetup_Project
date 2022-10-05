@@ -48,9 +48,9 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 <h3 align="center">Meetup Clone</h3>
 
   <p align="center">
-    A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetup may host live/virtual events, organize groups, and meet like-minded peers based on interests, hobbies, professions, and more. 
+    A clone of a popular social media platform, <a href="meetup.com">MeetUp</a>. Users on Meetup may host live/virtual events, organize groups, and meet like-minded peers based on interests, hobbies, professions, and more. 
     <br />
-    <a href="https://upload.wikimedia.org/wikipedia/commons/1/10/Meetup.png"><strong>Explore the docs »</strong></a>
+    <!-- <a href="https://upload.wikimedia.org/wikipedia/commons/1/10/Meetup.png"><strong>Explore the docs »</strong></a> -->
     <br />
     <br />
     <a href="https://lets-meetup-clone.herokuapp.com/">View Demo</a>
@@ -102,13 +102,14 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
 
+My first full stack project is an attempt to clone the main functionalities of MeetUp.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 ### Built With
 
-<!-- * [![Next][Next.js]][Next-url] -->
 * [![HTML5][HTML5]][HTML-url]
 * [![CSS][CSS]][CSS-url]
 * [![Javascript][Javascript]][Javascript-url]
@@ -121,12 +122,7 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 * [![NPM][NPM]][NPM-url]
 * [![Git][Git]][Git-url]
 * [![Github][Github]][Github-url]
-<!-- * [![Vue][Vue.js]][Vue-url] -->
-<!-- * [![Angular][Angular.io]][Angular-url] -->
-<!-- * [![Svelte][Svelte.dev]][Svelte-url] -->
-<!-- * [![Laravel][Laravel.com]][Laravel-url] --> 
-<!-- * [![Bootstrap][Bootstrap.com]][Bootstrap-url] -->
-<!-- * [![JQuery][JQuery.com]][JQuery-url] -->
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -232,7 +228,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com -->
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/github_username/repo_name](https://github.com/Daniel-Wong94/meetup_Project)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
