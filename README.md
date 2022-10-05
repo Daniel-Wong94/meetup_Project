@@ -1,4 +1,4 @@
-# Project: MeetUp Clone
+<!-- # Project: MeetUp Clone
 
 ## Description
 
@@ -7,7 +7,7 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 ## Table of Contents:
 
 - [API Documentation](https://github.com/Daniel-Wong94/meetup_Project/wiki/API-Documentation)
-- [DB Schema](https://github.com/Daniel-Wong94/meetup_Project/wiki/DB-Schema)
+- [DB Schema](https://github.com/Daniel-Wong94/meetup_Project/wiki/DB-Schema) -->
 
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
@@ -29,11 +29,11 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+<!-- [![Contributors][contributors-shield]][contributors-url] -->
+<!-- [![Forks][forks-shield]][forks-url] -->
+<!-- [![Stargazers][stars-shield]][stars-url] -->
+<!-- [![Issues][issues-shield]][issues-url] -->
+<!-- [![MIT License][license-shield]][license-url] -->
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 
@@ -54,7 +54,10 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
     <br />
     <br />
     <a href="https://lets-meetup-clone.herokuapp.com/">View Demo</a>
-   <!-- · -->
+       ·
+    <a href="https://github.com/Daniel-Wong94/meetup_Project/wiki/DB-Schema">DB Schema</a>
+       ·
+    <a href="https://github.com/Daniel-Wong94/meetup_Project/wiki/API-Documentation">API Documentation</a>
    <!-- <a href="https://github.com/github_username/repo_name/issues">Report Bug</a> -->
    <!-- · -->
    <!-- <a href="https://github.com/github_username/repo_name/issues">Request Feature</a> -->
@@ -76,16 +79,16 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
+        <!-- <li><a href="#prerequisites">Prerequisites</a></li> -->
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
+    <!-- <li><a href="#contributing">Contributing</a></li> -->
+    <!-- <li><a href="#license">License</a></li> -->
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <!-- <li><a href="#acknowledgments">Acknowledgments</a></li> -->
   </ol>
 </details>
 
@@ -93,7 +96,7 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<img width="1638" alt="Screen Shot 2022-10-04 at 8 59 15 PM" src="https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png">
+<!-- <img width="1638" alt="Screen Shot 2022-10-04 at 8 59 15 PM" src="https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png"> -->
 
 [![Product Name Screen Shot][product-screenshot]](https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png)
 
@@ -132,10 +135,17 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+1. Clone this repository
+2. Install dependencies npm install
+3. Create a .env file based on the .env.example
+4. Set up your PostgreSQL user and password.
+5. Make sure to create the db npx dotenv sequelize-cli db:create
+6. Migrate the models npx dotenv sequelize-cli db:migrate
+7. Populate the data with seeders found in "backend/db/seeders" npx dotenv sequelize-cli db:seed:all
+8. Now run the application npm start
 
-### Prerequisites
+
+<!-- ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
 * npm
@@ -143,7 +153,7 @@ This is an example of how to list things you need to use the software and how to
   npm install npm@latest -g
   ```
 
-### Installation
+ ### Installation
 
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
@@ -159,7 +169,7 @@ This is an example of how to list things you need to use the software and how to
    const API_KEY = 'ENTER YOUR API';
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
@@ -177,19 +187,21 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [X] User Login, Sign Up, Authentication, and Validations
+- [X] Full CRUD of Groups
+- [X] Full CRUD of Events
+- [ ] Full CRUD of Venues
+- [ ] Implement Google Maps API for Venue locations
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
 <!-- CONTRIBUTING -->
-## Contributing
+<!-- # Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -202,23 +214,23 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
 <!-- LICENSE -->
-## License
+<!-- ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+<!-- Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com -->
 
 Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
 
@@ -227,13 +239,13 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+<!-- ## Acknowledgments
 
 * []()
 * []()
 * []()
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 
 
@@ -250,8 +262,8 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+[linkedin-url]: https://www.linkedin.com/in/daniel-kachun-wong/
+[product-screenshot]: https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
