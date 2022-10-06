@@ -1,8 +1,12 @@
 import styles from "./SubmitButton.module.css";
 
-const SubmitButton = ({ children }) => {
+const SubmitButton = ({ children, disabled }) => {
   return (
-    <button className={styles.submitButton} type="submit">
+    <button
+      className={disabled ? styles.disabledButton : styles.submitButton}
+      type="submit"
+      disabled={disabled}
+    >
       {children}
     </button>
   );

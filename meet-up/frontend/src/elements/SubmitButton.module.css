@@ -1,8 +1,7 @@
-.submitButton {
+.submitButton,
+.disabledButton {
   width: 100%;
   font-weight: 700;
-  color: white;
-  background-color: #f65858;
   border: none;
   border-radius: 6px;
   height: 40px;
@@ -10,7 +9,17 @@
   font-size: 20px;
 }
 
+.submitButton {
+  color: white;
+  background-color: #f65858;
+}
+
 .submitButton:hover {
   opacity: 0.8;
   cursor: pointer;
+}
+
+.disabledButton {
+  color: black;
+  background-color: #8b8c8c;
 }

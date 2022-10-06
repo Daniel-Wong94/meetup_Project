@@ -188,6 +188,15 @@ const validateEventQuery = [
   handleValidationErrors,
 ];
 
+const validateUserUpdate = [
+  check("newEmail").isEmail().withMessage("Invalid email"),
+  check("currentPassword").notEmpty().withMessage("Password required"),
+  check("newPassword")
+    .isLength({ min: 8, max: 20 })
+    .withMessage("Password must be 8 - 20 characters"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
@@ -198,4 +207,5 @@ module.exports = {
   validateEvent,
   validateUpdateMembership,
   validateEventQuery,
+  validateUserUpdate,
 };

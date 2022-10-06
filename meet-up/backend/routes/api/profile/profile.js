@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Membership, Group, User, Image } = require("../../../db/models");
 const { requireAuth } = require("../../../utils/auth");
+const { validateUserUpdate } = require("../../../utils/validation");
 
 // router.use(requireAuth);
 
@@ -44,7 +45,7 @@ router.get("/", async (req, res, next) => {
 });
 
 // Change Password or Email: PATCH /api/users/profile
-router.patch("/", requireAuth, async (req, res, next) => {
+router.patch("/", requireAuth, validateUserUpdate, async (req, res, next) => {
   const { email: currentEmail } = req.user;
   const { newEmail, currentPassword, newPassword } = req.body;
 

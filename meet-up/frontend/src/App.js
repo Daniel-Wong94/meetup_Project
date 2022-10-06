@@ -13,6 +13,7 @@ import { getGroups } from "./store/groups";
 import { getEvents } from "./store/events";
 import EditEventForm from "./components/Events/EditEventForm";
 import Footer from "./components/Footer";
+import Settings from "./components/Settings";
 
 const App = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -51,6 +52,9 @@ const App = () => {
             </Route>
             <Route path="/edit-event/:eventId">
               <EditEventForm />
+            </Route>
+            <Route path="/profile/settings">
+              <Settings />
             </Route>
             <Route>404 PAGE NOT FOUND</Route>
           </Switch>

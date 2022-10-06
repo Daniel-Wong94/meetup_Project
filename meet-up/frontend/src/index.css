@@ -135,10 +135,12 @@ table {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  /* overflow-y: hidden; */
   /* justify-content: space-between; */
 }
 
-.main-content {
-  /* border: 1px solid red; */
-  margin-bottom: 12%;
-}
+/* .main-content { */
+/* border: 1px solid red; */
+/* margin-bottom: 8%; */
+/* overflow-y: hidden; */
+/* } */

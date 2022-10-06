@@ -39,9 +39,9 @@ const ProfileButton = ({ user }) => {
             <li>
               <Link to="/profile/groups">Your Groups</Link>
             </li> */}
-            {/* <li>
-              <Link to="/profile/settings">Settings</Link>
-            </li> */}
+            <li>
+              <Link to="/profile/settings/edit-profile">Settings</Link>
+            </li>
             <li>
               <button onClick={handleLogout}>Logout</button>
             </li>

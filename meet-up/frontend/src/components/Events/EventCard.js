@@ -7,9 +7,6 @@ import styles from "./EventCard.module.css";
 const EventCard = ({ event }) => {
   const dispatch = useDispatch();
   const group = useSelector((state) => state.groups[event?.Group?.id]);
-  const event1 = useSelector((state) => state.events[event.id]);
-
-  // console.log("here", event1);
 
   useEffect(() => {
     (async () => {

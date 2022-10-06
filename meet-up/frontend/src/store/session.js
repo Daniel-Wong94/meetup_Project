@@ -4,6 +4,8 @@ import { csrfFetch } from "./csrf";
 // Type constants:
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
+const UPDATE_USER = "session/UPDATE_USER";
+
 const SET_USER_GROUPS = "session/SET_USER_GROUPS";
 
 const REMOVE_SESSION_GROUP = "/session/REMOVE_SESSION_GROUP";
@@ -12,6 +14,13 @@ const setUser = (user) => {
   return {
     type: SET_USER,
     user,
+  };
+};
+
+const updateUser = (credentials) => {
+  return {
+    type: UPDATE_USER,
+    credentials,
   };
 };
 
@@ -74,6 +83,17 @@ export const signup = (payload) => async (dispatch) => {
   return data;
 };
 
+export const changeUserCredentials = (credentials) => async (dispatch) => {
+  const response = await csrfFetch(`/api/users/profile`, {
+    method: "PATCH",
+    body: JSON.stringify(credentials),
+  });
+
+  const data = await response.json();
+  dispatch(updateUser(data));
+  return data;
+};
+
 export const fetchUserGroups = () => async (dispatch) => {
   const response = await csrfFetch("/api/users/profile/groups");
   const data = await response.json();
@@ -96,6 +116,10 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = null;
       newState.groups = null;
       return newState;
+    case UPDATE_USER:
+      console.log("ACTION", action.credentials);
+    // newState.user = { ...state.user, ...action.credentials };
+    // return newState;
     case SET_USER_GROUPS:
       newState.groups = { ...state.groups, ...action.groups };
       return newState;
