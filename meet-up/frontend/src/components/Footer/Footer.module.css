@@ -76,6 +76,8 @@
 .termsPoliciesLinks {
   /* border: 1px solid blue; */
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
   gap: 16px;
   font-size: 14px;
 }

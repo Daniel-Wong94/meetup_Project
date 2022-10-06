@@ -11,21 +11,21 @@ const Footer = () => {
         <div className={styles.linkContainer}>
           <ul className={styles.links}>
             <li>Your Account</li>
-            <Link to={""}>Settings</Link>
+            <Link to={"/profile/settings/edit-profile"}>Settings</Link>
             <Link to={""}>Log Out</Link>
-            <Link to={""}>Help</Link>
-            <Link to={""}>Become an Affiliate</Link>
+            {/* <Link to={""}>Help</Link> */}
+            {/* <Link to={""}>Become an Affiliate</Link> */}
           </ul>
         </div>
         <div className={styles.linkContainer}>
           <ul className={styles.links}>
             <li>Discover</li>
-            <Link to={""}>Groups</Link>
-            <Link to={""}>Calendar</Link>
-            <Link to={""}>Topics</Link>
-            <Link to={""}>Cities</Link>
-            <Link to={""}>Online Events</Link>
-            <Link to={""}>Local Guides</Link>
+            <Link to={"/discover/groups"}>Groups</Link>
+            {/* <Link to={""}>Calendar</Link> */}
+            {/* <Link to={""}>Topics</Link> */}
+            {/* <Link to={""}>Cities</Link> */}
+            <Link to={"/discover/events"}>Online Events</Link>
+            {/* <Link to={""}>Local Guides</Link> */}
           </ul>
         </div>
         <div className={styles.linkContainer}>
@@ -33,21 +33,21 @@ const Footer = () => {
             <li>Meetup</li>
             <Link to={""}>About</Link>
             <Link to={""}>Blog</Link>
-            <Link to={""}>Meetup Pro</Link>
-            <Link to={""}>Careers</Link>
-            <Link to={""}>Apps</Link>
-            <Link to={""}>Podcast</Link>
+            {/* <Link to={""}>Meetup Pro</Link> */}
+            {/* <Link to={""}>Careers</Link> */}
+            {/* <Link to={""}>Apps</Link> */}
+            {/* <Link to={""}>Podcast</Link> */}
           </ul>
         </div>
       </div>
       <div className={styles.socialMedia}>
         <div>Follow us</div>
         <ul className={styles.socialMediaLinks + " " + styles.links}>
-          <Link to={""}>F</Link>
-          <Link to={""}>T</Link>
-          <Link to={""}>Y</Link>
-          <Link to={""}>I</Link>
-          <Link to={""}>T</Link>
+          <a href="https://www.linkedin.com/in/daniel-kachun-wong/">LinkedIn</a>
+          {/* <Link to={""}>T</Link> */}
+          {/* <Link to={""}>Y</Link> */}
+          {/* <Link to={""}>I</Link> */}
+          {/* <Link to={""}>T</Link> */}
         </ul>
       </div>
       <div className={styles.termsPolicies}>
