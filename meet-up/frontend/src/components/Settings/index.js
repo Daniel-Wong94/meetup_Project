@@ -1,6 +1,6 @@
 import { NavLink, Route, Switch } from "react-router-dom";
 import EditProfile from "./EditProfile";
-// import PersonalInfo from "./PersonalInfo";
+import PersonalInfo from "./PersonalInfo";
 import styles from "./Settings.module.css";
 
 const Settings = () => {
@@ -16,12 +16,12 @@ const Settings = () => {
             >
               Edit Profile
             </NavLink>
-            <NavLink
+            {/* <NavLink
               to="/profile/settings/personal-info"
               className={(state) => (state ? styles.active : styles.inactive)}
             >
               Personal Info
-            </NavLink>
+            </NavLink> */}
             {/* <NavLink to="">Account Management</NavLink> */}
             {/* <NavLink to="">Email Updates</NavLink>
             <NavLink to="">Privacy</NavLink>
@@ -35,8 +35,8 @@ const Settings = () => {
             <NavLink to="">Apps</NavLink> */}
           </div>
           <div className={styles.sideHelpLinks}>
-            <NavLink to="">API Guide</NavLink>
-            <NavLink to="">Help</NavLink>
+            {/* <NavLink to="">API Guide</NavLink> */}
+            {/* <NavLink to="">Help</NavLink> */}
           </div>
         </div>
       </div>
@@ -46,7 +46,7 @@ const Settings = () => {
             <EditProfile />
           </Route>
           <Route path="/profile/settings/personal-info">
-            {/* <PersonalInfo /> */}
+            <PersonalInfo />
           </Route>
         </Switch>
       </div>
