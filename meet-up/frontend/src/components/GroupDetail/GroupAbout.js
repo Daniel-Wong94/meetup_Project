@@ -20,6 +20,11 @@ const GroupAbout = () => {
             </div>
             <div className={styles.rightSection}>
               <h3>Organizer</h3>
+              <ProfilePicture
+                initials={
+                  group?.Organizer?.firstName[0] + group?.Organizer?.lastName[0]
+                }
+              />
               <h3>Members ({group.numMembers})</h3>
               <ul className={styles.membersContainer}>
                 {group?.members?.map((member, idx) => (

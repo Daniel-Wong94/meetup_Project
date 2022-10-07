@@ -68,7 +68,7 @@ const Footer = () => {
       </div> */}
       <div className={styles.termsPolicies}>
         <ul className={styles.termsPoliciesLinks + " " + styles.links}>
-          <li>© 2022 Meetup</li>
+          <li>© 2022 Meetup Clone</li>
           {/* <Link to={""}>Terms of Service</Link> */}
           {/* <Link to={""}>Privacy Policy</Link> */}
           {/* <Link to={""}>Cookie Policy</Link> */}

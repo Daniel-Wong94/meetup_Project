@@ -7,6 +7,7 @@ import { deleteEvent } from "../../store/events";
 import styles from "./EventDetail.module.css";
 import EventAbout from "./EventAbout";
 import { removeEventFromGroup } from "../../store/groups";
+import { fetchAttendeesByEventId } from "../../store/events";
 
 const EventDetail = () => {
   const history = useHistory();
@@ -19,6 +20,7 @@ const EventDetail = () => {
   useEffect(() => {
     (async () => {
       await dispatch(fetchEventById(eventId));
+      await dispatch(fetchAttendeesByEventId(eventId));
     })();
   }, [dispatch, eventId]);
 
@@ -37,7 +39,7 @@ const EventDetail = () => {
       <div className={styles.navContainer}>
         <ul className={styles.navLinks}>
           <NavLink to={`/discover/events/${event.id}/about`}>About</NavLink>
-          {/* <NavLink to={`/discover/events/${event.id}/venues`}>Venues</NavLink> */}
+          <NavLink to={`/discover/events/${event.id}/venue`}>Venue</NavLink>
         </ul>
         {group.organizerId === sessionUser.id ? (
           <div className={styles.buttonContainer}>

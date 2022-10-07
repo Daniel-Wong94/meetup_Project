@@ -49,7 +49,7 @@ const EventCard = ({ event }) => {
         </div>
         <p className={styles.description}>{event?.description}</p>
         <p className={styles.cardFooter}>
-          {event?.numAttending || "0"} Attendees ·{" "}
+          {/* {event?.numAttending || "0"} Attendees ·{" "} */}
           {group?.private ? "Private" : "Public"} ·{group?.type}
         </p>
       </div>

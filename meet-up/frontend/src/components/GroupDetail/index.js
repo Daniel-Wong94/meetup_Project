@@ -26,8 +26,6 @@ const GroupDetail = () => {
     group?.members?.[sessionUser.id]?.Membership?.status === "co-host";
   const deleted = <h1>This group has been deleted!</h1>;
 
-  // console.log("group", group.members[sessionUser.id].Membership.status);
-
   useEffect(() => {
     (async () => {
       await dispatch(fetchGroupDetail(groupId));

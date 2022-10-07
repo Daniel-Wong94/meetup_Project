@@ -6,6 +6,7 @@ const UPDATE_EVENT = "/events/UPDATE_EVENT";
 const DELETE_EVENT = "/events/DELETE_EVENT";
 
 const SET_EVENT = "/events/SET_EVENT";
+const ADD_ATTENDEES_TO_EVENT = "/attendees/events/ADD_ATTENDEES_TO_EVENT";
 
 const setEvents = (events) => {
   return {
@@ -32,6 +33,14 @@ const removeEvent = (id) => {
   return {
     type: DELETE_EVENT,
     id,
+  };
+};
+
+const addAttendees = (eventId, attendees) => {
+  return {
+    type: ADD_ATTENDEES_TO_EVENT,
+    eventId,
+    attendees,
   };
 };
 
@@ -89,6 +98,17 @@ export const updateEventById = (eventId, payload) => async (dispatch) => {
   return data;
 };
 
+export const fetchAttendeesByEventId = (eventId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/events/${eventId}/attendees`);
+
+  const data = await response.json();
+  const attendees = data.Attendees;
+
+  if (response.ok) dispatch(addAttendees(eventId, attendees));
+
+  return data;
+};
+
 const eventReducer = (state = {}, action) => {
   let newState = { ...state };
   switch (action.type) {
@@ -100,6 +120,10 @@ const eventReducer = (state = {}, action) => {
         ...state[action.event.id],
         ...action.event,
       };
+      return newState;
+    case ADD_ATTENDEES_TO_EVENT:
+      newState[action.eventId] = { ...state[action.eventId] };
+      newState[action.eventId]["Attendees"] = action.attendees;
       return newState;
     case CREATE_EVENT:
       newState[action.event.id] = action.event;
