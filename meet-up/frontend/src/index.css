@@ -1,7 +1,4 @@
 /* CSS RESET */
-* {
-  box-sizing: border-box;
-}
 
 html,
 body,
@@ -144,3 +141,8 @@ table {
 /* margin-bottom: 8%; */
 /* overflow-y: hidden; */
 /* } */
+
+* {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+}
