@@ -1,6 +1,7 @@
 .dropDownContainer {
   position: relative;
   display: inline-block;
+  font-family: "Open Sans" sans-serif;
 }
 
 .dropDownButton {
