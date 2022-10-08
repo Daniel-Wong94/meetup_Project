@@ -6,7 +6,8 @@ import ProfilePicture from "../../elements/ProfilePicture";
 import MapContainer from "../Maps";
 
 const EventAbout = ({ event }) => {
-  const { lat, lng } = event?.Venue;
+  const lat = event?.Venue?.lat;
+  const lng = event?.Venue?.lng;
 
   return (
     <div>
@@ -35,7 +36,11 @@ const EventAbout = ({ event }) => {
           <EditEventForm />
         </Route>
         <Route path={`/discover/events/:eventId/venue`}>
-          <MapContainer lat={lat} lng={lng} />
+          {event?.Venue ? (
+            <MapContainer lat={lat} lng={lng} />
+          ) : (
+            <h1>This event does not have a venue!</h1>
+          )}
         </Route>
       </Switch>
     </div>
