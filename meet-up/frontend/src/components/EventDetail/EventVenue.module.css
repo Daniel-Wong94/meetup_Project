@@ -1,0 +1,17 @@
+.venueContainer {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.venueInfo {
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.venueInfo > h3 {
+  font-size: 18px;
+  font-weight: 700;
+}

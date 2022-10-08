@@ -4,6 +4,7 @@ import EditEventForm from "../Events/EditEventForm";
 import styles from "./EventAbout.module.css";
 import ProfilePicture from "../../elements/ProfilePicture";
 import MapContainer from "../Maps";
+import EventVenue from "./EventVenue";
 
 const EventAbout = ({ event }) => {
   const lat = parseFloat(event?.Venue?.lat);
@@ -37,7 +38,8 @@ const EventAbout = ({ event }) => {
         </Route>
         <Route path={`/discover/events/:eventId/venue`}>
           {event?.Venue ? (
-            <MapContainer lat={lat} lng={lng} />
+            // <MapContainer lat={lat} lng={lng} />
+            <EventVenue />
           ) : (
             <h1>This event does not have a venue!</h1>
           )}

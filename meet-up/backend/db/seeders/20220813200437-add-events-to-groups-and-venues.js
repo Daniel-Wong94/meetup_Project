@@ -76,12 +76,24 @@ const events = [
     description:
       "Take a mental break from it all and enjoy a peaceful stroll through central park. We plan on having a BYOB picnic so feel free to bring food and drinks. If someone could bring a frisbee, that would be nice.",
     type: "In person",
-    capacity: 20,
+    capacity: 8,
     price: 0,
     startDate: new Date(`October 17, 2024 12:30:00`),
     endDate: new Date(`October 17, 2024 20:30:00`),
     venueId: 8,
     groupId: 10,
+  },
+  {
+    name: "Tennis Practice",
+    description:
+      "All day practice with the group. We'll meet in Astoria park by the south courts.",
+    type: "In person",
+    capacity: 10,
+    price: 0,
+    startDate: new Date(`April 17, 2024 09:30:00`),
+    endDate: new Date(`April 17, 2024 14:30:00`),
+    venueId: 2,
+    groupId: 1,
   },
 ];
 
