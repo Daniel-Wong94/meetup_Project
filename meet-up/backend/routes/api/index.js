@@ -5,9 +5,11 @@ const groupsRouter = require("./groups.js");
 const venuesRouter = require("./venues.js");
 const eventsRouter = require("./events.js");
 const imagesRouter = require("./images.js");
+const mapsRouter = require("./maps.js");
 
 router.use(restoreUser);
 
+router.use("/maps", mapsRouter);
 router.use("/users", usersRouter);
 router.use("/groups", groupsRouter);
 router.use("/venues", venuesRouter);
