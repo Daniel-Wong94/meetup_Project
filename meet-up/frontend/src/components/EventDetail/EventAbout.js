@@ -6,8 +6,8 @@ import ProfilePicture from "../../elements/ProfilePicture";
 import MapContainer from "../Maps";
 
 const EventAbout = ({ event }) => {
-  const lat = Number(event?.Venue?.lat);
-  const lng = Number(event?.Venue?.lng);
+  const lat = parseFloat(event?.Venue?.lat);
+  const lng = parseFloat(event?.Venue?.lng);
 
   return (
     <div>
