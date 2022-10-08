@@ -29,9 +29,8 @@ const createGroup = (group) => ({
   group,
 });
 
-const updateGroupById = (id, payload) => ({
+const updateGroupById = (payload) => ({
   type: UPDATE_GROUP,
-  id,
   payload,
 });
 
@@ -159,7 +158,10 @@ const groupReducer = (state = {}, action) => {
       newState[action.group.id] = action.group;
       return newState;
     case UPDATE_GROUP:
-      newState[action.id] = { ...state[action.id], ...action.group };
+      newState[action.payload.id] = {
+        ...state[action.payload.id],
+        ...action.payload,
+      };
       return newState;
     case DELETE_GROUP:
       delete newState[action.id];
