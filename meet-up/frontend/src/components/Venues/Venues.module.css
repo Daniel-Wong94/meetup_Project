@@ -1,0 +1,21 @@
+.venuesContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.venueInfoContainer {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.venueInfo {
+  /* border: 1px solid blue; */
+}
+
+.inputContainer > * {
+  /* border: 1px solid red; */
+  margin-right: 12px;
+}

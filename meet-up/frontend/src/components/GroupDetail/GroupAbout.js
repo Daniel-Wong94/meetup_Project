@@ -4,6 +4,7 @@ import ProfilePicture from "../../elements/ProfilePicture";
 import { Switch, Route, useParams } from "react-router-dom";
 import EventCard from "../Events/EventCard";
 import CreateEventForm from "../Events/CreateEventForm";
+import Venues from "../Venues";
 
 const GroupAbout = () => {
   const { groupId } = useParams();
@@ -45,6 +46,9 @@ const GroupAbout = () => {
           ) : (
             <div>There are currently no events for this group!</div>
           )}
+        </Route>
+        <Route path={`/discover/groups/:groupId/venues`}>
+          <Venues groupId={groupId} />
         </Route>
         <Route path={`/discover/groups/:groupId/add-event`}>
           <CreateEventForm />

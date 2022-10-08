@@ -8,7 +8,8 @@ const EventVenue = () => {
   const venue = useSelector((state) => state?.events?.[eventId]?.Venue);
   const event = useSelector((state) => state?.events?.[eventId]);
 
-  const { lat, lng } = venue;
+  const lat = parseFloat(venue?.lat);
+  const lng = parseFloat(venue?.lng);
 
   return (
     <div className={styles.venueContainer}>

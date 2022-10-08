@@ -80,7 +80,7 @@ const events = [
     price: 0,
     startDate: new Date(`October 17, 2024 12:30:00`),
     endDate: new Date(`October 17, 2024 20:30:00`),
-    venueId: 8,
+    venueId: 3,
     groupId: 10,
   },
   {
