@@ -2,16 +2,15 @@ import styles from "./GroupCard.module.css";
 import { Link } from "react-router-dom";
 
 const GroupCard = ({ group }) => {
+  const DEFAULT_IMAGE =
+    "https://theme.zdassets.com/theme_assets/2041222/c3ea09fd3c3bd646257ea97a6083bf5f45807354.png";
+
   return (
     <div className={styles.groupContainer}>
       <div className={styles.imgContainer}>
         <img
           className={styles.image}
-          src={
-            group.previewImage ||
-            group?.Images?.[0]?.url ||
-            "https://theme.zdassets.com/theme_assets/2041222/c3ea09fd3c3bd646257ea97a6083bf5f45807354.png"
-          }
+          src={group.previewImage || group?.Images?.[0]?.url || DEFAULT_IMAGE}
           alt={group.name}
         />
       </div>

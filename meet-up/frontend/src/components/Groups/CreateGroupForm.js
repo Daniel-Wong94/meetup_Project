@@ -24,21 +24,37 @@ const CreateGroupForm = () => {
 
   const [charCount, setCharCount] = useState(0);
 
-  // Still need validations
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const form = { name, about, type, city, state, private: isPrivate };
 
     try {
+      if (previewImage) await verifyUrl(previewImage);
       const group = await dispatch(addGroup(form));
       await dispatch(addImageToGroupById(group.id, previewImage));
 
       return history.push("/homepage/groups");
     } catch (err) {
-      const errors = await err.json();
-      setErrors(errors.errors);
+      if (err?.errors) {
+        setErrors(err.errors);
+      } else {
+        const errors = await err?.json();
+        setErrors(errors.errors);
+      }
     }
+  };
+
+  const verifyUrl = async (url) => {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const err = {};
+      err.errors = { imageUrl: "Image not found" };
+      throw err;
+    }
+
+    return response;
   };
 
   // useRef for DOM selection - for state select tag
@@ -158,6 +174,9 @@ const CreateGroupForm = () => {
             value={previewImage}
             onChange={(e) => setPreviewImage(e.target.value)}
           />
+          {errors.imageUrl && (
+            <div className={styles.validationError}>{errors.imageUrl}</div>
+          )}
         </div>
         <SubmitButton>Create Group</SubmitButton>
       </form>
@@ -168,3 +187,11 @@ const CreateGroupForm = () => {
 };
 
 export default CreateGroupForm;
+
+{
+  /* <label for="avatar">Choose a profile picture:</label>
+
+<input type="file"
+       id="avatar" name="avatar"
+       accept="image/png, image/jpeg"></input> */
+}

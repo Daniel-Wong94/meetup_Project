@@ -8,6 +8,8 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state?.session?.user);
 
+  const isDemoUser = sessionUser.id === 7;
+
   const [email, setEmail] = useState(sessionUser?.email);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -51,6 +53,7 @@ const EditProfile = () => {
           type="text"
           placeholder="Your Email"
           value={email}
+          disabled={isDemoUser}
           onChange={(e) => setEmail(e.target.value)}
         />
         {errors.newEmail && <div>{errors.newEmail}</div>}
@@ -62,6 +65,7 @@ const EditProfile = () => {
           type="password"
           required
           value={currentPassword}
+          disabled={isDemoUser}
           onChange={(e) => setCurrentPassword(e.target.value)}
         />
         {errors.currentPassword && <div>{errors.currentPassword}</div>}
@@ -72,16 +76,23 @@ const EditProfile = () => {
           id="newPassword"
           type="password"
           value={newPassword}
+          disabled={isDemoUser}
           onChange={(e) => setNewPassword(e.target.value)}
         />
         {errors.newPassword && <div>{errors.newPassword}</div>}
       </div>
       <SubmitButton
-        disabled={hasUpdated}
+        disabled={hasUpdated || isDemoUser}
         className={hasUpdated && styles.successfulUpdate}
       >
         {hasUpdated ? "Updated!" : "Save Changes"}
       </SubmitButton>
+      {isDemoUser && (
+        <div>
+          This feature has been disabled for Demo User. Please make an account
+          to test this feature.
+        </div>
+      )}
     </form>
   ) : (
     <div>403 FORBIDDEN</div>

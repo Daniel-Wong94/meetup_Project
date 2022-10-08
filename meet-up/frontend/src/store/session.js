@@ -116,8 +116,8 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = null;
       newState.groups = null;
       return newState;
-    case UPDATE_USER:
-      console.log("ACTION", action.credentials);
+    // case UPDATE_USER:
+    // console.log("ACTION", action.credentials);
     // newState.user = { ...state.user, ...action.credentials };
     // return newState;
     case SET_USER_GROUPS:

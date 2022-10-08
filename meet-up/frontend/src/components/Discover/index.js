@@ -2,8 +2,8 @@ import { NavLink, Route, Switch } from "react-router-dom";
 import Events from "../Events";
 import Groups from "../Groups";
 import GroupDetail from "../GroupDetail";
-import styles from "./Discover.module.css";
 import EventDetail from "../EventDetail";
+import styles from "./Discover.module.css";
 
 const Discover = () => {
   return (
