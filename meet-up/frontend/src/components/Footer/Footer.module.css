@@ -91,3 +91,9 @@
 .links > a:hover {
   opacity: 0.6;
 }
+
+.heading,
+.linkContainer,
+.links {
+  font-family: sans-serif;
+}
