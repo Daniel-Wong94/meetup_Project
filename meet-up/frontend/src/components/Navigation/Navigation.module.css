@@ -8,6 +8,7 @@
   width: 100%;
   top: 0;
   z-index: 1000;
+  font-family: "Open Sans" sans-serif;
 }
 
 .loggedOutNav {
@@ -31,4 +32,5 @@
   color: black;
   margin-right: 10px;
   font-size: 18px;
+  font-family: "Open Sans" sans-serif;
 }
