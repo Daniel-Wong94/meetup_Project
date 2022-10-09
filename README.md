@@ -172,7 +172,7 @@ This is an example of how to list things you need to use the software and how to
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation]("https://github.com/Daniel-Wong94/meetup_Project/wiki/API-Documentation")_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -185,7 +185,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [X] Full CRUD of Groups
 - [X] Full CRUD of Events
 - [ ] Full CRUD of Venues
-- [ ] Implement Google Maps API for Venue locations
+- [X] Implement Google Maps API for Venue locations
 
 
 <!-- See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
