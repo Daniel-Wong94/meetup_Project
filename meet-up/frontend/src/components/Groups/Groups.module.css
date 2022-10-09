@@ -1,4 +1,25 @@
 .groupsContainer {
   /* border: 1px solid red; */
   max-width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pages > button {
+  /* border: 1px solid red; */
+  border: none;
+  text-decoration: none;
+  background-color: transparent;
+  margin: 24px 12px;
+  font-size: 18px;
+}
+
+.pages > button:hover {
+  cursor: pointer;
+}
+
+.active {
+  color: red;
 }

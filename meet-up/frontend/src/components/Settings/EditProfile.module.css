@@ -5,6 +5,7 @@
   flex-direction: column;
   gap: 20px;
   padding: 24px;
+  font-family: "Open Sans" sans-serif;
 }
 
 .settingsFormTitle {
