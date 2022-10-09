@@ -134,11 +134,9 @@ My first full stack project is an attempt to clone the main functionalities of M
 1. Clone this repository
 2. Install dependencies npm install
 3. Create a .env file based on the .env.example
-4. Set up your PostgreSQL user and password.
-5. Make sure to create the db npx dotenv sequelize-cli db:create
-6. Migrate the models npx dotenv sequelize-cli db:migrate
-7. Populate the data with seeders found in "backend/db/seeders" npx dotenv sequelize-cli db:seed:all
-8. Now run the application npm start
+4. Migrate the models npx dotenv sequelize-cli db:migrate
+5. Populate the data with seeders found in "backend/db/seeders" npx dotenv sequelize-cli db:seed:all
+6. Now run the application npm start
 
 
 <!-- ### Prerequisites
