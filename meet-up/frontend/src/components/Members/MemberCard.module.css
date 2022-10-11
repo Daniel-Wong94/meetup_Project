@@ -1,0 +1,34 @@
+.memberCardContainer {
+  /* border: 1px solid red; */
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  padding: 10px;
+}
+
+.memberInfo {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  min-width: 50%;
+  gap: 10px;
+}
+
+.memberInfo > :first-child {
+  font-weight: bold;
+}
+
+.buttonContainer {
+  /* border: 1px solid blue; */
+  width: 120px;
+}
+
+.buttonContainer > button {
+  font-size: 16px;
+}
+
+.memberCardContainer:hover {
+  background-color: rgb(219, 219, 219);
+}

@@ -5,6 +5,7 @@ import { Switch, Route, useParams } from "react-router-dom";
 import EventCard from "../Events/EventCard";
 import CreateEventForm from "../Events/CreateEventForm";
 import Venues from "../Venues";
+import Members from "../Members";
 
 const GroupAbout = () => {
   const { groupId } = useParams();
@@ -75,6 +76,9 @@ const GroupAbout = () => {
         </Route>
         <Route path={`/discover/groups/:groupId/add-event`}>
           <CreateEventForm />
+        </Route>
+        <Route path={`/discover/groups/:groupId/members`}>
+          <Members />
         </Route>
       </Switch>
     </div>

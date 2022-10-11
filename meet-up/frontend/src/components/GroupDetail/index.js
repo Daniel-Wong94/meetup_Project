@@ -57,6 +57,7 @@ const GroupDetail = () => {
           <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
           <NavLink to={`/discover/groups/${group.id}/events`}>Events</NavLink>
           <NavLink to={`/discover/groups/${group.id}/venues`}>Venues</NavLink>
+          <NavLink to={`/discover/groups/${group.id}/members`}>Members</NavLink>
         </ul>
         {isOrganizer || isCohost ? (
           <div className={styles.buttonContainer}>

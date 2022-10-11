@@ -9,7 +9,9 @@
   /* border: 1px solid blue; */
   display: flex;
   flex-direction: column;
-  width: 100%;
+  /* width: 100%; */
+  padding: 10px;
+  margin: 20px 0;
 }
 
 .eventFormField {
