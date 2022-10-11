@@ -9,6 +9,16 @@ import Venues from "../Venues";
 const GroupAbout = () => {
   const { groupId } = useParams();
   const group = useSelector((state) => state.groups[groupId]);
+  const sessionUser = useSelector((state) => state.session.user);
+  const isOrganizer = group?.organizerId === sessionUser.id;
+
+  const allMembers = Object.values(group?.members);
+  const members = allMembers.filter(
+    (member) => member.Membership.status !== "pending"
+  );
+  const pending = allMembers.filter(
+    (member) => member.Membership.status === "pending"
+  );
 
   return (
     <div>
@@ -26,15 +36,28 @@ const GroupAbout = () => {
                   group?.Organizer?.firstName[0] + group?.Organizer?.lastName[0]
                 }
               />
-              <h3>Members ({group.numMembers})</h3>
+              <h3>Members ({members.length})</h3>
               <ul className={styles.membersContainer}>
-                {group?.members?.map((member, idx) => (
+                {members.map((member, idx) => (
                   <ProfilePicture
                     key={idx}
                     initials={member.firstName[0] + member.lastName[0]}
                   />
                 ))}
               </ul>
+              {isOrganizer && (
+                <>
+                  <h3>Pending ({pending.length})</h3>
+                  <ul className={styles.membersContainer}>
+                    {pending.map((member, idx) => (
+                      <ProfilePicture
+                        key={idx}
+                        initials={member.firstName[0] + member.lastName[0]}
+                      />
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           </div>
         </Route>

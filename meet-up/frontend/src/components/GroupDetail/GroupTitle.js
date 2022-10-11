@@ -1,10 +1,60 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import styles from "./GroupTitle.module.css";
+import SubmitButton from "../../elements/SubmitButton";
+import {
+  requestMembershipByGroupId,
+  deleteMembership,
+} from "../../store/groups";
+import { fetchUserPendingMemberships } from "../../store/session";
+import { useEffect } from "react";
 
 const GroupTitle = () => {
+  const dispatch = useDispatch();
   const { groupId } = useParams();
   const group = useSelector((state) => state.groups[groupId]);
+  const sessionUser = useSelector((state) => state.session.user);
+  const pending = useSelector((state) => state.session.pending);
+
+  const isMember =
+    group?.members[sessionUser.id]?.Membership?.status === "member";
+  const isOrganizer = sessionUser.id === group?.organizerId;
+  const isPending = Object.values(pending).find(
+    (membership) => membership.groupId === Number(groupId)
+  );
+
+  const allMembers = Object.values(group?.members);
+  const members = allMembers.filter(
+    (member) => member?.Membership?.status !== "pending"
+  );
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(fetchUserPendingMemberships());
+    })();
+  }, [dispatch]);
+
+  const handleJoinGroup = async (e) => {
+    e.preventDefault();
+    await dispatch(requestMembershipByGroupId(groupId));
+    await dispatch(fetchUserPendingMemberships());
+  };
+
+  const handleLeaveGroup = async (e) => {
+    e.preventDefault();
+
+    await dispatch(deleteMembership(groupId, sessionUser.id));
+  };
+
+  const joinGroupButton = (
+    <SubmitButton onClick={handleJoinGroup}>Join Group</SubmitButton>
+  );
+  const leaveGroupButton = (
+    <SubmitButton onClick={handleLeaveGroup}>Leave Group</SubmitButton>
+  );
+  const pendingButton = (
+    <SubmitButton disabled={true}>Pending Request...</SubmitButton>
+  );
 
   return (
     <div className={styles.groupTitleContainer}>
@@ -26,13 +76,17 @@ const GroupTitle = () => {
           {group.city}, {group.state}
         </p>
         <p>
-          {group.numMembers} members · {group.private ? "Private" : "Public"}{" "}
+          {members.length} members · {group.private ? "Private" : "Public"}{" "}
           Group
         </p>
         <p>
           Organized by{" "}
           {group?.Organizer?.firstName + " " + group?.Organizer?.lastName}
         </p>
+        {/* REFACTOR */}
+        {!isOrganizer && isPending && !isMember && pendingButton}
+        {!isOrganizer && !isPending && !isMember && joinGroupButton}
+        {!isOrganizer && isMember && leaveGroupButton}
       </div>
     </div>
   );

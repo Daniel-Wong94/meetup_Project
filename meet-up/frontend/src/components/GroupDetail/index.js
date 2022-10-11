@@ -10,7 +10,10 @@ import {
 } from "../../store/groups";
 import { useState, useEffect } from "react";
 import { getMembers } from "../../store/groups";
-import { removeSessionGroup } from "../../store/session";
+import {
+  fetchUserPendingMemberships,
+  removeSessionGroup,
+} from "../../store/session";
 
 const GroupDetail = () => {
   const dispatch = useDispatch();
@@ -21,6 +24,7 @@ const GroupDetail = () => {
 
   const group = useSelector((state) => state.groups[groupId]);
   const sessionUser = useSelector((state) => state.session.user);
+
   const isOrganizer = group?.organizerId === sessionUser.id;
   const isCohost =
     group?.members?.[sessionUser.id]?.Membership?.status === "co-host";
@@ -31,6 +35,7 @@ const GroupDetail = () => {
       await dispatch(fetchGroupDetail(groupId));
       await dispatch(getMembers(groupId));
       await dispatch(fetchEventsByGroup(groupId));
+      await dispatch(fetchUserPendingMemberships());
       setLoaded(true);
     })();
   }, [dispatch, groupId]);

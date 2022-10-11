@@ -6,6 +6,18 @@ const { validateUserUpdate } = require("../../../utils/validation");
 
 // router.use(requireAuth);
 
+router.get("/pending", requireAuth, async (req, res, next) => {
+  const { id: memberId } = req.user;
+  const pendingGroups = await Membership.findAll({
+    where: {
+      memberId,
+      status: "pending",
+    },
+  });
+
+  res.json(pendingGroups);
+});
+
 // Get all images of current user: GET /api/users/profile/images
 router.get("/images", requireAuth, async (req, res, next) => {
   const { id: userId } = req.user;

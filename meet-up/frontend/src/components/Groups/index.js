@@ -19,7 +19,8 @@ const Groups = () => {
     for (let i = 1; i <= lastPage; i++) {
       pageButtons.push(
         <button
-          className={page === i && styles.active}
+          className={page === i ? styles.active : ""}
+          key={i}
           value={i}
           onClick={(e) => setPage(i)}
         >
@@ -39,7 +40,7 @@ const Groups = () => {
           .map(
             (group, idx) =>
               Object.keys(group).length > 0 && (
-                <GroupCard key={group.id + idx} group={group} />
+                <GroupCard key={group.id + group.name} group={group} />
               )
           )}
       </ul>

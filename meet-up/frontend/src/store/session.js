@@ -9,6 +9,9 @@ const UPDATE_USER = "session/UPDATE_USER";
 const SET_USER_GROUPS = "session/SET_USER_GROUPS";
 
 const REMOVE_SESSION_GROUP = "/session/REMOVE_SESSION_GROUP";
+
+const ADD_PENDING_MEMBERSHIP = "/session/membership/ADD_PENDING_MEMBERSHIP";
+
 // Action creators:
 const setUser = (user) => {
   return {
@@ -41,6 +44,13 @@ export const removeSessionGroup = (groupId) => {
   return {
     type: REMOVE_SESSION_GROUP,
     groupId,
+  };
+};
+
+export const addPendingMembership = (memberships) => {
+  return {
+    type: ADD_PENDING_MEMBERSHIP,
+    memberships,
   };
 };
 
@@ -104,6 +114,19 @@ export const fetchUserGroups = () => async (dispatch) => {
   dispatch(setUserGroups(groups));
 };
 
+export const fetchUserPendingMemberships = () => async (dispatch) => {
+  const response = await csrfFetch("/api/users/profile/pending");
+
+  const data = await response.json();
+
+  const pendingMemberships = {};
+  data.forEach(
+    (membership) => (pendingMemberships[membership.id] = membership)
+  );
+
+  dispatch(addPendingMembership(pendingMemberships));
+};
+
 const initialState = { user: null };
 
 const sessionReducer = (state = initialState, action) => {
@@ -116,16 +139,15 @@ const sessionReducer = (state = initialState, action) => {
       newState.user = null;
       newState.groups = null;
       return newState;
-    // case UPDATE_USER:
-    // console.log("ACTION", action.credentials);
-    // newState.user = { ...state.user, ...action.credentials };
-    // return newState;
     case SET_USER_GROUPS:
       newState.groups = { ...state.groups, ...action.groups };
       return newState;
     case REMOVE_SESSION_GROUP:
       newState.groups = { ...state.groups };
       delete newState.groups[action.groupId];
+      return newState;
+    case ADD_PENDING_MEMBERSHIP:
+      newState.pending = { ...state.pending, ...action.memberships };
       return newState;
     default:
       return state;

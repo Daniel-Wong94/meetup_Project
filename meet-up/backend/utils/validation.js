@@ -149,7 +149,7 @@ const validateUpdateMembership = [
     )
     .withMessage("User couldn't be found"),
   check("status")
-    .isIn(["member", "co-host"])
+    .isIn(["member", "co-host", "host"])
     .withMessage("Cannot change a membership status to 'pending'"),
   handleValidationErrors,
 ];
