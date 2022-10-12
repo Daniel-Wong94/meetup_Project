@@ -1,0 +1,20 @@
+.notificationIcon {
+  /* border: 1px solid red; */
+  position: relative;
+  color: #f65858;
+}
+
+.notificationNumber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -14px;
+  right: -10px;
+  background-color: #f65858;
+  border-radius: 50%;
+  font-size: 10px;
+  width: 12px;
+  height: 12px;
+  color: black;
+}

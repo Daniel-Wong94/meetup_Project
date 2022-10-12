@@ -40,6 +40,12 @@
   flex: 3;
 }
 
+.details > p,
+.details > div {
+  margin-bottom: 18px;
+  line-height: 18px;
+}
+
 .eventName {
   font-size: 20px;
   font-weight: 800;

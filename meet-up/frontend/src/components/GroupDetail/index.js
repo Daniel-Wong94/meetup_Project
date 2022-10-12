@@ -14,6 +14,7 @@ import {
   fetchUserPendingMemberships,
   removeSessionGroup,
 } from "../../store/session";
+import Notification from "../../elements/Notification";
 
 const GroupDetail = () => {
   const dispatch = useDispatch();
@@ -29,6 +30,12 @@ const GroupDetail = () => {
   const isCohost =
     group?.members?.[sessionUser.id]?.Membership?.status === "co-host";
   const deleted = <h1>This group has been deleted!</h1>;
+
+  const pending =
+    group?.members &&
+    Object.values(group?.members).filter(
+      (member) => member.Membership.status === "pending"
+    );
 
   useEffect(() => {
     (async () => {
@@ -65,7 +72,14 @@ const GroupDetail = () => {
                 Venues
               </NavLink>
               <NavLink to={`/discover/groups/${group.id}/members`}>
-                Members
+                <span className={styles.membersText}>
+                  Members{" "}
+                  <span className={styles.notificationIcon}>
+                    {pending.length > 0 && (
+                      <Notification count={pending.length} />
+                    )}
+                  </span>
+                </span>
               </NavLink>
             </ul>
             {isOrganizer || isCohost ? (

@@ -16,10 +16,27 @@
   padding: 20px 0;
 }
 
+.navLinks {
+  /* border: 1px solid red; */
+  width: 80%;
+}
+
 .navLinks a {
   color: black;
   text-decoration: none;
   margin-right: 10px;
+}
+
+.membersText {
+  /* border: 1px solid red; */
+  position: relative;
+}
+
+.notificationIcon {
+  /* border: 1px solid red; */
+  position: absolute;
+  top: -6px;
+  right: -16px;
 }
 
 .buttonContainer {

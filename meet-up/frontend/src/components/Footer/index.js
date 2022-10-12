@@ -5,6 +5,11 @@ import { useSelector } from "react-redux";
 const Footer = () => {
   const sessionUser = useSelector((state) => state?.session?.user);
 
+  const socialMediaLinks = {
+    linkedIn: "https://www.linkedin.com/in/daniel-kachun-wong/",
+    github: "https://github.com/Daniel-Wong94",
+  };
+
   const handleSendEmail = (e) =>
     window.open("mailto:daniel.kachun.wong@gmail.com");
 
@@ -46,26 +51,29 @@ const Footer = () => {
             {/* <Link to={""}>Careers</Link> */}
             {/* <Link to={""}>Apps</Link> */}
             {/* <Link to={""}>Podcast</Link> */}
-            <a href="https://github.com/Daniel-Wong94">Github</a>
-            <a href="https://www.linkedin.com/in/daniel-kachun-wong/">
-              LinkedIn
-            </a>
+            <a href={socialMediaLinks.github}>Github</a>
+            <a href={socialMediaLinks.linkedIn}>LinkedIn</a>
             <a href="/homepage/groups" onClick={handleSendEmail}>
               Email
             </a>
           </ul>
         </div>
       </div>
-      {/* <div className={styles.socialMedia}>
-        <div>Follow us</div>
+      <div className={styles.socialMedia}>
+        <div>Follow Me</div>
         <ul className={styles.socialMediaLinks + " " + styles.links}>
-          <a href="https://www.linkedin.com/in/daniel-kachun-wong/">LinkedIn</a>
-          <Link to={""}>T</Link>
+          <a href={socialMediaLinks.linkedIn}>
+            <i class="fa-brands fa-linkedin"></i>{" "}
+          </a>
+          <a href={socialMediaLinks.github}>
+            <i class="fa-brands fa-github"></i>
+          </a>
+          {/* <Link to={""}></Link>
           <Link to={""}>Y</Link>
           <Link to={""}>I</Link>
-          <Link to={""}>T</Link>
+          <Link to={""}>T</Link> */}
         </ul>
-      </div> */}
+      </div>
       <div className={styles.termsPolicies}>
         <ul className={styles.termsPoliciesLinks + " " + styles.links}>
           <li>© 2022 Meetup Clone</li>

@@ -28,7 +28,7 @@ const EventCard = ({ event }) => {
         />
       </div>
       <div className={styles.detailContainer}>
-        <div>
+        <div className={styles.details}>
           <p>
             {new Date(event.startDate).toLocaleDateString("en-US", {
               timeZone: "America/New_York",
