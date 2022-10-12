@@ -29,13 +29,21 @@ const EventCard = ({ event }) => {
       </div>
       <div className={styles.detailContainer}>
         <p>
-          {new Date(event.startDate).toLocaleString("en-US", {
+          {new Date(event.startDate).toLocaleDateString("en-US", {
             timeZone: "America/New_York",
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric",
           })}{" "}
           -{" "}
-          {new Date(event.endDate).toLocaleString("en-US", {
+          {new Date(event.endDate).toLocaleDateString("en-US", {
             timeZone: "America/New_York",
-          })}
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+          })}{" "}
         </p>
         <div>
           <Link to={`/discover/events/${event.id}/about`}>

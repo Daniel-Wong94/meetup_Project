@@ -5,6 +5,15 @@ import MapContainer from "../Maps/index.js";
 const EventTitle = ({ event }) => {
   const groups = Object.values(useSelector((state) => state.groups));
   const group = groups.find((group) => group.id === event.groupId);
+  const dateOption = {
+    timeZone: "America/New_York",
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+
+  console.log(event);
 
   return (
     <div className={styles.eventTitleContainer}>
@@ -20,7 +29,6 @@ const EventTitle = ({ event }) => {
       <div className={styles.infoContainer}>
         <h1 className={styles.eventName}>{event.name}</h1>
         <p>
-          Where:{" "}
           {event?.Venue?.city && event?.Venue?.state
             ? event.Venue.address +
               ", " +
@@ -30,8 +38,16 @@ const EventTitle = ({ event }) => {
             : "NO VENUE"}
         </p>
         <p>
-          When: {event?.startDate} - {event?.endDate}
+          Starts:{" "}
+          {new Date(event?.startDate).toLocaleDateString("en-US", dateOption)}{" "}
+          {event?.startDate.split(" ")[1]}
         </p>
+        <p>
+          Ends:{" "}
+          {new Date(event?.endDate).toLocaleDateString("en-US", dateOption)}{" "}
+          {event?.endDate.split(" ")[1]}
+        </p>
+
         <p>
           {event?.numAttending} Attending ·{" "}
           {event?.private ? "Private" : "Public"}
