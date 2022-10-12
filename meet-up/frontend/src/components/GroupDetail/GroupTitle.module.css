@@ -24,4 +24,8 @@
   .groupTitleContainer {
     flex-direction: column;
   }
+
+  .buttonRequestContainer > button {
+    width: 50%;
+  }
 }

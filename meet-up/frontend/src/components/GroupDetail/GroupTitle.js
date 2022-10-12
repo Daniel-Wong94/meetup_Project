@@ -44,6 +44,7 @@ const GroupTitle = () => {
     e.preventDefault();
 
     await dispatch(deleteMembership(groupId, sessionUser.id));
+    await dispatch(fetchUserPendingMemberships());
   };
 
   const joinGroupButton = (
@@ -84,9 +85,11 @@ const GroupTitle = () => {
           {group?.Organizer?.firstName + " " + group?.Organizer?.lastName}
         </p>
         {/* REFACTOR */}
-        {!isOrganizer && isPending && !isMember && pendingButton}
-        {!isOrganizer && !isPending && !isMember && joinGroupButton}
-        {!isOrganizer && isMember && leaveGroupButton}
+        <div className={styles.buttonRequestContainer}>
+          {!isOrganizer && isPending && !isMember && pendingButton}
+          {!isOrganizer && !isPending && !isMember && joinGroupButton}
+          {!isOrganizer && isMember && leaveGroupButton}
+        </div>
       </div>
     </div>
   );
