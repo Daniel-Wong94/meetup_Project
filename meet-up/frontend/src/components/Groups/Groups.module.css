@@ -1,10 +1,15 @@
 .groupsContainer {
   /* border: 1px solid red; */
-  max-width: 60%;
-  height: 100%;
   display: flex;
+  width: 60%;
+  height: auto;
   flex-direction: column;
   align-items: center;
+}
+
+.pages {
+  /* border: 1px solid red; */
+  margin: 48px 0;
 }
 
 .pages > button {
@@ -12,7 +17,8 @@
   border: none;
   text-decoration: none;
   background-color: transparent;
-  margin: 24px 12px;
+  margin: 8px;
+  padding: 12px 18px;
   font-size: 18px;
 }
 

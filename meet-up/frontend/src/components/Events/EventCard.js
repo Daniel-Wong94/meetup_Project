@@ -28,34 +28,36 @@ const EventCard = ({ event }) => {
         />
       </div>
       <div className={styles.detailContainer}>
-        <p>
-          {new Date(event.startDate).toLocaleDateString("en-US", {
-            timeZone: "America/New_York",
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}{" "}
-          -{" "}
-          {new Date(event.endDate).toLocaleDateString("en-US", {
-            timeZone: "America/New_York",
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          })}{" "}
-        </p>
         <div>
-          <Link to={`/discover/events/${event.id}/about`}>
-            <h1 className={styles.eventName}>{event.name}</h1>
-          </Link>
-          <h2 className={styles.eventCity}>
-            {event?.Venue?.city && event?.Venue?.state
-              ? event.Venue.city + ", " + event.Venue.state
-              : "No venue"}
-          </h2>
+          <p>
+            {new Date(event.startDate).toLocaleDateString("en-US", {
+              timeZone: "America/New_York",
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}{" "}
+            -{" "}
+            {new Date(event.endDate).toLocaleDateString("en-US", {
+              timeZone: "America/New_York",
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}{" "}
+          </p>
+          <div>
+            <Link to={`/discover/events/${event.id}/about`}>
+              <h1 className={styles.eventName}>{event.name}</h1>
+            </Link>
+            <h2 className={styles.eventCity}>
+              {event?.Venue?.city && event?.Venue?.state
+                ? event.Venue.city + ", " + event.Venue.state
+                : "No venue"}
+            </h2>
+          </div>
+          <p className={styles.description}>{event?.description}</p>
         </div>
-        <p className={styles.description}>{event?.description}</p>
         <p className={styles.cardFooter}>
           {/* {event?.numAttending || "0"} Attendees ·{" "} */}
           {group?.private ? "Private" : "Public"} ·{group?.type}

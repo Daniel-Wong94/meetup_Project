@@ -136,11 +136,10 @@ table {
   /* justify-content: space-between; */
 }
 
-/* .main-content { */
-/* border: 1px solid red; */
-/* margin-bottom: 8%; */
-/* overflow-y: hidden; */
-/* } */
+.main-content {
+  /* border: 1px solid red; */
+  flex: 1;
+}
 
 * {
   box-sizing: border-box;

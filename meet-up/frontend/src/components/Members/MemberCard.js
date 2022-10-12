@@ -36,10 +36,14 @@ const MemberCard = ({ member }) => {
         <p>
           {member.firstName} {member.lastName}
         </p>
-        <p>Status: {member.Membership.status}</p>
+        <p>
+          Status:{" "}
+          {member.Membership.status[0].toUpperCase() +
+            member.Membership.status.slice(1)}
+        </p>
       </div>
       <div className={styles.buttonContainer}>
-        {member.Membership.status !== "host" && (
+        {member.Membership.status !== "host" ? (
           <SubmitButton
             onClick={
               member.Membership.status === "pending"
@@ -49,6 +53,10 @@ const MemberCard = ({ member }) => {
           >
             {member.Membership.status === "pending" ? "Accept" : "Remove"}
           </SubmitButton>
+        ) : (
+          <div className={styles.fontStarContainer}>
+            <i className={"fa-solid fa-star fa-xl " + styles.fontStar}></i>
+          </div>
         )}
       </div>
     </div>

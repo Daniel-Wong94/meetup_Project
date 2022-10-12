@@ -8,7 +8,7 @@ const Groups = () => {
   const [page, setPage] = useState(1);
 
   const totalGroups = groups?.length;
-  const groupsPerPage = 3;
+  const groupsPerPage = 5;
   const lastPage = Math.ceil(totalGroups / groupsPerPage);
   const start = (page - 1) * groupsPerPage;
   const end = page * groupsPerPage;
