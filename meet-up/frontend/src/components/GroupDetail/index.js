@@ -49,34 +49,44 @@ const GroupDetail = () => {
     return history.push(`/discover/groups/${group.id}`);
   };
 
-  return loaded && group ? (
-    <div className={styles.groupDetailContainer}>
-      <GroupTitle group={group} />
-      <div className={styles.navContainer}>
-        <ul className={styles.navLinks}>
-          <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
-          <NavLink to={`/discover/groups/${group.id}/events`}>Events</NavLink>
-          <NavLink to={`/discover/groups/${group.id}/venues`}>Venues</NavLink>
-          <NavLink to={`/discover/groups/${group.id}/members`}>Members</NavLink>
-        </ul>
-        {isOrganizer || isCohost ? (
-          <div className={styles.buttonContainer}>
-            <NavLink to={`/discover/groups/${groupId}/add-event`}>
-              Add Event
-            </NavLink>
-            <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
-            <button onClick={handleDeleteGroup}>Delete Group</button>
+  return (
+    <>
+      {!loaded && <h1>Loading...</h1>}
+      {loaded && group && (
+        <div className={styles.groupDetailContainer}>
+          <GroupTitle group={group} />
+          <div className={styles.navContainer}>
+            <ul className={styles.navLinks}>
+              <NavLink to={`/discover/groups/${group.id}/about`}>About</NavLink>
+              <NavLink to={`/discover/groups/${group.id}/events`}>
+                Events
+              </NavLink>
+              <NavLink to={`/discover/groups/${group.id}/venues`}>
+                Venues
+              </NavLink>
+              <NavLink to={`/discover/groups/${group.id}/members`}>
+                Members
+              </NavLink>
+            </ul>
+            {isOrganizer || isCohost ? (
+              <div className={styles.buttonContainer}>
+                <NavLink to={`/discover/groups/${groupId}/add-event`}>
+                  Add Event
+                </NavLink>
+                <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
+                <button onClick={handleDeleteGroup}>Delete Group</button>
+              </div>
+            ) : (
+              <div className={styles.buttonContainer}>
+                {/* <button>Join this group</button> */}
+              </div>
+            )}
           </div>
-        ) : (
-          <div className={styles.buttonContainer}>
-            {/* <button>Join this group</button> */}
-          </div>
-        )}
-      </div>
-      <GroupAbout />
-    </div>
-  ) : (
-    deleted
+          <GroupAbout />
+        </div>
+      )}
+      {loaded && !group && deleted}
+    </>
   );
 };
 
