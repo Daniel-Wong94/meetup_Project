@@ -20,23 +20,22 @@ const Footer = () => {
       </div>
       <div className={styles.sectionContainer}>
         {sessionUser && (
-          <>
-            <div className={styles.linkContainer}>
-              <ul className={styles.links}>
-                <li>Your Account</li>
-                <Link to={"/profile/settings/edit-profile"}>Settings</Link>
-                <Link to={""}>Log Out</Link>
-              </ul>
-            </div>
-            <div className={styles.linkContainer}>
-              <ul className={styles.links}>
-                <li>Discover</li>
-                <Link to={"/discover/groups"}>Groups</Link>
-                <Link to={"/discover/events"}>Online Events</Link>
-              </ul>
-            </div>
-          </>
+          <div className={styles.linkContainer}>
+            <ul className={styles.links}>
+              <li>Your Account</li>
+              <Link to={"/profile/settings/edit-profile"}>Settings</Link>
+              <Link to={""}>Log Out</Link>
+            </ul>
+          </div>
         )}
+        <div className={styles.linkContainer}>
+          <ul className={styles.links}>
+            <li>Discover</li>
+            <Link to={"/discover/groups"}>Groups</Link>
+            <Link to={"/discover/events"}>Online Events</Link>
+          </ul>
+        </div>
+
         <div className={styles.linkContainer}>
           <ul className={styles.links}>
             <li>About</li>
