@@ -24,11 +24,12 @@ const GroupDetail = () => {
   const { groupId } = useParams();
 
   const group = useSelector((state) => state.groups[groupId]);
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state?.session?.user);
 
-  const isOrganizer = group?.organizerId === sessionUser.id;
+  const isOrganizer = group?.organizerId === sessionUser?.id;
   const isCohost =
     group?.members?.[sessionUser.id]?.Membership?.status === "co-host";
+
   const deleted = <h1>This group has been deleted!</h1>;
 
   const pending =
@@ -39,13 +40,15 @@ const GroupDetail = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(fetchGroupDetail(groupId));
-      await dispatch(getMembers(groupId));
-      await dispatch(fetchEventsByGroup(groupId));
-      await dispatch(fetchUserPendingMemberships());
+      if (sessionUser) {
+        await dispatch(fetchGroupDetail(groupId));
+        await dispatch(getMembers(groupId));
+        await dispatch(fetchEventsByGroup(groupId));
+        await dispatch(fetchUserPendingMemberships());
+      }
       setLoaded(true);
     })();
-  }, [dispatch, groupId]);
+  }, [dispatch, groupId, sessionUser]);
 
   const handleDeleteGroup = async (e) => {
     e.preventDefault();
@@ -58,8 +61,9 @@ const GroupDetail = () => {
 
   return (
     <>
-      {!loaded && <h1>Loading...</h1>}
-      {loaded && group && (
+      {!sessionUser && <h1>You must logged in!</h1>}
+      {!loaded && sessionUser && <h1>Loading...</h1>}
+      {sessionUser && loaded && group && (
         <div className={styles.groupDetailContainer}>
           <GroupTitle group={group} />
           <div className={styles.navContainer}>
@@ -75,26 +79,29 @@ const GroupDetail = () => {
                 <span className={styles.membersText}>
                   Members{" "}
                   <span className={styles.notificationIcon}>
-                    {pending.length > 0 && (
+                    {pending?.length > 0 && (
                       <Notification count={pending.length} />
                     )}
                   </span>
                 </span>
               </NavLink>
             </ul>
-            {isOrganizer || isCohost ? (
-              <div className={styles.buttonContainer}>
-                <NavLink to={`/discover/groups/${groupId}/add-event`}>
-                  Add Event
-                </NavLink>
-                <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
-                <button onClick={handleDeleteGroup}>Delete Group</button>
-              </div>
-            ) : (
-              <div className={styles.buttonContainer}>
-                {/* <button>Join this group</button> */}
-              </div>
-            )}
+            {
+              isOrganizer ||
+                (isCohost && (
+                  <div className={styles.buttonContainer}>
+                    <NavLink to={`/discover/groups/${groupId}/add-event`}>
+                      Add Event
+                    </NavLink>
+                    <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
+                    <button onClick={handleDeleteGroup}>Delete Group</button>
+                  </div>
+                ))
+              // : (
+              //   <div className={styles.buttonContainer}>
+              //     {/* <button>Join this group</button> */}
+              //   </div>)
+            }
           </div>
           <GroupAbout />
         </div>

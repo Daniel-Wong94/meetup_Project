@@ -70,19 +70,19 @@ export const deleteEvent = (id) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${id}`, {
     method: "DELETE",
   });
-
   const data = await response.json();
-
   if (response.ok) dispatch(removeEvent(id));
+
+  return data;
 };
 
 export const fetchEventById = (eventId) => async (dispatch) => {
   const response = await csrfFetch(`/api/events/${eventId}`);
   const data = await response.json();
 
-  // console.log("FETCH EVENT", data);
-
   if (response.ok) dispatch(setEvent(data));
+
+  return data;
 };
 
 export const updateEventById = (eventId, payload) => async (dispatch) => {

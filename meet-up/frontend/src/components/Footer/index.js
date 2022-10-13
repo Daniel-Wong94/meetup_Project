@@ -19,29 +19,24 @@ const Footer = () => {
         Create your own Meetup group. <Link to="/">Get Started</Link>
       </div>
       <div className={styles.sectionContainer}>
-        <div className={styles.linkContainer}>
-          {sessionUser && (
-            <ul className={styles.links}>
-              <li>Your Account</li>
-
-              <Link to={"/profile/settings/edit-profile"}>Settings</Link>
-              <Link to={""}>Log Out</Link>
-            </ul>
-          )}
-          {/* <Link to={""}>Help</Link> */}
-          {/* <Link to={""}>Become an Affiliate</Link> */}
-        </div>
-        <div className={styles.linkContainer}>
-          <ul className={styles.links}>
-            <li>Discover</li>
-            <Link to={"/discover/groups"}>Groups</Link>
-            {/* <Link to={""}>Calendar</Link> */}
-            {/* <Link to={""}>Topics</Link> */}
-            {/* <Link to={""}>Cities</Link> */}
-            <Link to={"/discover/events"}>Online Events</Link>
-            {/* <Link to={""}>Local Guides</Link> */}
-          </ul>
-        </div>
+        {sessionUser && (
+          <>
+            <div className={styles.linkContainer}>
+              <ul className={styles.links}>
+                <li>Your Account</li>
+                <Link to={"/profile/settings/edit-profile"}>Settings</Link>
+                <Link to={""}>Log Out</Link>
+              </ul>
+            </div>
+            <div className={styles.linkContainer}>
+              <ul className={styles.links}>
+                <li>Discover</li>
+                <Link to={"/discover/groups"}>Groups</Link>
+                <Link to={"/discover/events"}>Online Events</Link>
+              </ul>
+            </div>
+          </>
+        )}
         <div className={styles.linkContainer}>
           <ul className={styles.links}>
             <li>About</li>
@@ -63,10 +58,10 @@ const Footer = () => {
         <div>Follow Me</div>
         <ul className={styles.socialMediaLinks + " " + styles.links}>
           <a href={socialMediaLinks.linkedIn}>
-            <i class="fa-brands fa-linkedin"></i>{" "}
+            <i className={"fa-brands fa-linkedin"}></i>{" "}
           </a>
           <a href={socialMediaLinks.github}>
-            <i class="fa-brands fa-github"></i>
+            <i className={"fa-brands fa-github"}></i>
           </a>
           {/* <Link to={""}></Link>
           <Link to={""}>Y</Link>
