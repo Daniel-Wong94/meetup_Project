@@ -13,8 +13,6 @@ const EventTitle = ({ event }) => {
     year: "numeric",
   };
 
-  console.log(event);
-
   return (
     <div className={styles.eventTitleContainer}>
       <div className={styles.imageContainer}>

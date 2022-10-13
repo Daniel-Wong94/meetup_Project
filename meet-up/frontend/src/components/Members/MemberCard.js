@@ -15,14 +15,14 @@ const MemberCard = ({ member }) => {
 
   const handleRemoveMember = async (e) => {
     e.preventDefault();
-    console.log("removing member");
+
     await dispatch(deleteMembership(groupId, member.id));
     await dispatch(getMembers(groupId));
   };
 
   const handleAcceptMember = async (e) => {
     e.preventDefault();
-    console.log("accepted");
+
     await dispatch(updateMembershipStatus(groupId, member.id, "member"));
     await dispatch(getMembers(groupId));
   };
