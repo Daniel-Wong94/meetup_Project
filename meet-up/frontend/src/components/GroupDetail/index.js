@@ -87,16 +87,15 @@ const GroupDetail = () => {
               </NavLink>
             </ul>
             {
-              isOrganizer ||
-                (isCohost && (
-                  <div className={styles.buttonContainer}>
-                    <NavLink to={`/discover/groups/${groupId}/add-event`}>
-                      Add Event
-                    </NavLink>
-                    <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
-                    <button onClick={handleDeleteGroup}>Delete Group</button>
-                  </div>
-                ))
+              (isOrganizer || isCohost) && (
+                <div className={styles.buttonContainer}>
+                  <NavLink to={`/discover/groups/${groupId}/add-event`}>
+                    Add Event
+                  </NavLink>
+                  <NavLink to={`/edit-group/${group.id}`}>Edit Group</NavLink>
+                  <button onClick={handleDeleteGroup}>Delete Group</button>
+                </div>
+              )
               // : (
               //   <div className={styles.buttonContainer}>
               //     {/* <button>Join this group</button> */}
