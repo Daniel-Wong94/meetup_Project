@@ -35,7 +35,7 @@ const GroupDetail = () => {
   const pending =
     group?.members &&
     Object.values(group?.members).filter(
-      (member) => member.Membership.status === "pending"
+      (member) => member?.Membership?.status === "pending"
     );
 
   useEffect(() => {

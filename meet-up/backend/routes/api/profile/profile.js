@@ -26,14 +26,14 @@ router.get("/images", requireAuth, async (req, res, next) => {
   res.json(images);
 });
 
-// Get all groups that current user is in: GET /api/users/profile/groups
+// Get all Groups joined or organized by the Current User: GET /api/users/profile/groups
 router.get("/groups", requireAuth, async (req, res, next) => {
-  const { id: organizerId } = req.user;
+  const { id: memberId } = req.user;
   const groups = await Group.findAll({
-    where: { organizerId },
-    include: [{ model: Membership }, { model: Image }],
+    include: [{ model: Membership, where: { memberId } }, { model: Image }],
   });
 
+  // Add preview images
   groups.forEach((group) => {
     group.dataValues.numMembers = group.Memberships.length;
     delete group.dataValues.Memberships;
