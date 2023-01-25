@@ -9,8 +9,7 @@
     "sequelize-cli": "sequelize-cli",
     "start": "per-env",
     "start:development": "nodemon -r dotenv/config ./bin/www",
-    "start:production": "node ./bin/www",
-    "build": "npm run build"
+    "start:production": "node ./bin/www"
   },
   "keywords": [],
   "author": "",
