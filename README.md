@@ -53,7 +53,7 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
     <!-- <a href="https://upload.wikimedia.org/wikipedia/commons/1/10/Meetup.png"><strong>Explore the docs »</strong></a> -->
     <br />
     <br />
-    <a href="https://lets-meetup-clone.herokuapp.com/">Live Link</a>
+    <a href="https://lets-meetup.onrender.com/">Live Link</a>
        ·
     <a href="https://github.com/Daniel-Wong94/meetup_Project/wiki/DB-Schema">DB Schema</a>
        ·
