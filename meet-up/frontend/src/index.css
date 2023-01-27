@@ -127,18 +127,20 @@ table {
 }
 
 .page-container {
-  /* border: 1px solid red; */
+  border: 1px solid red;
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* height: 100vh; */
   /* overflow-y: hidden; */
-  /* justify-content: space-between; */
+  justify-content: space-between;
 }
 
 .main-content {
   /* border: 1px solid red; */
   flex: 1;
+  min-height: 100vh;
+  /* height: 100%; */
 }
 
 * {
