@@ -30,7 +30,7 @@ const CreateGroupForm = () => {
     const form = { name, about, type, city, state, private: isPrivate };
 
     try {
-      if (previewImage) await verifyUrl(previewImage);
+      // if (previewImage) await verifyUrl(previewImage);
       const group = await dispatch(addGroup(form));
       await dispatch(addImageToGroupById(group.id, previewImage));
 
@@ -45,17 +45,17 @@ const CreateGroupForm = () => {
     }
   };
 
-  const verifyUrl = async (url) => {
-    const response = await fetch(url);
+  // const verifyUrl = async (url) => {
+  //   const response = await fetch(url);
 
-    if (!response.ok) {
-      const err = {};
-      err.errors = { imageUrl: "Image not found" };
-      throw err;
-    }
+  //   if (!response.ok) {
+  //     const err = {};
+  //     err.errors = { imageUrl: "Image not found" };
+  //     throw err;
+  //   }
 
-    return response;
-  };
+  //   return response;
+  // };
 
   // useRef for DOM selection - for state select tag
   const handleMouseDown = (e) => {
@@ -187,11 +187,3 @@ const CreateGroupForm = () => {
 };
 
 export default CreateGroupForm;
-
-{
-  /* <label for="avatar">Choose a profile picture:</label>
-
-<input type="file"
-       id="avatar" name="avatar"
-       accept="image/png, image/jpeg"></input> */
-}
