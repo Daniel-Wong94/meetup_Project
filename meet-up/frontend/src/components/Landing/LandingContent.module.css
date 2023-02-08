@@ -24,6 +24,7 @@
 .upperContentContainer {
   /* border: 1px solid blue; */
   display: flex;
+  padding: 0 40px;
 }
 
 @media screen and (max-width: 1200px) {
