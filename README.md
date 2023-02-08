@@ -110,18 +110,18 @@ My first full stack project is an attempt to clone the main functionalities of M
 
 ### Built With
 
-* [![HTML5][HTML5]][HTML-url]
-* [![CSS][CSS]][CSS-url]
-* [![Javascript][Javascript]][Javascript-url]
-* [![Express.js][Express.js]][Express-url]
-* [![React][React.js]][React-url]
-* [![Node.js][Node.js]][Node-url]
-* [![Sequelize][Sequelize.js]][Sequelize-url]
-* [![SQLite][SQLite]][SQLite-url]
-* [![Heroku][Heroku]][Heroku-url]
-* [![NPM][NPM]][NPM-url]
-* [![Git][Git]][Git-url]
-* [![Github][Github]][Github-url]
+[![HTML5][HTML5]][HTML-url]
+[![CSS][CSS]][CSS-url]
+[![Javascript][Javascript]][Javascript-url]
+[![Express.js][Express.js]][Express-url]
+[![React][React.js]][React-url]
+[![Node.js][Node.js]][Node-url]
+[![Sequelize][Sequelize.js]][Sequelize-url]
+[![SQLite][SQLite]][SQLite-url]
+[![Heroku][Heroku]][Heroku-url]
+[![NPM][NPM]][NPM-url]
+[![Git][Git]][Git-url]
+[![Github][Github]][Github-url]
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
