@@ -171,9 +171,9 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Users can login as the Demo User or Sign Up with their own credentials.
 
-_For more examples, please refer to the [Documentation]("https://github.com/Daniel-Wong94/meetup_Project/wiki/API-Documentation")_
+<img width="1723" alt="Screenshot 2023-02-08 at 5 59 22 PM" src="https://user-images.githubusercontent.com/90014250/217670726-06280c85-4e1a-4bd7-8881-9016d187fd93.png">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
