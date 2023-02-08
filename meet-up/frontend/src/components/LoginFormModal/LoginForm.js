@@ -41,8 +41,8 @@ const LoginForm = ({ switchToSignup }) => {
   const handleDemoUser = (e) => {
     e.preventDefault();
 
-    setEmail("demo_user@email.com");
-    setPassword("demouserpw");
+    dispatch(login({ email: "demo_user@email.com", password: "demouserpw" }));
+    history.push("/homepage/groups");
   };
 
   return (
