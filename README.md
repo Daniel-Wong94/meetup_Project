@@ -100,9 +100,9 @@ A clone of a popular social media platform, [MeetUp](meetup.com). Users on Meetu
 
 [![Product Name Screen Shot][product-screenshot]](https://user-images.githubusercontent.com/90014250/193957812-22cd83df-f0b3-4479-b593-129798382a1d.png)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+<!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
-My first full stack project is an attempt to clone the main functionalities of MeetUp.
+My first full stack project was inspired by a social media website called Meetup. The core features include groups, events, venues, and members. The frontend was created using React/Redux. And the backend was created with Sequelize and Express. An extra feature included the use of Google Maps API to display the location of each venue.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -110,18 +110,19 @@ My first full stack project is an attempt to clone the main functionalities of M
 
 ### Built With
 
-* [![HTML5][HTML5]][HTML-url]
-* [![CSS][CSS]][CSS-url]
-* [![Javascript][Javascript]][Javascript-url]
-* [![Express.js][Express.js]][Express-url]
-* [![React][React.js]][React-url]
-* [![Node.js][Node.js]][Node-url]
-* [![Sequelize][Sequelize.js]][Sequelize-url]
-* [![SQLite][SQLite]][SQLite-url]
-* [![Heroku][Heroku]][Heroku-url]
-* [![NPM][NPM]][NPM-url]
-* [![Git][Git]][Git-url]
-* [![Github][Github]][Github-url]
+[![HTML5][HTML5]][HTML-url]
+[![CSS][CSS]][CSS-url]
+[![Javascript][Javascript]][Javascript-url]
+[![Express.js][Express.js]][Express-url]
+[![React][React.js]][React-url]
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+[![Node.js][Node.js]][Node-url]
+[![Sequelize][Sequelize.js]][Sequelize-url]
+[![SQLite][SQLite]][SQLite-url]
+[![Heroku][Heroku]][Heroku-url]
+[![NPM][NPM]][NPM-url]
+[![Git][Git]][Git-url]
+[![Github][Github]][Github-url]
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
