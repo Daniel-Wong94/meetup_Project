@@ -176,6 +176,7 @@ Users can login as the Demo User or Sign Up with their own credentials.
 <img width="1723" alt="Screenshot 2023-02-08 at 5 59 22 PM" src="https://user-images.githubusercontent.com/90014250/217670726-06280c85-4e1a-4bd7-8881-9016d187fd93.png">
 
 Group details will show the events, venues, and members associated with it. Owners of the group can also delete the group and add/remove members.
+
 <img width="1728" alt="Screenshot 2023-02-15 at 2 53 36 PM" src="https://user-images.githubusercontent.com/90014250/219138428-d01dd71b-55e0-4c16-a572-bf43f73ae38e.png">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
